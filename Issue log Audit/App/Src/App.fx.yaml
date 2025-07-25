@@ -1,0 +1,25 @@
+App As appinfo:
+    BackEnabled: =true
+    StartScreen: |
+        =If(
+            !IsBlank(Param("screenname")),
+            Switch(
+                Param("screenname"),
+                "IsSupp",IS,
+                "ISM",ISM,
+                "third",ThirdParty,
+                "StreamLeadFeedback",STLCH,
+            
+                'Home Screen' // Default case
+            ),
+            'Home Screen' // What to return if Param("screenname") is blank
+        )
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

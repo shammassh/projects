@@ -1,0 +1,73 @@
+{
+  "6f52eb09-f243-4bad-aec0-0e11ada478e4": {
+    "appActions": [],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1751/1.0.1751.4213/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "6f52eb09-f243-4bad-aec0-0e11ada478e4"
+  },
+  "bcdeb524-cbac-403b-a01b-656ed2b4bd69": {
+    "appActions": [
+      "SendEmailV2"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Outlook",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/office365u_g_sqlPartialBuild/1.0.1759.4273/office365/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Outlook"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "bcdeb524-cbac-403b-a01b-656ed2b4bd69"
+  },
+  "f91ae733-b246-4419-bf4e-8ec44f704a55": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1754/1.0.1754.4231/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://spinneysleb.sharepoint.com/operations": {
+        "dataSources": {
+          "Issue Log Tracker": {
+            "tableName": "ae7ad485-c6c3-4d71-a34b-655df33e760c"
+          },
+          "STL": {
+            "tableName": "4ec0b1c3-f44f-4575-b120-a97ed9c0167d"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Issue Log Tracker",
+      "STL"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "f91ae733-b246-4419-bf4e-8ec44f704a55"
+  }
+}

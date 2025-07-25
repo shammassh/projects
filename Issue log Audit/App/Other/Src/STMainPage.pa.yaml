@@ -1,0 +1,721 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  STMainPage:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    Children:
+      - ScreenContainer2:
+          Control: GroupContainer@1.3.0
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(245, 245, 245, 1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =10
+            PaddingBottom: =16
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =16
+            Width: =Parent.Width
+          Children:
+            - HeaderContainer2:
+                Control: GroupContainer@1.3.0
+                Variant: AutoLayout
+                Properties:
+                  Fill: =App.Theme.Colors.Primary
+                  FillPortions: =0
+                  Height: =68
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =5
+                  PaddingRight: =6
+                Children:
+                  - Header1:
+                      Control: Header@0.0.44
+            - BodyContainer1:
+                Control: GroupContainer@1.3.0
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =16
+                  PaddingBottom: =2
+                  PaddingTop: =4
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - SidebarContainer1:
+                      Control: GroupContainer@1.3.0
+                      Variant: AutoLayout
+                      Properties:
+                        Fill: =RGBA(255, 255, 255, 1)
+                        FillPortions: =If(And(STMainPage.Size = ScreenSize.Small, Or(newMode, isItemSelected)), 0, 3)
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =10
+                        PaddingBottom: =10
+                        PaddingLeft: =10
+                        PaddingRight: =10
+                        PaddingTop: =10
+                        Visible: =If(And(STMainPage.Size = ScreenSize.Small, Or(newMode, isItemSelected)), false, true)
+                      Children:
+                        - SearchContainer1:
+                            Control: GroupContainer@1.3.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              Fill: =RGBA(245, 245, 245, 1)
+                              FillPortions: =0
+                              Height: =44
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              PaddingRight: =5
+                            Children:
+                              - SearchInput1:
+                                  Control: TextInput@0.0.54
+                                  Properties:
+                                    FillPortions: =1
+                                    Height: =44
+                                    Placeholder: ="Search"
+                        - AddNewContainer1:
+                            Control: GroupContainer@1.3.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              Height: =44
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                              Visible: =If(STMainPage.Size = ScreenSize.Small,true,false)
+                            Children:
+                              - AddNewButton1:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    Align: =Align.Left
+                                    AlignInContainer: =AlignInContainer.Stretch
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    FillPortions: =1
+                                    FontSize: =14
+                                    Height: =44
+                                    Icon: ="Add"
+                                    LayoutMinWidth: =60
+                                    OnSelect: |-
+                                      =NewForm(Form1); UpdateContext({ newMode: true })
+                                    Text: ="New"
+                                    VerticalAlign: =VerticalAlign.Middle
+                                    Width: =80
+                        - Table1:
+                            Control: Table@1.0.278
+                            Properties:
+                              AlignInContainer: =AlignInContainer.Start
+                              EnableRangeSelection: ='PowerAppsOneGrid.EnableRangeSelection'.Enable
+                              EnableSorting: ='PowerAppsOneGrid.EnableSorting'.Enable
+                              FillPortions: =1
+                              Items: ='Issue Log Tracker'
+                              OnSelect: |-
+                                =UpdateContext({ isItemSelected: true, newMode: false, CurrentItem:Table1.Selected })
+                              ReflowBehavior: ='PowerAppsOneGrid.ReflowBehavior'.ListOnly
+                            Children:
+                              - Severity1:
+                                  Control: TableDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Severity"
+                                    FieldName: ="Severity"
+                                    FieldType: ="E"
+                                    Order: =8
+                              - Issue Description1:
+                                  Control: TableDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Issue Description"
+                                    FieldName: ="Issue_x0020_Description"
+                                    FieldType: ="s"
+                                    Order: =10
+                              - Action try to do1:
+                                  Control: TableDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Action try to do"
+                                    FieldName: ="Action_x0020_try_x0020_to_x0020_"
+                                    FieldType: ="s"
+                                    Order: =9
+                              - Status1:
+                                  Control: TableDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Status"
+                                    FieldName: ="Status"
+                                    FieldType: ="E"
+                                    Order: =7
+                              - Form Name1:
+                                  Control: TableDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Form Name"
+                                    FieldName: ="Form_x0020_Name"
+                                    FieldType: ="E"
+                                    Order: =6
+                              - Module1:
+                                  Control: TableDataField@1.5.0
+                                  Variant: textualColumn
+                                  IsLocked: true
+                                  Properties:
+                                    FieldDisplayName: ="Module"
+                                    FieldName: ="Module"
+                                    FieldType: ="E"
+                                    Order: =5
+                        - Label1:
+                            Control: Label@2.5.1
+                            Properties:
+                              BorderColor: =RGBA(0, 0, 0, 0)
+                              BorderStyle: =BorderStyle.None
+                              BorderThickness: =2
+                              Color: =RGBA(50, 49, 48, 1)
+                              DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                              DisabledColor: =RGBA(161, 159, 157, 1)
+                              FocusedBorderThickness: =4
+                              Font: =Font.'Segoe UI'
+                              Text: =varLastSubmittedID
+                  - DeleteConfirmDialogContainer1:
+                      Control: GroupContainer@1.3.0
+                      Variant: AutoLayout
+                      Properties:
+                        FillPortions: =7
+                        LayoutDirection: =LayoutDirection.Vertical
+                        Visible: =If(deleteMode, true, false)
+                        Width: =0
+                      Children:
+                        - ConfirmDeleteLabelContainer1:
+                            Control: GroupContainer@1.3.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutAlignItems: =LayoutAlignItems.End
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              PaddingBottom: =20
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                            Children:
+                              - TextCanvas1:
+                                  Control: Text@0.0.51
+                                  Properties:
+                                    Align: ='TextCanvas.Align'.Center
+                                    FillPortions: =1
+                                    Size: =16
+                                    Text: ="Are you sure you want to delete this record?"
+                        - ConfirmDeleteButtonBarContainer1:
+                            Control: GroupContainer@1.3.0
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutGap: =15
+                              LayoutJustifyContent: =LayoutJustifyContent.Center
+                              LayoutWrap: =true
+                              RadiusBottomLeft: =0
+                              RadiusBottomRight: =0
+                              RadiusTopLeft: =0
+                              RadiusTopRight: =0
+                            Children:
+                              - ConfirmDeleteButton1:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    AccessibleLabel: ="Delete"
+                                    OnSelect: |
+                                      =Remove(
+                                          Table(),
+                                          selectedRecord
+                                      );
+                                      If(
+                                          IsEmpty(
+                                              Errors(
+                                                  Table(),
+                                                  selectedRecord
+                                              )
+                                          ),
+                                          UpdateContext(
+                                              {
+                                                  CurrentItem: First(Table()),
+                                                  isItemSelected: false,
+                                                  newMode: false,
+                                                  deleteMode: false
+                                              }
+                                          )
+                                      );
+                                    Text: ="Delete"
+                              - CancelDeleteButton1:
+                                  Control: Button@0.0.45
+                                  Properties:
+                                    AccessibleLabel: ="Cancel"
+                                    Appearance: ='ButtonCanvas.Appearance'.Secondary
+                                    OnSelect: |-
+                                      =UpdateContext({ deleteMode: false })
+                                    Text: ="Cancel"
+                  - RightContainer1:
+                      Control: GroupContainer@1.3.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =7
+                        LayoutAlignItems: =LayoutAlignItems.Stretch
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =16
+                        PaddingBottom: =2
+                        PaddingLeft: =2
+                        PaddingRight: =2
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Visible: =If(Or(deleteMode, And(STMainPage.Size = ScreenSize.Small, !newMode, !isItemSelected)), false, true)
+                        Width: =0
+                      Children:
+                        - Container1:
+                            Control: GroupContainer@1.3.0
+                            Variant: AutoLayout
+                            Properties:
+                              Fill: =RGBA(255, 255, 255, 1)
+                              FillPortions: =0
+                              Height: =60
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutMinHeight: =40
+                            Children:
+                              - Container21:
+                                  Control: GroupContainer@1.3.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutMinHeight: =60
+                                    PaddingLeft: =If(STMainPage.Size = ScreenSize.Small,8,12)
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
+                                  Children:
+                                    - BackIcon1:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                          Icon: ="ArrowLeft"
+                                          Layout: ='ButtonCanvas.Layout'.IconBefore
+                                          OnSelect: |-
+                                            =ResetForm(Form1); UpdateContext({ newMode: false, editMode: false, CurrentItem: First(Table1.SelectedItems), isItemSelected:false });
+                                          Text: ="Back"
+                                          Visible: =If(And(STMainPage.Size = ScreenSize.Small, !deleteMode), true, false)
+                                          Width: =If(STMainPage.Size = ScreenSize.Small, 75, 96)
+                                    - NewRecordButton1:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Appearance: ='ButtonCanvas.Appearance'.Primary
+                                          Icon: ="Add"
+                                          OnSelect: |-
+                                            =NewForm(Form1); UpdateContext({ newMode: true })
+                                          Text: ="New"
+                                          Visible: =If(STMainPage.Size = ScreenSize.Small, false, And(!newMode, !deleteMode))
+                                          Width: =If(STMainPage.Size = ScreenSize.Small, 75, 96)
+                                    - EditButton1:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                          Icon: ="Edit"
+                                          OnSelect: |-
+                                            =UpdateContext({ editMode: true, selectedRecord: Table1.Selected })
+                                          Text: ="Edit"
+                                          Visible: =And(!newMode, !deleteMode)
+                                          Width: =If(STMainPage.Size = ScreenSize.Small, 75, 90)
+                                    - DeleteButton1:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                          Icon: ="Delete"
+                                          OnSelect: |-
+                                            =UpdateContext({ deleteMode: true, selectedRecord: Table1.Selected })
+                                          Text: ="Delete"
+                                          Visible: =And(!newMode, !deleteMode)
+                                          Width: =If(STMainPage.Size = ScreenSize.Small, 75, 70)
+                        - MainContainer2:
+                            Control: GroupContainer@1.3.0
+                            Variant: AutoLayout
+                            Properties:
+                              Fill: =RGBA(255, 255, 255, 1)
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =16
+                              LayoutMinHeight: =150
+                              LayoutMinWidth: =300
+                              LayoutOverflowY: =LayoutOverflow.Scroll
+                              PaddingTop: =8
+                            Children:
+                              - Form1:
+                                  Control: Form@2.4.4
+                                  Layout: Vertical
+                                  Properties:
+                                    BorderColor: =RGBA(245, 245, 245, 1)
+                                    BorderStyle: =BorderStyle.None
+                                    DataSource: ='Issue Log Tracker'
+                                    DefaultMode: =If(newMode, FormMode.New, editMode, FormMode.Edit, FormMode.View)
+                                    FillPortions: =0.85
+                                    Item: =CurrentItem
+                                    LayoutMinHeight: =100
+                                    LayoutMinWidth: =300
+                                    NumberOfColumns: =2
+                                    OnFailure: =Notify("Cannot save. Please check if there are errors in the form.", NotificationType.Error)
+                                    OnSuccess: |
+                                      =UpdateContext({ CurrentItem: Self.LastSubmit, isItemSelected: false});Notify("Success",NotificationType.Success);ResetForm(Form1)
+                                    Width: =Parent.Width
+                                  Children:
+                                    - Module_DataCard1:
+                                        Control: TypedDataCard@1.0.7
+                                        Variant: ComboBoxEdit
+                                        Properties:
+                                          BorderColor: =RGBA(245, 245, 245, 1)
+                                          DataField: ="Module"
+                                          Default: =ThisItem.Module
+                                          DisplayName: =DataSourceInfo([@'Issue Log Tracker'],DataSourceInfo.DisplayName,Module)
+                                          Required: =false
+                                          Update: =DataCardValue5.Selected
+                                          Width: =459
+                                          X: =0
+                                          Y: =0
+                                        Children:
+                                          - DataCardKey5:
+                                              Control: Text@0.0.51
+                                              MetadataKey: FieldName
+                                              Properties:
+                                                Height: =22
+                                                Text: =Parent.DisplayName
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =Parent.Width - 48
+                                                Wrap: =false
+                                                X: =24
+                                                Y: =10
+                                          - DataCardValue5:
+                                              Control: ComboBox@0.0.51
+                                              MetadataKey: FieldValue
+                                              Properties:
+                                                AccessibleLabel: =Parent.DisplayName
+                                                DefaultSelectedItems: =[Parent.Default]
+                                                DisplayMode: =Parent.DisplayMode
+                                                InputTextPlaceholder: ="Find Module"
+                                                Items: =Choices([@'Issue Log Tracker'].Module)
+                                                Required: =Parent.Required
+                                                ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                                Width: =Parent.Width - 48
+                                                X: =24
+                                                Y: =DataCardKey5.Y + DataCardKey5.Height + 4
+                                          - ErrorMessage5:
+                                              Control: Text@0.0.51
+                                              MetadataKey: ErrorMessage
+                                              Properties:
+                                                Height: =30
+                                                Text: =Parent.Error
+                                                Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                                Width: =Parent.Width - 48
+                                                X: =24
+                                                Y: =DataCardValue5.Y + DataCardValue5.Height
+                                          - StarVisible5:
+                                              Control: Text@0.0.51
+                                              MetadataKey: FieldRequired
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Center
+                                                Height: =20
+                                                Text: ="*"
+                                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                                Width: =30
+                                                Y: =DataCardKey5.Y
+                                    - Form Name_DataCard1:
+                                        Control: TypedDataCard@1.0.7
+                                        Variant: ComboBoxEdit
+                                        IsLocked: true
+                                        Properties:
+                                          BorderColor: =RGBA(245, 245, 245, 1)
+                                          DataField: ="Form_x0020_Name"
+                                          Default: =ThisItem.'Form Name'
+                                          DisplayName: =DataSourceInfo([@'Issue Log Tracker'],DataSourceInfo.DisplayName,'Form Name')
+                                          Height: =129
+                                          Required: =false
+                                          Update: =DataCardValue6.Selected
+                                          Width: =459
+                                          X: =1
+                                          Y: =0
+                                        Children:
+                                          - DataCardKey6:
+                                              Control: Text@0.0.51
+                                              MetadataKey: FieldName
+                                              Properties:
+                                                Height: =22
+                                                Text: =Parent.DisplayName
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =Parent.Width - 48
+                                                Wrap: =false
+                                                X: =24
+                                                Y: =10
+                                          - DataCardValue6:
+                                              Control: ComboBox@0.0.51
+                                              MetadataKey: FieldValue
+                                              Properties:
+                                                AccessibleLabel: =Parent.DisplayName
+                                                DefaultSelectedItems: =[Parent.Default]
+                                                DisplayMode: =Parent.DisplayMode
+                                                InputTextPlaceholder: ="Form Name"
+                                                Items: =Choices([@'Issue Log Tracker'].'Form Name')
+                                                Required: =Parent.Required
+                                                ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                                Width: =Parent.Width - 48
+                                                X: =24
+                                                Y: =DataCardKey6.Y + DataCardKey6.Height + 4
+                                          - ErrorMessage6:
+                                              Control: Text@0.0.51
+                                              MetadataKey: ErrorMessage
+                                              Properties:
+                                                Height: =30
+                                                Text: =Parent.Error
+                                                Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                                Width: =Parent.Width - 48
+                                                X: =24
+                                                Y: =DataCardValue6.Y + DataCardValue6.Height
+                                          - StarVisible6:
+                                              Control: Text@0.0.51
+                                              MetadataKey: FieldRequired
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Center
+                                                Height: =20
+                                                Text: ="*"
+                                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                                Width: =30
+                                                Y: =DataCardKey6.Y
+                                    - Severity_DataCard1:
+                                        Control: TypedDataCard@1.0.7
+                                        Variant: ComboBoxEdit
+                                        IsLocked: true
+                                        Properties:
+                                          BorderColor: =RGBA(245, 245, 245, 1)
+                                          DataField: ="Severity"
+                                          Default: =ThisItem.Severity
+                                          DisplayName: =DataSourceInfo([@'Issue Log Tracker'],DataSourceInfo.DisplayName,Severity)
+                                          Height: =50
+                                          Required: =false
+                                          Update: =DataCardValue9.Selected
+                                          Width: =459
+                                          X: =0
+                                          Y: =1
+                                        Children:
+                                          - DataCardKey9:
+                                              Control: Text@0.0.51
+                                              MetadataKey: FieldName
+                                              Properties:
+                                                Height: =22
+                                                Text: =Parent.DisplayName
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =Parent.Width - 48
+                                                Wrap: =false
+                                                X: =30
+                                                Y: =8
+                                          - DataCardValue9:
+                                              Control: ComboBox@0.0.51
+                                              MetadataKey: FieldValue
+                                              Properties:
+                                                AccessibleLabel: =Parent.DisplayName
+                                                DefaultSelectedItems: =[Parent.Default]
+                                                DisplayMode: =Parent.DisplayMode
+                                                InputTextPlaceholder: =""
+                                                Items: =Choices([@'Issue Log Tracker'].Severity)
+                                                Required: =Parent.Required
+                                                ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                                Width: =Parent.Width - 48
+                                                X: =24
+                                                Y: =DataCardKey9.Y + DataCardKey9.Height + 4
+                                          - ErrorMessage9:
+                                              Control: Text@0.0.51
+                                              MetadataKey: ErrorMessage
+                                              Properties:
+                                                Height: =30
+                                                Text: =Parent.Error
+                                                Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                                Width: =Parent.Width - 48
+                                                X: =24
+                                                Y: =DataCardValue9.Y + DataCardValue9.Height
+                                          - StarVisible9:
+                                              Control: Text@0.0.51
+                                              MetadataKey: FieldRequired
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Center
+                                                Height: =20
+                                                Text: ="*"
+                                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                                Width: =30
+                                                Y: =DataCardKey9.Y
+                                    - Recurring Issue_DataCard2:
+                                        Control: TypedDataCard@1.0.7
+                                        Variant: ComboBoxEdit
+                                        IsLocked: true
+                                        Properties:
+                                          BorderColor: =RGBA(245, 245, 245, 1)
+                                          DataField: ="Recurring_x0020_Issue"
+                                          Default: =ThisItem.'Recurring Issue'
+                                          DisplayName: =DataSourceInfo([@'Issue Log Tracker'],DataSourceInfo.DisplayName,'Recurring Issue')
+                                          Required: =false
+                                          Update: =DataCardValue8.Selected
+                                          Width: =459
+                                          X: =1
+                                          Y: =1
+                                        Children:
+                                          - DataCardKey8:
+                                              Control: Text@0.0.51
+                                              MetadataKey: FieldName
+                                              Properties:
+                                                Height: =22
+                                                Text: =Parent.DisplayName
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =Parent.Width - 48
+                                                Wrap: =false
+                                                Y: =10
+                                          - DataCardValue8:
+                                              Control: ComboBox@0.0.51
+                                              MetadataKey: FieldValue
+                                              Properties:
+                                                AccessibleLabel: =Parent.DisplayName
+                                                DefaultSelectedItems: =[Parent.Default]
+                                                DisplayMode: =Parent.DisplayMode
+                                                Items: =Choices([@'Issue Log Tracker'].'Recurring Issue')
+                                                Required: =Parent.Required
+                                                ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                                Width: =Parent.Width - 48
+                                                X: =24
+                                                Y: =DataCardKey8.Y + DataCardKey8.Height + 4
+                                          - ErrorMessage8:
+                                              Control: Text@0.0.51
+                                              MetadataKey: ErrorMessage
+                                              Properties:
+                                                Height: =30
+                                                Text: =Parent.Error
+                                                Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                                Width: =Parent.Width - 48
+                                                X: =24
+                                                Y: =DataCardValue8.Y + DataCardValue8.Height
+                                          - StarVisible8:
+                                              Control: Text@0.0.51
+                                              MetadataKey: FieldRequired
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Center
+                                                Height: =20
+                                                Text: ="*"
+                                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                                Width: =30
+                                                Y: =DataCardKey8.Y
+                                    - Issue Description_DataCard2:
+                                        Control: TypedDataCard@1.0.7
+                                        Variant: TextualMultilineEdit
+                                        IsLocked: true
+                                        Properties:
+                                          BorderColor: =RGBA(245, 245, 245, 1)
+                                          DataField: ="Issue_x0020_Description"
+                                          Default: =ThisItem.'Issue Description'
+                                          DisplayName: =DataSourceInfo([@'Issue Log Tracker'],DataSourceInfo.DisplayName,'Issue Description')
+                                          Required: =false
+                                          Update: =DataCardValue3.Value
+                                          Width: =918
+                                          X: =0
+                                          Y: =2
+                                        Children:
+                                          - DataCardKey3:
+                                              Control: Text@0.0.51
+                                              MetadataKey: FieldName
+                                              Properties:
+                                                Height: =22
+                                                Text: =Parent.DisplayName
+                                                Weight: ='TextCanvas.Weight'.Semibold
+                                                Width: =Parent.Width - 48
+                                                Wrap: =false
+                                                X: =24
+                                                Y: =10
+                                          - DataCardValue3:
+                                              Control: TextInput@0.0.54
+                                              MetadataKey: FieldValue
+                                              Properties:
+                                                AccessibleLabel: =Parent.DisplayName
+                                                DisplayMode: =Parent.DisplayMode
+                                                Height: =144
+                                                Mode: ='TextInputCanvas.Mode'.Multiline
+                                                Required: =Parent.Required
+                                                ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                                                Value: =Parent.Default
+                                                Width: =Parent.Width - 48
+                                                X: =24
+                                                Y: =DataCardKey3.Y + DataCardKey3.Height + 4
+                                          - ErrorMessage3:
+                                              Control: Text@0.0.51
+                                              MetadataKey: ErrorMessage
+                                              Properties:
+                                                Height: =30
+                                                Text: =Parent.Error
+                                                Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                                                Width: =Parent.Width - 48
+                                                X: =24
+                                                Y: =DataCardValue3.Y + DataCardValue3.Height
+                                          - StarVisible3:
+                                              Control: Text@0.0.51
+                                              MetadataKey: FieldRequired
+                                              Properties:
+                                                Align: ='TextCanvas.Align'.Center
+                                                Height: =30
+                                                Text: ="*"
+                                                Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                                                Width: =30
+                                                Y: =DataCardKey3.Y
+                              - ButtonContainer1:
+                                  Control: GroupContainer@1.3.0
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0.15
+                                    Height: =Parent.Height
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =10
+                                    LayoutJustifyContent: =LayoutJustifyContent.End
+                                    LayoutMinHeight: =50
+                                    LayoutOverflowY: =LayoutOverflow.Scroll
+                                    PaddingRight: =24
+                                    RadiusBottomLeft: =0
+                                    RadiusBottomRight: =0
+                                    RadiusTopLeft: =0
+                                    RadiusTopRight: =0
+                                  Children:
+                                    - CancelButton1:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          Appearance: ='ButtonCanvas.Appearance'.Secondary
+                                          OnSelect: |-
+                                            =ResetForm(Form1); UpdateContext({ newMode: false, editMode: false, CurrentItem: First(Table1.SelectedItems), isItemSelected:false });
+                                          Text: ="Cancel"
+                                    - SubmitButton1:
+                                        Control: Button@0.0.45
+                                        Properties:
+                                          Appearance: ='ButtonCanvas.Appearance'.Primary
+                                          OnSelect: "=SubmitForm(Form1);\r\nSet(varLastSubmittedID, Form1.LastSubmit.ID);\r\n\r\n\r\nSet(\r\n    varDeepLink,\r\n    \"https://apps.powerapps.com/play/e/default-b99fc2f6-d65e-4b48-935b-118659097da7/a/638c2659-dfe3-45ee-a199-43390b64bee4?\" &\r\n    \"tenantId=b99fc2f6-d65e-4b48-935b-118659097da7&screenname=IsSupp&ID=\"  & Form1.LastSubmit.ID\r\n\r\n    \r\n);\r\nOffice365Outlook.SendEmailV2(\r\n    \"Muhammad.shammas@gmrlgroup.com\", // DM's Email  \r\n    \"\U0001F195 New Record Solution Submitted - ID: \" & Text(Form1.LastSubmit.ID) & \"Created by   \"  & Form1.LastSubmit.'Created By'.DisplayName, \r\n    \r\n    \"<html>\" & \r\n    \"<body style='font-family:Segoe UI, sans-serif; font-size:14px; color:#333;'>\" &\r\n\r\n    \"<p>\U0001F44B Dear ERP Team,</p>\" &\r\n\r\n    \"<p>\U0001F6A8 A new <b>Record Solution</b> has been submitted by the Stream Lead. Please find the details below:</p>\" &\r\n\r\n    \"<table style='border-collapse: collapse; width: 100%; border: 1px solid #ccc;'>\" &\r\n\r\n        \"<tr style='background-color:#f9f9f9;'>\" &\r\n            \"<th style='text-align:left; padding:10px; border:1px solid #ccc;'>\U0001F4CC Field</th>\" &\r\n            \"<th style='text-align:left; padding:10px; border:1px solid #ccc;'>\U0001F4DD Value</th>\" &\r\n        \"</tr>\" &\r\n\r\n        \"<tr><td style='padding:10px; border:1px solid #ccc;'>\U0001F4E6 Module</td><td style='padding:10px; border:1px solid #ccc;'>\" &  Form1.LastSubmit.Module.Value  & \"</td></tr>\" &\r\n\r\n        \"<tr><td style='padding:10px; border:1px solid #ccc;'>\U0001F4C4 Form Name</td><td style='padding:10px; border:1px solid #ccc;'>\" & Form1.LastSubmit.'Form Name'.Value & \"</td></tr>\" &\r\n\r\n        \"<tr><td style='padding:10px; border:1px solid #ccc;'>⚠️ Severity</td><td style='padding:10px; border:1px solid #ccc;'>\" & Form1.LastSubmit.Severity.Value & \"</td></tr>\" &\r\n\r\n        \"<tr><td style='padding:10px; border:1px solid #ccc;'>\U0001F501 Recurring Issue</td><td style='padding:10px; border:1px solid #ccc;'>\" & Form1.LastSubmit.'Recurring Issue'.Value & \"</td></tr>\" &\r\n\r\n        \"<tr><td style='padding:10px; border:1px solid #ccc;'>\U0001F4CA Status</td><td style='padding:10px; border:1px solid #ccc;'>\" & Form1.LastSubmit.Status.Value & \"</td></tr>\" &\r\n\r\n    \"</table>\" &\r\n\r\n     \"<br/><p>\U0001F517 Click the following link to access the request and approve the necessary access:</p>\" &\r\n    \"<p><a href='\" & varDeepLink & \"' style='background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>✅ Review Access Request</a></p>\" &\r\n\r\n    \"<br/><p>\U0001F9D1‍\U0001F4BC Submitted by: <b>\" & User().FullName & \"</b></p>\" &\r\n\r\n    \"<p>\U0001F64F Kindly take the necessary actions as required.</p>\" &\r\n\r\n    \"<br/><p>Best regards,<br/>\" & User().FullName & \"</p>\" &\r\n\r\n    \"</body></html>\",\r\n\r\n    {\r\n        IsHtml: true\r\n    }\r\n);\r\n"
+                                          Text: ="Submit"
