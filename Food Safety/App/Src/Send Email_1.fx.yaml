@@ -1,0 +1,963 @@
+"'Send Email_1' As screen":
+    ContentLanguage: =""
+    OnVisible: |+
+        =ClearCollect(
+            colCombinedAnswers,
+            ShowColumns(Gallery1.AllItems,Title1),
+            colSRACHEMAnswers
+        );
+        
+        ClearCollect(
+            colSRAFridgesChecklist,
+            [
+                {Title: "Available and accurate thermometers", Coeff: 2},
+                {Title: "Fridges and freezers displayed a proper temperature at the time of the audit", Coeff: 4},
+                {Title: "Freezer of popsicles displayed a proper temperature at the time of the audit (< -18°C)", Coeff: 2},
+                {Title: "Fridge of ready-to-eat products (sandwiches, salads, etc.) displayed a proper temperature at the time of the audit (<5°C)", Coeff: 2},
+                {Title: "Retail fridge (self-service) having raw meat and chicken displayed a proper temperature at the time of the audit (<2°C)", Coeff: 2},
+                {Title: "Products are properly covered", Coeff: 4},
+                {Title: "Products are stored in a way to avoid cross-contamination [RTE food above raw food, staff food is placed in a designated chiller/shelf (lowest shelf)]", Coeff: 4},
+                {Title: "Products are placed 15cm above the floor and where applicable away from the walls", Coeff: 4},
+                {Title: "All products are properly labelled", Coeff: 4},
+                {Title: "Shredded mozzarella is properly stored in the fridge or in the freezer as per suppliers’ requirements", Coeff: 4},
+                {Title: "Absence of expired smoked salmon in the retail fridge", Coeff: 4},
+                {Title: "Absence of smoked salmon stored in the freezer", Coeff: 2},
+                {Title: "Absence of MAP blown packs", Coeff: 4},
+                {Title: "Defrosted Guacamole (60 days), Fruit cups and Dal Molise Cheese (Mozzarella 21 days, Burrata 10 days, Smoked Burrata and Burratina with Truffle 15 days) are properly labelled", Coeff: 4},
+                {Title: "Defrosted products have a proper shelf life in the fridge", Coeff: 4},
+                {Title: "Properly applied FIFO/FEFO; unit is not overloaded", Coeff: 4},
+                {Title: "Clean units (shelves, fans, gaskets, door, wall, floor, ceiling, grills of display fridges)", Coeff: 2},
+                {Title: "Absence of cardboards inside fridges (excluding storage fridges)", Coeff: 2},
+                {Title: "No ice formation in the freezers", Coeff: 2},
+                {Title: "Sushi is placed properly with no risk of being in TDZ in display fridges", Coeff: 4},
+                {Title: "Air temperature of fridges and freezers is adequate (as per critical limit set in the monitoring sheet). Note: take air temperatures of all fridges and freezers", Coeff: 6},
+                {Title: "Fish is properly covered with ice on the display and the temperature is <2°C", Coeff: 2},
+                {Title: "Oysters are not given more than 10 days after production date and are properly displayed in ice", Coeff: 2},
+                {Title: "Salmon is properly displayed (if filleted, fish is covered with cling film and with ice) and the temperature is <2°C", Coeff: 2},
+                {Title: "Products temperature is taken (in display or storage) and is below 2°C for meat and chicken, 5°C for chilled and below -18°C for frozen", Coeff: 6},
+                {Title: "Non conforming/damaged/to be returned products are placed in quarantine area", Coeff: 2},
+                {Title: "Retail fridge (self-service) having papa's items displayed a proper temperature at the time of the audit (<5°C)", Coeff: 2},
+                {Title: "Bresaola “Ferrarini” shelf-life is extended. The official document of extending the shelf-life is available", Coeff: 4},
+                {Title: "Absence of expired food", Coeff: 4},
+                {Title: "Processed Cheese is properly stored in the fridge or under cool, dry conditions as per suppliers’ requirements", Coeff: 4},
+                {Title: "Do not freeze claim is present on ice display", Coeff: 2}
+            ]
+        );
+        
+        ClearCollect(
+            colSRAFoodChecklist,
+            {Title: "Properly stored chemicals (away from food, 15cm above the floor)", Coeff: 2},
+            {Title: "Non-conforming products (i.e. dented cans) are placed in the quarantine area/damage area", Coeff: 4},
+            {Title: "Food is de-boxed (when applicable)", Coeff: 2},
+            {Title: "Absence of expired food", Coeff: 4},
+            {Title: "Properly applied FIFO/FEFO", Coeff: 4},
+            {Title: "Properly stored/packed and labelled opened bags of dry products", Coeff: 4},
+            {Title: "Products are placed 15cm above the floor and away from the walls", Coeff: 2},
+            {Title: "Wooden pallets used in hallway are in good condition; plastic pallets are used in kitchen dry stores", Coeff: 2},
+            {Title: "For the stores that have a healthy living section, gluten free, lactose free, sugar free, vegan and organic are only stored in that section", Coeff: 2},
+            {Title: "Gluten-free products and flour are placed separately on another stand or on top shelves (on retail shelves and in the backdoor)", Coeff: 2},
+            {Title: "Products are stored in a way to avoid cross-contamination (RTE food above eggs, Eggs placed in a designated shelf (lowest shelf))", Coeff: 4},
+            {Title: "The stock of pet food is stored separately (away from human food, …)", Coeff: 2},
+            {Title: "Absence of pest activity (rodents, insects…)", Coeff: 4},
+            {Title: "Products are properly covered.", Coeff: 4}
+        );
+        
+        ClearCollect(
+            colSRAUtensilsChecklist,
+            {Title: "All equipment and utensils are properly cleaned and sanitized", Coeff: 4},
+            {Title: "Employees are polishing the cutleries and glass adequately. The procedure is present.", Coeff: 4},
+            {Title: "The oil filter machine is properly cleaned (employees know how to clean each part of it)", Coeff: 4},
+            {Title: "Latest surface swab test is conform", Coeff: 4},
+            {Title: "All equipment and utensils are stored in a proper manner (organized, nothing placed directly on the floor or touching the wall, knives placed in cabinets…)", Coeff: 2},
+            {Title: "Clean utensils and packaging material are inverted and properly stored", Coeff: 4},
+            {Title: "Probe thermometer is properly cleaned and sanitized before and after each use", Coeff: 4},
+            {Title: "Absence of wooden equipment", Coeff: 2},
+            {Title: "Equipment and utensils are food grade, in good condition, avoiding any risk of contamination (cutting boards in good condition, plastic containers not broken…)", Coeff: 4},
+            {Title: "Chocolate fountain machine is clean. The cleaning procedure is present", Coeff: 2}
+        );
+        
+        ClearCollect(
+            colSRAFoodHandlingChecklist,
+            {Title: "Food only to be used immediately is placed in temperature danger zone", Coeff: 4},
+            {Title: "Time monitoring is applied for food in temperature danger zone (if needed)", Coeff: 4},
+            {Title: "Proper cooking of food at the time of the audit", Coeff: 4},
+            {Title: "Proper reheating of food at the time of the audit and reheating stickers are present", Coeff: 2},
+            {Title: "Proper cooling of hot food at the time of the audit", Coeff: 4},
+            {Title: "Proper cold holding/hot holding of food; temperature at the time of the audit was < 5°C for cold holding and >60°C for hot holding", Coeff: 4},
+            {Title: "No opened canned food left in its original can", Coeff: 2},
+            {Title: "Cutting boards and knives are correctly used (color coding)", Coeff: 4},
+            {Title: "Frozen food is properly defrosted (mainly overnight in the fridge)", Coeff: 4},
+            {Title: "No risk of cross-contamination (i.e. utensils used at the grill for raw products are different then utensils used for cooked products)", Coeff: 4},
+            {Title: "No paper towel is in contact with food (especially vegetables)", Coeff: 2},
+            {Title: "Vegetables and fruits are properly disinfected", Coeff: 4},
+            {Title: "Where applicable, time management is indicated for sinks used for vegetables and fruits disinfection", Coeff: 2},
+            {Title: "Scoops and spoons are not placed inside products", Coeff: 2},
+            {Title: "Scoop of ice machine is in good condition and properly stored outside the machine, inside a clean covered container", Coeff: 4},
+            {Title: "Leftover chicken from the rotisserie is given a 1-day shelf-life, chilled and then used the next day in sandwiches that are reheated one time only", Coeff: 2},
+            {Title: "Shawarma skewer is used for only one day", Coeff: 4},
+            {Title: "The Sushi Rice Procedure is properly followed, and the pH sushi rice was <4.3 at the time of the audit", Coeff: 4},
+            {Title: "Sushi rice is kept at room temperature as per Shelf-life Policy", Coeff: 4},
+            {Title: "Pepsi machine has a pH < 8 and TDS < 500 mg/L", Coeff: 4},
+            {Title: "The 20 minutes chill chain rule is being properly followed at receiving", Coeff: 4},
+            {Title: "Oil used for frying is in good condition and changed frequently", Coeff: 2},
+            {Title: "Oil filter procedure is properly followed as per USB (i.e., Number of cycles)", Coeff: 4},
+            {Title: "Oil filter and Oil testing procedures are properly followed by employees (i.e., base is present, filter changing frequency, …)", Coeff: 4},
+            {Title: "Absence of food safety hazards (i.e. using improperly vacuumed products, stapler in the production area…)", Coeff: 4},
+            {Title: "Chicken for the rotisserie is skewered inside the walk-in fridge and skewers are placed from top to bottom. Raw chicken is placed below the cooked chicken", Coeff: 4}
+        );
+        ClearCollect(
+            colSRACleaningChecklist,
+            {Title: "Steel wool pads are not used", Coeff: 2},
+            {Title: "Clean and well organized dishwashing area", Coeff: 2},
+            {Title: "Proper storage of cleaning equipment when not in use", Coeff: 2},
+            {Title: "Cleaning equipment is in good condition & not made of wood", Coeff: 2},
+            {Title: "Color-coding stickers are present and properly placed on cleaning equipment", Coeff: 2},
+            {Title: "Clean ice machines", Coeff: 4},
+            {Title: "Tables are properly cleaned & sanitized (before & after use/or every 4 hours)", Coeff: 4},
+            {Title: "Hoods are clean and all parts are present", Coeff: 2},
+            {Title: "Clean ceiling (including vents) and walls", Coeff: 2},
+            {Title: "Drains are kept Clean when not in use.", Coeff: 2},
+            {Title: "Clean floors (including corners) and hard to reach areas", Coeff: 2},
+            {Title: "Flour and sugar shelves in the store are clean", Coeff: 2},
+            {Title: "Chemical used are food grade", Coeff: 4},
+            {Title: "Chemicals are being used properly", Coeff: 4},
+            {Title: "Chemicals and sprayers are properly labelled (ie., Quat is given 15 days, Calgonit DS 625 is given 7 days)", Coeff: 2},
+            {Title: "Sections are properly equipped with chemicals (sanitizer…)", Coeff: 2},
+            {Title: "Concentration of sanitizer is correct (200ppm)", Coeff: 4},
+            {Title: "Cloths are stored in sanitizing solution", Coeff: 4},
+            {Title: "Slicing machine, mincer machines and other equipment used throughout the day (knives, cutting boards) are cleaned and sanitized every 4 hours", Coeff: 4},
+            {Title: "Ice of fishery is changed every 2 days", Coeff: 4},
+            {Title: "Pepsi machine is properly cleaned", Coeff: 2},
+            {Title: "Sake machine is properly cleaned", Coeff: 2},
+            {Title: "Trolleys and baskets used in the store by clients are clean", Coeff: 2},
+            {Title: "Trans pallets and trolleys used in the warehouse are clean", Coeff: 2},
+            {Title: "Single disk machine is clean", Coeff: 2},
+            {Title: "Receiving area and external garbage area are clean", Coeff: 4},
+            {Title: "Staff room is clean (microwave, sink, frdige, tables, …)", Coeff: 4},
+            {Title: "Different cleaning equipment is used for production areas, restrooms, receiving area…", Coeff: 2},
+            {Title: "Customers' tables and chairs are clean and in good repair (if applicable)", Coeff: 2},
+            {Title: "Sections are free from bad odor", Coeff: 2}
+        );
+        ClearCollect(
+            colSRAPersonalHygieneChecklist,
+            {Title: "Hand washing sinks are properly equipped with soap, sanitizer and paper towels and hand washing procedure is present. Dispensers are in good condition.", Coeff: 4},
+            {Title: "Food handlers are wearing properly hairnets, oversleeves and gloves", Coeff: 4},
+            {Title: "Food handlers are washing their hands when needed and in a proper manner", Coeff: 4},
+            {Title: "Latest Nail/Hand Swab is conform", Coeff: 4},
+            {Title: "Absence of jewellery", Coeff: 2},
+            {Title: "Absence of pens with no cap and other personal items above the waist", Coeff: 2},
+            {Title: "Personal belongings are placed in lockers that are kept clean", Coeff: 2},
+            {Title: "No eating, drinking and chewing in production and storage areas Properly labelled water bottles in service areas are accepted", Coeff: 2},
+            {Title: "Absence of uncovered wounds", Coeff: 4},
+            {Title: "Food handler's nails are short and clean", Coeff: 4},
+            {Title: "Employees are well shaved", Coeff: 2},
+            {Title: "Employees are not wearing fake eyelashes, fakes nails, nail polish , …", Coeff: 2},
+            {Title: "Absence of unhygienic practices (improper coughing, sneezing…)", Coeff: 4},
+            {Title: "Absence of sick employees handling food", Coeff: 4},
+            {Title: "Employees are wearing proper and clean uniform", Coeff: 4},
+            {Title: "Vests and aprons are not worn outside of processing area (removed before taking a break, going to the restroom…)", Coeff: 2},
+            {Title: "Smoking is only allowed in allocated area and area is kept clean", Coeff: 2},
+            {Title: "Gloves are powder free", Coeff: 2},
+            {Title: "Presence of changing rooms that are kept well clean", Coeff: 2},
+            {Title: "Absence of hand drying machine", Coeff: 2}
+        );
+        ClearCollect(
+            colSRARestroomChecklist,
+            {Title: "Restroom is clean (floor, doors, walls, toilets) and all utilities are well maintained", Coeff: 2},
+            {Title: "Soap and tissue dispensers are well stocked and in good condition", Coeff: 4},
+            {Title: "Garbage bins are not overfilled", Coeff: 2},
+            {Title: "Garbage bins are overall clean", Coeff: 2},
+            {Title: "Garbage bins in the toilets are covered, the ones next to the hand washing sinks are foot-operated. Garbage bins are well maintained", Coeff: 2},
+            {Title: "Toilets are properly ventilated", Coeff: 2},
+            {Title: "Restroom is free of bad odor", Coeff: 2},
+            {Title: "Toilet paper is available", Coeff: 2},
+            {Title: "Hand washing procedure is present", Coeff: 2},
+            {Title: "Reminder of Washing Hands Poster is present", Coeff: 2}
+        );
+        ClearCollect(
+            colSRAGarbageBinsChecklist,
+            {Title: "Clean, foot-operated and well maintained garbage bins", Coeff: 4},
+            {Title: "No overfilled garbage bins", Coeff: 2},
+            {Title: "External garbage bins are covered", Coeff: 2},
+            {Title: "Garbage bins are in sufficient number", Coeff: 2},
+            {Title: "Time management is applied for garbage disposal (not at the same time of receiving)/presence of unidirectional flow of work", Coeff: 2}
+        );
+        ClearCollect(
+            colFacilityChecklist,
+            {Title: "External doors are kept closed, self closing, fit to the floor and sides", Coeff: 4},
+            {Title: "Plastic curtains separating the store from the warehouse are fit to the floor and sides", Coeff: 4},
+            {Title: "External doors are equipped with air curtains that are properly functioning and have proper air flow", Coeff: 4},
+            {Title: "Ceiling is properly maintained and free of gaps", Coeff: 2},
+            {Title: "Floor is properly maintained, free from cracks and crevices", Coeff: 2},
+            {Title: "Walls are properly maintained, free from cracks and crevices", Coeff: 2},
+            {Title: "Drains are properly maintained and kept closed when not in use", Coeff: 4},
+            {Title: "Covered wires and well maintained electrical plugs (absence of openings on the wall)", Coeff: 2},
+            {Title: "Insect killers are properly located and functioning", Coeff: 4},
+            {Title: "Rodent black boxes are properly placed in all areas and are in good condition; all entrances are trapped", Coeff: 4},
+            {Title: "Lamps are properly covered and glass/plexy is in good condition", Coeff: 4},
+            {Title: "Windows that open are equipped with nets", Coeff: 2},
+            {Title: "Warehouse is properly ventilated, ACs are present", Coeff: 2},
+            {Title: "Store is properly ventilated", Coeff: 2},
+            {Title: "Presence of a well-ventilated SAS area for the receiving of fresh food", Coeff: 2},
+            {Title: "Proper lighting in production and storage areas", Coeff: 2},
+            {Title: "Fridges and freezers are in good condition (shelves, gaskets, no leakage, proper temperature…)", Coeff: 2},
+            {Title: "Absence of rusty shelves", Coeff: 2},
+            {Title: "Equipment in the facility is well maintained and ensured (knife sterilizers, lamps…)", Coeff: 4},
+            {Title: "Hand washing sinks and pot washing sinks are properly located", Coeff: 4},
+            {Title: "Hot water is ensured for dishwashing", Coeff: 2},
+            {Title: "Hot water is ensured at hand washing sinks in fresh food sections and restrooms", Coeff: 2},
+            {Title: "Dishwasher is ensuring a temperature >82°C", Coeff: 2},
+            {Title: "Water microbiological test is conform to local standards", Coeff: 4},
+            {Title: "Water chemical test is conform to local standards", Coeff: 2},
+            {Title: "Lockers are available, in sufficient number and are in good condition", Coeff: 2},
+            {Title: "Preventive Maintenance Schedule is present and followed", Coeff: 2}
+        );
+        ClearCollect(
+            colChemicalsChecklist,
+            {Title: "Tru-Lit Crystal Sanigain (Dishwashing Liquid)", Coeff: 4},
+            {Title: "Calgonit DS 625 (Sanitizer)", Coeff: 4},
+            {Title: "Calgonit CF 312 (Multipurpose cleaner)", Coeff: 4},
+            {Title: "Calgonit NF 5401 (Degreaser)", Coeff: 4},
+            {Title: "Tru-lit Crystal Delime (lime removal)", Coeff: 2},
+            {Title: "Calgonit R Flussig Spezial (Drain)", Coeff: 2},
+            {Title: "Tru-Lit Crystal Forte (Dishwasher Detergent)", Coeff: 4},
+            {Title: "Tru-Lit Crystal Clear (Dishwasher Rinse Aid)", Coeff: 2},
+            {Title: "Vegetable Disinfectant/Microbecs FG RTU", Coeff: 4},
+            {Title: "Tru-Lit Touch Clean (Hand Soap)", Coeff: 4},
+            {Title: "Calgonit Des-H (Hand Sanitizer)", Coeff: 4},
+            {Title: "Tru-Lit Speed Glass S3 Conc (Glass Cleaner)", Coeff: 2},
+            {Title: "Tru-Lit Speed : Toilet S1- Conc (Toilet Seat Cleaner - Daily)", Coeff: 4},
+            {Title: "Tru-Lit Speed: Multi S2-Conc (Multi-purpose for bathrooms)", Coeff: 4},
+            {Title: "Tru-Lit Speed : Flush S6 (Toilet Renewal-Weekly)", Coeff: 4},
+            {Title: "Calgonit DS 5614 (Single-Disk Machine)", Coeff: 2},
+            {Title: "Calgonit SS 01 (Stainless-Steel Cleaner)", Coeff: 2}
+        );
+        
+        
+        ClearCollect(
+            colMonitoringLogsChecklist,
+            {Title: "Backdoor Receiving Log / Store to Store Transfer Log", Coeff: 4},
+            {Title: "Rejection Register", Coeff: 4},
+            {Title: "Chillers and Freezers Monitoring Sheet", Coeff: 4},
+            {Title: "Meat & Chicken Temperature Monitoring Sheets", Coeff: 4},
+            {Title: "Fridges and Freezers Verification Monitoring Sheet", Coeff: 4},
+            {Title: "Cooking and Reheating Monitoring Sheet", Coeff: 4},
+            {Title: "Fish cooking and Display Monitoring sheet", Coeff: 4},
+            {Title: "Cooling Monitoring Sheet", Coeff: 4},
+            {Title: "Frying oil verification sheet", Coeff: 2},
+            {Title: "Dry Store Monitoring Sheet", Coeff: 2},
+            {Title: "Cleaning Procedure is present (i.e., Atomes, Robot coupe, Santos N10, Orange machine, ..) and Cleaning Schedule is filled", Coeff: 4},
+            {Title: "Restrooms cleanliness Checklist is present and filled", Coeff: 2},
+            {Title: "Equipment Calibration", Coeff: 4},
+            {Title: "Cold-Hot Holding Monitoring Sheet", Coeff: 4},
+            {Title: "pH Monitoring Sheet", Coeff: 4},
+            {Title: "Sushi Section Daily Checklist - Stores", Coeff: 2},
+            {Title: "List of ingredients and Allergen Matrix (Pastry Products / Pate et Pain)", Coeff: 4},
+            {Title: "Dry Aging Temperature Humidity Log", Coeff: 4},
+            {Title: "Health cards of employees are present and up-to-date", Coeff: 6},
+            {Title: "A copy of Level 2 and Level 3 Food Safety Training Certificate for employees and duty/store managers is present", Coeff: 4},
+            {Title: "Ice microbiological tests are conform", Coeff: 4},
+            {Title: "Bread Display Monitoring Sheet", Coeff: 4},
+            {Title: "Product Temperature in Service Fridge Monitoring Sheet", Coeff: 4},
+            {Title: "Smoked Meat Reheating Monitoring Sheet", Coeff: 4},
+            {Title: "Smoked Meat Hot Holding Monitoring Sheet", Coeff: 4}
+        );
+        ClearCollect(
+            colFoodSafetyCulture,
+            {
+                Title: "Presence of a strong food safety culture and commitment to Food Safety Standards from the upper management of the store and other employees",
+                Coeff: 6
+            }
+        );
+        
+        ClearCollect(
+            colFoodSafetyPolicies,
+            {Title: "Vegetables and fruit disinfection policy is present", Coeff: 4},
+            {Title: "Food Safety Posters are placed visible to employees (Report illness, Good Personal Hygiene, Bad Personal Hygiene, Food Storage, Temperature and Bacteria, When to Wash Your Hands, No Smoking)", Coeff: 6},
+            {Title: "Personal Hygiene Policy and attendance sheet are present", Coeff: 4},
+            {Title: "Visitors are given a gown before entering service/production area", Coeff: 4},
+            {Title: "Allergen policy is present", Coeff: 4},
+            {Title: "Equipment color coding policy is present", Coeff: 4},
+            {Title: "Butchery Section in Retail Store and attendance sheet are present", Coeff: 4},
+            {Title: "Glass policy is present", Coeff: 4},
+            {Title: "Shelf life policy is present", Coeff: 4},
+            {Title: "Presence of Allergen Matrix & List of Ingredients for Catering non-prepacked", Coeff: 4},
+            {Title: "Rotisserie Cleaning Procedure is present", Coeff: 4},
+            {Title: "Oil Filter Procedure is present", Coeff: 4},
+            {Title: "Salmon Sashimi policy is present", Coeff: 2},
+            {Title: "Frying oil testing procedure is present", Coeff: 2},
+            {Title: "Equipment Calibration & Verification Procedure is present", Coeff: 2},
+            {Title: "Sushi Rice Procedure is present", Coeff: 2},
+            {Title: "First aid kit is placed outside of food production and food storage area", Coeff: 2},
+            {Title: "Policy for Microfibers in Stores is present", Coeff: 4},
+            {Title: "Hand Disinfecting Procedure in the smoker section is present", Coeff: 2},
+            {Title: "Smoker Section Food Safety Procedure is present", Coeff: 2}
+        );
+        
+        
+
+    RectQuickActionBar1_1 As rectangle:
+        Height: =64
+        Width: =1366
+        ZIndex: =1
+
+    Icon3_13 As icon:
+        Color: =RGBA(255, 255, 255, 1)
+        Icon: =Icon.BackArrow
+        OnSelect: =Navigate(Screen1)
+        ZIndex: =2
+
+    LblAppName1_1 As label:
+        Align: =Align.Center
+        BorderColor: =RGBA(0, 0, 0, 1)
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =64
+        PaddingLeft: =0
+        Size: =18
+        Text: ="Email"
+        Width: =564
+        Wrap: =false
+        X: =408
+        ZIndex: =3
+
+    iconMail1_1 As icon:
+        Color: =RGBA(255, 255, 255, 1)
+        DisabledFill: =RGBA(240, 240, 240, 0.5)
+        DisplayMode: |-
+            =/*Email must have a subject and recipients to be sent*/
+            If(Len(Trim(TextEmailSubject1_1.Text)) > 0 && !IsEmpty(MyPeople), DisplayMode.Edit, DisplayMode.Disabled)
+        Icon: =Icon.Send
+        OnSelect: |-
+            =/*Create semicolon separated list of people to email, send the email, reset subject & message fields*/           
+            Set(_emailRecipientString, Concat(MyPeople, Mail & ";"));           
+            Office365Outlook.SendEmailV2(_emailRecipientString, TextEmailSubject1_1.Text, RTEBody_1.HtmlText & "<br><br>" & HtmlText1_1.HtmlText, {Importance:"Normal"});           
+            Reset(TextEmailSubject1_1);           
+            Reset(RTEBody_1);           
+            Clear(MyPeople)
+        PaddingBottom: =14
+        PaddingLeft: =14
+        PaddingRight: =14
+        PaddingTop: =14
+        PressedFill: =RGBA(255, 255, 255, 0.3)
+        Tooltip: ="Send message"
+        X: =Parent.Width - Self.Width
+        ZIndex: =4
+
+    LblRecipientCount1_1 As label:
+        BorderColor: =RGBA(0, 0, 0, 1)
+        PaddingLeft: =0
+        Text: ="*To (" &CountRows(MyPeople) & ")"
+        Width: =EmailPeopleGallery1_1.Width
+        Wrap: =false
+        X: =32
+        Y: =73
+        ZIndex: =5
+
+    RTEBody_1 As richTextEditor:
+        Default: |
+            =$"
+            <div>
+              🏬 <b>Store Name:</b> {TemplateGalleryList1.Selected.'Store Name'}<br>--------------------------------------------------------------------------------------<br>
+              🧾 <b>Checklist ID:</b> {TemplateGalleryList1.Selected.'Document Number'}<br>--------------------------------------------------------------------------------------<br>
+              📅 <b>Issued Date:</b> {Text(TemplateGalleryList1.Selected.Created, "[$-en-US]yyyy-mm-dd")}<br>--------------------------------------------------------------------------------------<br>
+              👤 <b>Created By:</b> {TemplateGalleryList1.Selected.'Created By'.DisplayName}<br>--------------------------------------------------------------------------------------<br>
+              ✅ <b>Filled:</b> {TemplateGalleryList1.Selected.Filled}<br>--------------------------------------------------------------------------------------<br>
+              🔗 <b>Checklist Link:</b> 
+              <a href='https://apps.powerapps.com/play/e/default-b99fc2f6-d65e-4b48-935b-118659097da7/a/302bd67c-face-49a8-86c6-638984ac4ec9?tenantId=b99fc2f6-d65e-4b48-935b-118659097da7&hint=21eabc26-62f7-40be-b0de-253d38968ac6&sourcetime=1749799135465&&Source=ChecklistView&itemID={TemplateGalleryList1.Selected.ID}' target='_blank'>Open Checklist</a>
+            
+              </a>
+            </div>"
+        Height: =151
+        Width: =1307
+        X: =59
+        Y: =90
+        ZIndex: =6
+
+    TextSearchBox1_1 As text:
+        AccessibleLabel: ="Search people or add email address. At least one recipient is required for a successful submission."
+        Default: =
+        HintText: ="Search people or add email address"
+        PaddingLeft: =50
+        Width: =Parent.Width - Self.X * 2
+        X: =32
+        Y: =LblRecipientCount1_1.Y + LblRecipientCount1_1.Height + 3
+        ZIndex: =7
+
+    SearchIcon1_1 As icon:
+        Height: =Self.Width
+        Icon: =Icon.Search
+        PaddingBottom: =8
+        PaddingLeft: =8
+        PaddingRight: =8
+        PaddingTop: =8
+        Tooltip: ="Search"
+        Width: =TextSearchBox1_1.Height
+        X: =TextSearchBox1_1.X + 5
+        Y: =TextSearchBox1_1.Y
+        ZIndex: =8
+
+    AddIcon1_1 As icon:
+        Height: =TextSearchBox1_1.Height
+        Icon: =Icon.Add
+        OnSelect: |-
+            =Collect(MyPeople,           
+            {DisplayName: TextSearchBox1_1.Text, UserPrincipalName: TextSearchBox1_1.Text, Mail: TextSearchBox1_1.Text});           
+            Reset(TextSearchBox1_1)
+        PaddingBottom: =5
+        PaddingLeft: =5
+        PaddingRight: =5
+        PaddingTop: =5
+        TabIndex: =0
+        Tooltip: ="Select to add user to collection"
+        Visible: |-
+            =!IsBlank(TextSearchBox1_1.Text) &&           
+            
+            /*Is user entry a valid email address*/           
+            IsMatch(TextSearchBox1_1.Text, Match.Email)           &&
+            
+            Not(Trim(TextSearchBox1_1.Text) in MyPeople.UserPrincipalName)
+        Width: =70
+        X: =TextSearchBox1_1.X + TextSearchBox1_1.Width - Self.Width - 10
+        Y: =TextSearchBox1_1.Y
+        ZIndex: =9
+
+    EmailPeopleGallery1_1 As gallery.SelectedUsersTabletGallery:
+        '#CopilotOverlayLabel': ="Filtered"
+        AccessibleLabel: ="User selected people"
+        BorderColor: =TextSearchBox1_1.BorderColor
+        Height: |-
+            =/*Height adjusts to number of items in gallery*/
+            Min((Self.TemplateHeight + Self.TemplatePadding * 2) * RoundUp(CountRows(Self.AllItems) / 4, 0), 182)
+        Items: |-
+            =/*Collection of user selected people*/
+            MyPeople
+        Layout: =Layout.Vertical
+        ShowScrollbar: =Self.Height >= 182
+        TemplateSize: =42
+        Width: =Parent.Width - Self.X * 2
+        WrapCount: =4
+        X: =27
+        Y: =TextSearchBox1_1.Y + TextSearchBox1_1.Height
+        ZIndex: =10
+
+        Rectangle1_2 As rectangle:
+            Height: =Parent.TemplateHeight
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            ZIndex: =1
+
+        Title2_1 As label:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            FocusedBorderThickness: =2
+            Height: =EmailPeopleGallery1_1.TemplateHeight
+            OnSelect: =Set(_selectedUser, ThisItem)
+            PaddingLeft: =10
+            TabIndex: =If(PeopleBrowseGallery1_1.Visible, -1, 0)
+            Text: =ThisItem.DisplayName
+            Width: =EmailPeopleGallery1_1.TemplateWidth - iconRemove1_1.Width + 10
+            Wrap: =false
+            ZIndex: =2
+
+        iconRemove1_1 As icon:
+            AccessibleLabel: =iconRemove1_1.Tooltip
+            Color: =Title2_1.Color
+            Height: =EmailPeopleGallery1_1.TemplateHeight
+            Icon: =Icon.Cancel
+            OnSelect: =Remove(MyPeople, LookUp(MyPeople, UserPrincipalName = ThisItem.UserPrincipalName))
+            PaddingBottom: =9
+            PaddingLeft: =9
+            PaddingRight: =9
+            PaddingTop: =9
+            TabIndex: =If(PeopleBrowseGallery1_1.Visible, -1, 0)
+            Tooltip: ="Select to remove user from collection"
+            Width: =Self.Height
+            X: =EmailPeopleGallery1_1.TemplateWidth - Self.Width
+            ZIndex: =3
+
+    PeopleBrowseGallery1_1 As gallery.PeoplePickerGallerySmallTablet:
+        '#CopilotOverlayLabel': ="Filtered"
+        AccessibleLabel: ="User look up search results"
+        BorderThickness: =2
+        Fill: =Parent.Fill
+        Height: =If(Self.Visible, Parent.Height / 2 + 200, 0)
+        Items: |-
+            =/*Only use Office 365 Users operation if user has started searching*/
+            If(!IsBlank(Trim(TextSearchBox1_1.Text)), Office365Users.SearchUser({searchTerm: Trim(TextSearchBox1_1.Text), top: 15}))
+        Layout: =Layout.Vertical
+        TemplatePadding: =0
+        TemplateSize: =104
+        Visible: =!IsBlank(Trim(TextSearchBox1_1.Text))
+        Width: =Parent.Width - Self.X * 2
+        X: =32
+        Y: =TextSearchBox1_1.Y + TextSearchBox1_1.Height
+        ZIndex: =11
+
+        Rectangle3_2 As rectangle:
+            BorderColor: =Title3_1.Color
+            BorderThickness: =If(ThisItem.UserPrincipalName in MyPeople.UserPrincipalName, 4, 0)
+            Fill: =RGBA(0,0,0,0)
+            Height: =Parent.TemplateHeight
+            HoverFill: =RGBA(0,0,0,0)
+            OnSelect: =Select(Title3_1)
+            Width: =Parent.TemplateWidth
+            ZIndex: =4
+
+        Title3_1 As label:
+            BorderColor: =Self.Color
+            FocusedBorderThickness: =2
+            OnSelect: |-
+                =/*Select user, clear search contents and if this user hasn't been added to MyPeople collection, add them*/
+                Concurrent(
+                Set(_selectedUser, ThisItem),
+                Reset(TextSearchBox1_1),
+                If(Not(ThisItem.UserPrincipalName in MyPeople.UserPrincipalName), Collect(MyPeople, ThisItem)))
+            Size: =17
+            TabIndex: =0
+            Text: =ThisItem.DisplayName
+            Width: =PeopleBrowseGallery1_1.TemplateWidth - 2 * Self.X
+            Wrap: =false
+            X: =16
+            Y: =4
+            ZIndex: =5
+
+        Subtitle2_1 As label:
+            Color: =ColorFade(Title3_1.Color, 0.20)
+            FocusedBorderThickness: =2
+            OnSelect: =Select(Title3_1)
+            Size: =17
+            Text: =ThisItem.UserPrincipalName
+            Width: =PeopleBrowseGallery1_1.TemplateWidth - 2 * Self.X
+            Wrap: =false
+            X: =Title3_1.X
+            Y: =Title3_1.Y + Title3_1.Height + 3
+            ZIndex: =6
+
+        Separator1_1 As rectangle:
+            Fill: =RGBA(0, 18, 107, 1)
+            Height: =1
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            Y: =Parent.TemplateHeight - 1
+            ZIndex: =7
+
+    LblEmailSubject1_1 As label:
+        BorderColor: =RGBA(0, 0, 0, 1)
+        PaddingLeft: =0
+        Text: ="*Subject"
+        Width: =Parent.Width - Self.X * 2
+        Wrap: =false
+        X: =34
+        Y: =201
+        ZIndex: =12
+
+    TextEmailSubject1_1 As text:
+        AccessibleLabel: ="A subject is required to send an email."
+        Default: |-
+            =$" Area Manager Checklist:  { TemplateGalleryList1.Selected.'Store Name'}  Store"
+        HintText: ="Add a subject"
+        TabIndex: =If(PeopleBrowseGallery1_1.Visible, -1, 0)
+        Width: =Parent.Width - Self.X * 2
+        X: =37
+        Y: =241
+        ZIndex: =13
+
+    LblEmailMessage1_1 As label:
+        BorderColor: =RGBA(0, 0, 0, 1)
+        PaddingLeft: =0
+        Text: ="Message"
+        Width: =200
+        Wrap: =false
+        X: =109
+        Y: =281
+        ZIndex: =14
+
+    HtmlText1_1 As htmlViewer:
+        Height: =317
+        HtmlText: |-
+            =// --- CSS STYLE DEFINITIONS ---
+            // Level 1: Define the core theme values (colors, fonts).
+            With(
+                {
+                    primaryColor: "#2554C7",
+                    headerTextColor: "#FFFFFF",
+                    borderColor: "#000000",
+                    fontFamilyString: "Segoe UI, Arial, sans-serif"
+                },
+                // Level 2: Use the core values to build the CSS style strings.
+                With(
+                    {
+                        pageStyle: "padding:15px; font-family:" & fontFamilyString & ";",
+                        h3Style: "color:" & primaryColor & "; border-bottom: 2px solid " & primaryColor & "; padding-bottom: 5px; margin-top: 30px;",
+                        tableStyle: "border-collapse:collapse; width:100%; margin-top:10px;",
+                        thStyle: "background-color:" & primaryColor & "; color:" & headerTextColor & "; padding:12px; text-align:left;",
+                        tdStyle: "padding:10px; border-bottom:1px solid " & borderColor & "; vertical-align:top;",
+                        imgStyle: "width:80px; height:80px; border-radius:4px; object-fit:cover;"
+                    },
+            
+                    // --- HTML BODY ---
+                    "<div style='" & pageStyle & "'>" &
+            
+                    // --- Main Header ---
+                    "<u>Checklist ID:</u> " & Label1.Text & "<br>" &
+                    "<u>Store Name:</u> " & Label2.Text & "<br><br>" &
+            
+                    // --- Chart Data Table ---
+                    "<h3 style='" & h3Style & "'>Chart Data Table</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Category</th>" &
+                            "<th style='" & thStyle & "'>Value</th>" &
+                        "</tr>" &
+                        Concat(
+                            colChartDatat,
+                            "<tr><td style='" & tdStyle & "'>" & Section & "</td><td style='" & tdStyle & "'><b>" & Score & "</b></td></tr>"
+                        ) &
+                    "</table>" &
+            
+                    // --- Food and storage Section ---
+                    "<h3 style='" & h3Style & "'>Food and storage Section - Score: " & foodScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colSRAFoodChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colFoodAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colFoodAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colFoodAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colFoodAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colFoodAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Fridges Section ---
+                    "<h3 style='" & h3Style & "'>Fridges Section - Score: " & fridgesScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colSRAFridgesChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRAFRidgesAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Utensils and Equipment Section ---
+                    "<h3 style='" & h3Style & "'>Utensils and Equipment - Score: " & UtensilsScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colSRAUtensilsChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRAUtensilsAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Food Handling Section ---
+                    "<h3 style='" & h3Style & "'>Food Handling - Score: " & foodhScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colSRAFoodHandlingChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAFoodhAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAFoodhAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRAFoodhAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRAFoodhAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAFoodhAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Cleaning and Disinfection Section ---
+                    "<h3 style='" & h3Style & "'>Cleaning and Disinfection - Score: " & cndScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colSRACleaningChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRACndAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRACndAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRACndAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRACndAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRACndAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Personal Hygiene Section ---
+                    "<h3 style='" & h3Style & "'>Personal Hygiene - Score: " & hygscore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colSRAPersonalHygieneChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAHYGAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAHYGAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRAHYGAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRAHYGAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAHYGAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Restroom Section ---
+                    "<h3 style='" & h3Style & "'>Restrooms - Score: " & restroomScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colSRARestroomChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRARESTAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRARESTAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRARESTAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRARESTAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRARESTAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Garbage Section ---
+                    "<h3 style='" & h3Style & "'>Garbage Storage and Disposal - Score: " & garScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colSRAGarbageBinsChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAGARAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAGARAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRAGARAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRAGARAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAGARAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Maintenance Section ---
+                    "<h3 style='" & h3Style & "'>Maintenance - Score: " & MaintScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colFacilityChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAMAINAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAMAINAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRAMAINAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRAMAINAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAMAINAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Chemicals Available Section ---
+                    "<h3 style='" & h3Style & "'>Chemicals Available - Score: " & ChemScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colChemicalsChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRACHEMAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRACHEMAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRACHEMAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRACHEMAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRACHEMAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Monitoring Sheets Section ---
+                    "<h3 style='" & h3Style & "'>Monitoring Sheets are Properly Filled/ Documents Present - Score: " & MonitScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colMonitoringLogsChecklist,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAMonAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAMonAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRAMonAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRAMonAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAMonAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Food Safety Culture Section ---
+                    "<h3 style='" & h3Style & "'>Food Safety Culture of the Store - Score: " & cultScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colFoodSafetyCulture,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRACultAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRACultAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRACultAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRACultAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRACultAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    // --- Policies, Procedures & Posters Section ---
+                    "<h3 style='" & h3Style & "'>Policies, Procedures & Posters - Score: " & polScore & "</h3>" &
+                    "<table style='" & tableStyle & "'>" &
+                        "<tr>" &
+                            "<th style='" & thStyle & "'>Title</th>" &
+                            "<th style='" & thStyle & "'>Coef</th>" &
+                            "<th style='" & thStyle & "'>Answer</th>" &
+                            "<th style='" & thStyle & "'>Comments</th>" &
+                            "<th style='" & thStyle & "'>Picture</th>" &
+                            "<th style='" & thStyle & "'>Corrective Action</th>" &
+                        "</tr>" &
+                        Concat(
+                            colFoodSafetyPolicies,
+                            With({currentTitle: Title, Coeff: Coeff},
+                                "<tr>" &
+                                    "<td style='" & tdStyle & "'>" & currentTitle & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & Text(Coeff) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAPOLIAnswers, Title = currentTitle, Value) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAPOLIAnswers, Title = currentTitle, comment) & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & If(!IsBlank(LookUp(colSRAPOLIAnswers, Title = currentTitle, Picture)), "<img src='" & LookUp(colSRAPOLIAnswers, Title = currentTitle, Picture) & "' style='" & imgStyle & "'>", "") & "</td>" &
+                                    "<td style='" & tdStyle & "'>" & LookUp(colSRAPOLIAnswers, Title = currentTitle, correctedaction) & "</td>" &
+                                "</tr>"
+                            )
+                        ) &
+                    "</table>" &
+            
+                    "</div>" // This closes the main container div
+                )
+            )             
+        Width: =1275
+        X: =57
+        Y: =450
+        ZIndex: =15
+

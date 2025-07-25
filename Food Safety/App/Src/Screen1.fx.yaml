@@ -1,0 +1,78 @@
+"Screen1 As screen.'autoLayout_HeaderFooter_ver1.0'":
+    BackgroundImage: =
+    Fill: =RGBA(255, 201, 14, 1)
+
+    Container1 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Semilight
+        Height: =109
+        Width: =1366
+        Y: =8
+        ZIndex: =1
+
+        Header2 As Header:
+            Align: =Align.Center
+            DisplayMode: =DisplayMode.Edit
+            Fill: =RGBA(255, 201, 14, 1)
+            Height: =109
+            Logo: =images
+            OnSelectLogo: =false
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            Title: ="Project list"
+            TitleRole: =""
+            UserEmail: =User().Email
+            UserImage: =User().Image
+            UserImageAltText: =User().FullName &" profile picture"
+            UserName: =User().FullName
+            Width: =1366
+            X: =0
+            Y: =0
+            ZIndex: =1
+
+    Container2 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Semilight
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =75
+        Width: =447
+        X: =90
+        Y: =249
+        ZIndex: =5
+
+        Button1 As button:
+            BorderStyle: =BorderStyle.Dotted
+            BorderThickness: =1
+            Fill: =RGBA(166, 215, 153, 1)
+            FontWeight: =FontWeight.Bold
+            Height: =75
+            HoverFill: =ColorFade(Self.Fill, -20%)
+            OnSelect: =Navigate('Food Safety Checklist')
+            PaddingBottom: =20
+            PaddingLeft: =20
+            PaddingRight: =20
+            PaddingTop: =20
+            TabIndex: =10
+            Text: ="Food Safety Checklist"
+            Width: =447
+            ZIndex: =2
+
+    Button1_1 As button:
+        BorderStyle: =BorderStyle.Dotted
+        BorderThickness: =1
+        Fill: =RGBA(166, 215, 153, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =74
+        HoverFill: =ColorFade(Self.Fill, -20%)
+        OnSelect: =Navigate('Food Safety Checklist')
+        PaddingBottom: =20
+        PaddingLeft: =20
+        PaddingRight: =20
+        PaddingTop: =20
+        TabIndex: =10
+        Text: ="Food Safety Checklist"
+        Width: =447
+        X: =792
+        Y: =249
+        ZIndex: =6
+

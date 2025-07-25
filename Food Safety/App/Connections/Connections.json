@@ -1,0 +1,234 @@
+{
+  "2261639b-036a-4547-b94a-a8ac3e8293ae": {
+    "appActions": [
+      "SearchUser"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1751/1.0.1751.4213/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "2261639b-036a-4547-b94a-a8ac3e8293ae"
+  },
+  "8c447bdc-113d-448d-8649-3cade6af9371": {
+    "appActions": [
+      "Run"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Logic flows",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1752/1.0.1752.4216/logicflows/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_logicflows",
+      "parameterHints": {
+        "9aa20aa8-d2fe-486b-99bc-2d61bda02ed9": {
+          "value": "shared_sharepointonline"
+        },
+        "workflowDisplayName": {
+          "value": "Upload Image to Sharepoint V2"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "6572ba1b-3d5e-4472-bcd7-cbc94b7ff41e"
+        }
+      },
+      "parameterHintsV2": {
+        "shared_sharepointonline": {
+          "value": "9aa20aa8-d2fe-486b-99bc-2d61bda02ed9"
+        },
+        "workflowDisplayName": {
+          "value": "Upload Image to Sharepoint V2"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "6572ba1b-3d5e-4472-bcd7-cbc94b7ff41e"
+        }
+      }
+    },
+    "datasets": {},
+    "dataSources": [
+      "UploadImagetoSharepointV2"
+    ],
+    "dependencies": {
+      "shared_sharepointonline": "9aa20aa8-d2fe-486b-99bc-2d61bda02ed9"
+    },
+    "dependents": [],
+    "id": "8c447bdc-113d-448d-8649-3cade6af9371"
+  },
+  "9aa20aa8-d2fe-486b-99bc-2d61bda02ed9": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write",
+      "providers/PowerPlatform.Governance/Operations/Delete"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1754/1.0.1754.4231/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://spinneysleb.sharepoint.com/operations": {
+        "dataSources": {
+          "Chemicals Available": {
+            "tableName": "1d779ab4-a049-42cd-97e3-45fdf8eccf6a"
+          },
+          "CImages": {
+            "tableName": "abb703bc-835c-4671-bad0-2f89956e3b74"
+          },
+          "Cleaning and Disinfection": {
+            "tableName": "7b3b1ecc-2358-4012-a4aa-6ee9da76c477"
+          },
+          "Food Handling": {
+            "tableName": "750588f5-3fdc-45e3-a845-cafb2fff819f"
+          },
+          "Food Safety Culture of the Store": {
+            "tableName": "30fe7a0e-9991-472b-9006-7a8da726fe14"
+          },
+          "Food Storage and Dry Storage": {
+            "tableName": "7c035689-ebca-4ceb-abd5-f438a0393a29"
+          },
+          "Fridges and Freezers": {
+            "tableName": "26ba2483-5055-4391-aea7-e2e820eecbdd"
+          },
+          "FS Survey": {
+            "tableName": "4c1dab88-b50a-4af3-86ac-f2c63fe7a023"
+          },
+          "Garbage Storage and Disposal": {
+            "tableName": "95894543-0726-4742-b6d6-a72cb552f875"
+          },
+          "Maintenance": {
+            "tableName": "b0302ee3-db95-4b81-8f47-4bd3ff5bdc85"
+          },
+          "Monitoring Sheets are Properly Filled/ Documents Present": {
+            "tableName": "c7609ce4-84cb-437d-9c64-8c80a3727498"
+          },
+          "Personal Hygiene": {
+            "tableName": "2d422d53-91da-4874-b00e-7c2390eb1a95"
+          },
+          "Policies, Procedures & Posters": {
+            "tableName": "4b2792cc-2124-45b1-a602-25ee6264975e"
+          },
+          "Projects": {
+            "tableName": "aa4a5055-42e5-4ac0-83f9-ec3b11025d5a"
+          },
+          "Projects_1": {
+            "tableName": "aa4a5055-42e5-4ac0-83f9-ec3b11025d5a"
+          },
+          "Restrooms": {
+            "tableName": "115e58c0-dd8f-40ba-be34-75d850ea6268"
+          },
+          "SRA Chemicals Available": {
+            "tableName": "ff8e0280-b7a0-4e13-ade2-a7b1fe7a0bba"
+          },
+          "SRA Cleaning and Disinfection": {
+            "tableName": "fbf6974f-3f13-4ff2-a660-bf7b8a334d3b"
+          },
+          "SRA Culture": {
+            "tableName": "1633850d-7803-4285-8068-f0b8cca8bede"
+          },
+          "SRA Food Handling": {
+            "tableName": "f9fb1c40-8bda-4d49-9aab-65af576742ba"
+          },
+          "SRA Fridges": {
+            "tableName": "59666c13-ebce-43b0-9a42-f171ef4d0347"
+          },
+          "SRA Garbage Storage and Disposal": {
+            "tableName": "ed429d5f-4003-4175-8b9e-a7df261692ba"
+          },
+          "SRA Maintenance": {
+            "tableName": "a00c817a-eaf5-4d3f-890c-4f6aa240ca0a"
+          },
+          "SRA Monitoring Sheets are Properly Filled/ Documents Present": {
+            "tableName": "ac20a6bd-d580-4950-9f65-01df6d902101"
+          },
+          "SRA Personal Hygiene": {
+            "tableName": "19aa61a9-8145-4938-bae2-5759a52a00e4"
+          },
+          "SRA Policies, Procedures & Posters": {
+            "tableName": "4f7a57e1-247b-4113-acbe-b4ac987b44a3"
+          },
+          "SRA Restrooms": {
+            "tableName": "7f95d207-b9bf-48a8-93f1-f3ae9c884209"
+          },
+          "SRA Utensils and Equipment": {
+            "tableName": "d2b5e2f0-0c56-41de-a014-29366c2f0fdb"
+          },
+          "Survey Responses List": {
+            "tableName": "a20f8925-4733-48ae-9c75-77e4f585c76b"
+          },
+          "Utensils and Equipment": {
+            "tableName": "212bed19-2e62-42c8-a85f-456fba96074f"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Food Storage and Dry Storage",
+      "Survey Responses List",
+      "Garbage Storage and Disposal",
+      "SRA Garbage Storage and Disposal",
+      "Utensils and Equipment",
+      "SRA Utensils and Equipment",
+      "SRA Fridges",
+      "SRA Food Handling",
+      "Food Handling",
+      "SRA Cleaning and Disinfection",
+      "Cleaning and Disinfection",
+      "Chemicals Available",
+      "SRA Chemicals Available",
+      "SRA Personal Hygiene",
+      "Personal Hygiene",
+      "Restrooms",
+      "SRA Restrooms",
+      "Maintenance",
+      "SRA Maintenance",
+      "SRA Policies, Procedures & Posters",
+      "SRA Monitoring Sheets are Properly Filled/ Documents Present",
+      "Policies, Procedures & Posters",
+      "Monitoring Sheets are Properly Filled/ Documents Present",
+      "Fridges and Freezers",
+      "FS Survey",
+      "Projects",
+      "Projects_1",
+      "CImages",
+      "SRA Culture",
+      "Food Safety Culture of the Store"
+    ],
+    "dependencies": {},
+    "dependents": [
+      "8c447bdc-113d-448d-8649-3cade6af9371"
+    ],
+    "id": "9aa20aa8-d2fe-486b-99bc-2d61bda02ed9"
+  },
+  "afb6e328-0bc1-40ec-a33e-3107af9ac03a": {
+    "appActions": [
+      "SendEmailV2"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Outlook",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1757/1.0.1757.4253/office365/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Outlook"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "afb6e328-0bc1-40ec-a33e-3107af9ac03a"
+  }
+}

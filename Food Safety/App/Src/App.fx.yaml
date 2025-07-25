@@ -1,0 +1,55 @@
+App As appinfo:
+    BackEnabled: =true
+    Formulas: |-
+        =//Set Theme Colors
+        
+        CustomeTheme = {
+                PrimaryColor:RGBA(246,246,250,1),
+                PrimaryColor_Text:"RGBA(246,246,250,1)",
+        
+                SecondaryColor:RGBA(0,142,210,1),
+                SecondaryColor_Text:"RGBA(0,142,210,1)",
+        
+                TertiaryColor: RGBA(0,117,153,1),
+                TertiaryColor_Text: "RGBA(0,142,210,1)",
+        
+                PrimaryTextColor :RGBA(35,36,47,1)
+        
+        
+        
+        
+        };
+    OnStart: |-
+        =ClearCollect(
+            PageSequence,
+            {PageName: Food,PageSequenceIndex: 0},
+            {PageName: Fridges,PageSequenceIndex: 1},
+            {PageName: Utensils,PageSequenceIndex: 2},
+            {PageName: Foodh,PageSequenceIndex: 3},
+            {PageName: Cnd,PageSequenceIndex: 4},
+            {PageName: Hygiene,PageSequenceIndex: 5},
+            {PageName: Restroom,PageSequenceIndex: 6},
+            {PageName: Garbage,PageSequenceIndex: 7},
+            {PageName: Maintenances,PageSequenceIndex: 8},
+            {PageName: ChemicalAvailabe,PageSequenceIndex: 9},
+            {PageName: MonitoringSheets,PageSequenceIndex: 10},
+            {PageName: PolicesndProcedure,PageSequenceIndex: 11}    
+           
+        );
+        Set(currentPageIndex, 0);
+        
+        If(
+            User().Email = "Muhammad.Shammas@gmrlgroup.com", 
+            Set(varUserRole, "Admin"), 
+            Set(varUserRole, "User")
+        )
+    StartScreen: =Screen1
+    Theme: =SharePointTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

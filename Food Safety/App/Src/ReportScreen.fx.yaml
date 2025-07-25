@@ -1,0 +1,430 @@
+ReportScreen As screen:
+    Fill: =RGBA(255,255,255,1)
+    Height: =1600
+    LoadingSpinnerColor: =RGBA(56, 96, 500, 1)
+    OnVisible: |+
+        =ClearCollect(
+            colChartDatat,
+            With(
+                {
+                    surveyItem: LookUp('FS Survey', 'Document Number' = NewDocumentNumber)
+                },
+                Table(
+                    {
+                        Section: "Food", 
+                        Score: Text(RoundUp(surveyItem.FoodScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.FoodScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.FoodScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Fridges", 
+                        Score: Text(RoundUp(surveyItem.FridgesScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.FridgesScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.FridgesScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Utensils", 
+                        Score: Text(RoundUp(surveyItem.UtensilsScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.UtensilsScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.UtensilsScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Food Handling", 
+                        Score: Text(RoundUp(surveyItem.FoodHScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.FoodHScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.FoodHScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "CND", 
+                        Score: Text(RoundUp(surveyItem.CNDScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.CNDScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.CNDScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Hygiene", 
+                        Score: Text(RoundUp(surveyItem.HygScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.HygScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.HygScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Restroom", 
+                        Score: Text(RoundUp(surveyItem.RestroomScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.RestroomScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.RestroomScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Garbage", 
+                        Score: Text(RoundUp(surveyItem.GarScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.GarScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.GarScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Maintenance", 
+                        Score: Text(RoundUp(surveyItem.MaintScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.MaintScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.MaintScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Chemicals", 
+                        Score: Text(RoundUp(surveyItem.ChemScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.ChemScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.ChemScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Monitoring", 
+                        Score: Text(RoundUp(surveyItem.MonitScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.MonitScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.MonitScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Policies", 
+                        Score: Text(RoundUp(surveyItem.PolScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.PolScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.PolScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Culture", 
+                        Score: Text(RoundUp(surveyItem.CultScore, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.CultScore, 0) = 0, "⚪",
+                                RoundUp(surveyItem.CultScore, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    },
+                    {
+                        Section: "Total", 
+                        Score: Text(RoundUp(surveyItem.Score, 0)) & " " & 
+                            If(
+                                RoundUp(surveyItem.Score, 0) = 0, "⚪",
+                                RoundUp(surveyItem.Score, 0) < 83, "🔴",
+                                "🟢"
+                            ),
+                        OldAudit: surveyItem.Cycle
+                    }
+                )
+            )
+        );
+        
+        ClearCollect(
+            colChartData,
+            With(
+                {
+                    surveyItem: LookUp('FS Survey', 'Document Number' = NewDocumentNumber)
+                },
+                Table(
+                    { Section: "Food", Score: RoundUp(surveyItem.FoodScore, 0)},
+                    { Section: "Fridges", Score: surveyItem.FridgesScore },
+                    { Section: "Utensils", Score: surveyItem.UtensilsScore },
+                    { Section: "Food Handling", Score: surveyItem.FoodHScore },
+                    { Section: "CND", Score: surveyItem.CNDScore },
+                    { Section: "Hygiene", Score: surveyItem.HygScore },
+                    { Section: "Restroom", Score: surveyItem.RestroomScore },
+                    { Section: "Garbage", Score: surveyItem.GarScore },
+                    { Section: "Maintenance", Score: surveyItem.MaintScore },
+                    { Section: "Chemicals", Score: surveyItem.ChemScore },
+                    { Section: "Monitoring", Score: surveyItem.MonitScore },
+                    { Section: "Policies", Score: surveyItem.PolScore },
+                    { Section: "Culture", Score: surveyItem.CultScore }
+                   
+                )
+            )
+        );
+        
+    Width: =1200
+
+    ButtonCanvas1 As Button:
+        AcceptsFocus: =true
+        AccessibleLabel: =""
+        Align: =""
+        Appearance: ="Primary"
+        BorderStyle: =""
+        ContentLanguage: =""
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontItalic: =false
+        FontSize: =0
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =33
+        Icon: ="Mail"
+        IconRotation: =0
+        IconStyle: ="Outline"
+        Layout: ="Icon before"
+        OnSelect: |
+            =Office365Outlook.SendEmailV2(
+                User().Email,
+                "FS Survey Report - Full Overview",
+                Concatenate(
+                    "<html><body style='font-family:Segoe UI, sans-serif; color:#333;'>",
+                    "<h2 style='color:#2F5597;'>FS Survey Results</h2>",
+                    "<p style='margin-bottom:20px;'>Please see the attached chart visualization in the PDF below.</p>",
+                    "<table style='border-collapse: collapse; width: 100%;'>",
+                    "<tr>",
+                    "<th style='padding: 8px; background-color:#f2f2f2; border:1px solid #ccc;'>Section</th>",
+                    "<th style='padding: 8px; background-color:#f2f2f2; border:1px solid #ccc;'>Score</th>",
+                    "</tr>",
+                    Concat(
+                        colChartDatat,
+                        "<tr>" &
+                        "<td style='padding: 8px; border:1px solid #ccc;'>" & Section & "</td>" &
+                        "<td style='padding: 8px; border:1px solid #ccc;'>" & Text(Score, "[$-en-US]0.0") & "</td>" &
+                        "</tr>"
+                    ),
+                    "</table>",
+                    "<p style='margin-top:20px;'>Please find the full visual report attached as a PDF.</p>",
+                    "</body></html>"
+                ),
+                {
+                    Attachments: Table(
+                        {
+                            Name: "FS_Survey_Report.pdf",
+                            ContentBytes: PDF(
+                                ReportScreen,
+                                {ExpandContainers: true}
+                            )
+                        }
+                    ),
+                    IsHtml: true
+                }
+            )
+        TabIndex: =0
+        Text: ="Email PDF"
+        Tooltip: =""
+        VerticalAlign: =""
+        Visible: =true
+        Width: =122
+        X: =945
+        Y: =905
+        ZIndex: =1
+
+    ColumnChart3 As barChart:
+        BorderColor: =RGBA(0, 0, 10, 1)
+        Color: =RGBA(21, 43, 23, 1)
+        DisabledBorderColor: =RGBA(166, 166, 190, 1)
+        GridStyle: =GridStyle.All
+        Height: =414
+        ItemColorSet: |
+            =ForAll(
+                colChartDatat,
+                If(
+                    Value(First(Split(Score, " ")).Value) > 83,
+                    RGBA(49, 130, 93, 1),  // Green
+                    RGBA(139, 0, 0, 1)
+            // Red
+                )
+            )
+        Items: =colChartData
+        Width: =888
+        X: =20
+        XLabelAngle: =70
+        Y: =1009
+        ZIndex: =2
+
+    Rectangle2 As rectangle:
+        Fill: |
+            =If(
+                LookUp('FS Survey', 'Document Number' = NewDocumentNumber, Score) < 83,
+                Color.Red,
+                Color.Green
+            )
+        X: =721
+        Y: =851
+        ZIndex: =3
+
+    Label1 As label:
+        Text: |-
+            ="Total Score: " & Text(
+                RoundUp(
+                    LookUp('FS Survey', 'Document Number' = NewDocumentNumber, Score),
+                    0
+                )
+            )
+        X: =705
+        Y: =740
+        ZIndex: =4
+
+    TextCanvas2 As Text:
+        Align: ="Start"
+        AutoHeight: =false
+        BorderStyle: =""
+        ContentLanguage: =""
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontItalic: =false
+        FontStrikethrough: =false
+        FontUnderline: =false
+        Height: =23
+        Size: =14
+        TabIndex: =0
+        Text: |-
+            =If(
+                LookUp('FS Survey', 'Document Number' = NewDocumentNumber, Score) < 83,
+                "Fail",
+                "Pass"
+            )
+        Tooltip: =""
+        VerticalAlign: =""
+        Visible: =true
+        Weight: ="Regular"
+        Width: =61
+        Wrap: =true
+        X: =739
+        Y: =889
+        ZIndex: =5
+
+    Label2 As label:
+        FontWeight: =FontWeight.Bold
+        Height: =68
+        Size: =28
+        Text: ="FS Survey Report" &"-- " & txtStoreName.Value
+        Width: =956
+        X: =244
+        Y: =33
+        ZIndex: =6
+
+    DataTable2 As dataTable.datatable:
+        BorderStyle: =BorderStyle.Solid
+        BorderThickness: =1
+        Color: =Color.DarkBlue
+        ContentLanguage: =""
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(0, 0, 0, 0)
+        FontWeight: =FontWeight.Bold
+        HeadingFill: =RGBA(166, 215, 153, 1)
+        HeadingFontWeight: =FontWeight.Bold
+        Height: =580
+        InvertedColor: =App.Theme.Colors.PrimaryForeground
+        Items: =colChartDatat
+        LinkColor: =App.Theme.Colors.Lighter10
+        maximumHeight: =7680
+        maximumWidth: =1366
+        minimumHeight: =20
+        minimumWidth: =20
+        NoDataText: ="We didn't find any data to show at this time"
+        PrimaryColor1: =App.Theme.Colors.Primary
+        PrimaryColor2: =App.Theme.Colors.Darker30
+        PrimaryColor3: =App.Theme.Colors.Lighter70
+        SelectedColor: =RGBA(0, 022, 01, 1)
+        UsePhoneLayout: =0
+        Visible: =true
+        Width: =541
+        X: =26
+        Y: =284
+        ZIndex: =8
+
+        OldAudit_Column2 As dataTableColumn.textualColumn:
+            AutoWidth: =false
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="OldAudit"
+            FieldName: ="OldAudit"
+            Height: =388
+            IsHyperlink: =false
+            LayoutHeight: =Parent.Height
+            LayoutWidth: =0
+            LayoutX: =0
+            LayoutY: =0
+            OnSelect: =false
+            Order: =4
+            Text: =ThisItem.OldAudit
+            Type: ="s"
+            Visible: =true
+            Width: =120
+            X: =727
+            Y: =315
+            ZIndex: =1
+
+        Score_Column2 As dataTableColumn.textualColumn:
+            AutoWidth: =false
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Audit1"
+            FieldName: ="Score"
+            Height: =Parent.Height
+            IsHyperlink: =false
+            LayoutHeight: =Parent.Height
+            LayoutWidth: =0
+            LayoutX: =0
+            LayoutY: =0
+            OnSelect: =false
+            Order: =2
+            Text: =ThisItem.Score
+            Type: ="s"
+            Visible: =true
+            Width: =156
+            X: =246
+            Y: =0
+            ZIndex: =2
+
+        Section_Column2 As dataTableColumn.textualColumn:
+            AutoWidth: =false
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Description"
+            FieldName: ="Section"
+            Height: =Parent.Height
+            IsHyperlink: =false
+            LayoutHeight: =Parent.Height
+            LayoutWidth: =0
+            LayoutX: =0
+            LayoutY: =0
+            OnSelect: =false
+            Order: =1
+            Text: =ThisItem.Section
+            Type: ="s"
+            Visible: =true
+            Width: =221
+            X: =54
+            Y: =0
+            ZIndex: =3
+

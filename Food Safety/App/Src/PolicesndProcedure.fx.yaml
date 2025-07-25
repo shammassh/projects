@@ -1,0 +1,730 @@
+PolicesndProcedure As screen:
+    OnVisible: |-
+        =Set(varStartTime, Now());
+        
+        // Retrieve the JSON response from your data source
+        Set(
+            varResponseJSON,
+            LookUp(
+                'SRA Policies, Procedures & Posters',
+                DocumentNumber = NewDocumentNumber,
+                ResponseJSON
+            )
+        );
+        
+        If(
+              Or(
+                varResponseJSON = "[]",  // Check if it's an empty JSON array
+                IsBlank(varResponseJSON)  // Check if it's blank (empty string)
+            ),
+          // Case 1: Initialize new collection (no quotes for new columns)
+            ClearCollect(
+                colSRAPOLIAnswers,
+                AddColumns(
+                    'Policies, Procedures & Posters',
+                    SelectedChoice, "",
+                    comment, "",
+                    correctedaction, "",
+                    Priority, "",
+                    Picture, "",
+                    Value,0,
+                    SelectedCr,""
+                )
+            )
+            ,
+          // Case 2: Load existing JSON (no quotes for JSON properties)
+         
+          ClearCollect(
+          colSRAPOLIAnswers,
+            ForAll(
+                ParseJSON(varResponseJSON),
+                {
+                Answer: Text(ThisRecord!Answer),
+                Title: Text(ThisRecord!Title), // Access properties with ! and convert to text
+                Coeff: Value(ThisRecord!Coeff), // Convert to number
+                SelectedChoice: Text(ThisRecord!SelectedChoice),
+                comment: Text(ThisRecord!comment),
+                correctedaction: Text(ThisRecord!correctedaction),
+                Priority: Text(ThisRecord!Priority),
+                Picture: Text(ThisRecord!Picture),
+                SelectedCr: Text(ThisRecord!SelectedCr),//only for Dropdown we need to add the defult and the loading 
+                cr: Text(ThisRecord!cr),//only for Dropdown we need to add the defult and the loading 
+        
+                // New calculated Value field
+                Value: Switch(
+                    Text(ThisRecord!SelectedChoice),
+                    "Yes", Value(ThisRecord!Coeff),
+                    "Partially", Value(ThisRecord!Coeff) / 2,
+                    "No", 0,
+                    "NA", Blank()
+                )
+                }
+            )
+          );
+          
+        );
+        
+        // OnVisible of the screen
+        Set(
+            polScore,
+            If(
+                IsBlank(Sum(Filter(colSRAPOLIAnswers, !IsBlank(Value)), Coeff)), 
+                0,  // Return 0 if the sum of Coeff is zero to avoid division by zero
+                Sum(
+                    Filter(colSRAPOLIAnswers, !IsBlank(Value)),  // Only include records where Value is not blank
+                    Value  // Sum of values
+                ) * 100 / Sum(
+                    Filter(colSRAPOLIAnswers, !IsBlank(Value)),  // Only include records where Value is not blank
+                    Coeff  // Sum of coefficients
+                )
+            )
+        );
+
+    Label1_11 As label:
+        FontWeight: =FontWeight.Bold
+        Text: ="Policies, Procedures & Posters"
+        Width: =276
+        X: =499
+        Y: =8
+        ZIndex: =1
+
+    "Gallery1_11 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+        DelayItemLoading: =true
+        Height: =629
+        Items: =colSRAPOLIAnswers
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        ShowNavigation: =true
+        TemplatePadding: =0
+        TemplateSize: =129
+        Width: =1213
+        Y: =75
+        ZIndex: =3
+
+        RectangleBox_12 As rectangle:
+            BorderColor: =RGBA(214, 221, 224, 1)
+            BorderThickness: =If(ThisItem.IsSelected,3,1)
+            Fill: =Color.Transparent
+            Height: =Parent.TemplateHeight
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            ZIndex: =2
+
+        Rectangle1_11 As rectangle:
+            Height: =
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =4
+            ZIndex: =3
+
+        Radio3_11 As radio:
+            Default: |-
+                =LookUp(
+                  colSRAPOLIAnswers, 
+                  Title = ThisItem.Title,  // Match the current question
+                  SelectedChoice           // Show the saved answer
+                )
+            Height: =96
+            Items: =Split(ThisItem.Answer, ",")
+            Layout: =Layout.Horizontal
+            OnSelect: |-
+                =// OnSelect property of Radio3
+                Patch(
+                    colSRAPOLIAnswers,
+                    LookUp(
+                        colSRAPOLIAnswers,
+                        Title = ThisItem.Title
+                    ),
+                    {
+                        SelectedChoice: Radio3_11.Selected.Value,
+                        Value: Switch(
+                            Radio3_11.Selected.Value,  // Now it can reference the existing SelectedChoice
+                            "Yes", ThisItem.Coeff,
+                            "Partially", ThisItem.Coeff / 2,
+                            "No", 0,
+                            "NA", Blank()
+                        )
+                    }
+                );
+                
+                // OnVisible of the screen
+                Set(
+                    polScore,
+                    If(
+                        IsBlank(Sum(Filter(colSRAPOLIAnswers, !IsBlank(Value)), Coeff)), 
+                        0,  // Return 0 if the sum of Coeff is zero to avoid division by zero
+                        Sum(
+                            Filter(colSRAPOLIAnswers, !IsBlank(Value)),  // Only include records where Value is not blank
+                            Value  // Sum of values
+                        ) * 100 / Sum(
+                            Filter(colSRAPOLIAnswers, !IsBlank(Value)),  // Only include records where Value is not blank
+                            Coeff  // Sum of coefficients
+                        )
+                    )
+                );
+            Width: =261
+            X: =271
+            ZIndex: =4
+
+        Title1_11 As label:
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =64
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Top
+            Width: =268
+            X: =18
+            Y: =16
+            ZIndex: =5
+
+        Dropdown1_11 As dropdown:
+            Default: |-
+                =LookUp(
+                  colSRAPOLIAnswers, 
+                  Title = ThisItem.Title,  // Match the current question
+                  Priority           // Show the saved answer
+                )
+            Items: |-
+                =Table({ Value:"Low" }, { Value:"Medium" }, { Value:"High" })
+            OnChange: |-
+                =// OnSelect property of Dropdown1
+                Patch(
+                    colSRAPOLIAnswers,
+                    LookUp(
+                        colSRAPOLIAnswers,
+                        Title = ThisItem.Title
+                    ),
+                    {Priority: Dropdown1_11.Selected.Value}
+                )
+            OnSelect: =
+            Width: =121
+            X: =549
+            Y: =16
+            ZIndex: =6
+
+        TextInput1_11 As text:
+            Default: |
+                =LookUp(colSRAPOLIAnswers, Title = ThisItem.Title, comment)
+            HintText: ="Comments"
+            OnChange: |-
+                =// OnSelect property of Textinput2
+                Patch(
+                  colSRAPOLIAnswers,
+                  ThisItem,
+                  {
+                     comment: TextInput1_11.Text }
+                 
+                )
+                 
+            OnSelect: |
+                =// OnSelect property of Textinput1
+                Patch(
+                  colSRAPOLIAnswers,
+                  LookUp(colSRAPOLIAnswers, Title = ThisItem.Title),
+                  {
+                     comment: TextInput1_11.Text }
+                 
+                )
+            Width: =226
+            X: =714
+            Y: =64
+            ZIndex: =7
+
+        TextInput2_11 As text:
+            Default: |-
+                =LookUp(
+                  colSRAPOLIAnswers, 
+                  Title = ThisItem.Title,  // Match the current question
+                  correctedaction         // Show the saved answer
+                )
+            Height: =32
+            HintText: ="Corrective action"
+            OnChange: |-
+                =// OnSelect property of Textinput2
+                Patch(
+                  colSRAPOLIAnswers,
+                  LookUp(colSRAPOLIAnswers, Title = ThisItem.Title),
+                  {
+                     correctedaction: TextInput2_11.Text }
+                 
+                )
+            OnSelect: =
+            Visible: =false
+            Width: =229
+            X: =768
+            Y: =64
+            ZIndex: =8
+
+        Subtitle1_11 As label:
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Coeff
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =false
+            Width: =Title1_11.Width
+            X: =Title1_11.X
+            Y: =Title1_11.Y + Title1_11.Height
+            ZIndex: =9
+
+        TextCanvas3_11 As Text:
+            DisplayMode: =DisplayMode.Edit
+            Height: =32
+            Text: =ThisItem.Value
+            Visible: =true
+            Width: =96
+            X: =1215
+            Y: =38
+            ZIndex: =10
+
+        DataCardValue42 As attachments:
+            BorderColor: =Color.Black
+            DisplayMode: =Parent.DisplayMode
+            Height: =129
+            IsInDataCard: =true
+            Items: =
+            OnAddFile: |
+                =Set(MyLink,
+                    UploadImagetoSharepointV2.Run({file:{contentBytes:Last(Self.Attachments).Value, name:Last(Self.Attachments).Name}})
+                );
+                // OnSelect property of Radio3
+                Patch(
+                    colSRAPOLIAnswers,
+                    LookUp(
+                        colSRAPOLIAnswers,
+                        Title = ThisItem.Title
+                    ),
+                    {
+                        Picture: MyLink.mylink
+                    }
+                );
+            PaddingBottom: =5
+            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+            PaddingRight: =5
+            PaddingTop: =5
+            Tooltip: =
+            Width: =83
+            X: =1110
+            ZIndex: =11
+
+        Image1_11 As image:
+            Image: =ThisItem.Picture
+            X: =957
+            Y: =1
+            ZIndex: =12
+
+        Dropdown3_12 As dropdown:
+            Default: |-
+                =LookUp(
+                  colSRAPOLIAnswers, 
+                  Title = ThisItem.Title,  // Match the current question
+                  SelectedCr           // Show the saved answer
+                )
+            HoverFill: =RGBA(166, 215, 153, 1)
+            Items: =Split(Trim(ThisItem.cr), ",")
+            OnChange: |-
+                =// OnSelect property of Radio3
+                Patch(
+                    colSRAPOLIAnswers,
+                    LookUp(
+                        colSRAPOLIAnswers,
+                        Title = ThisItem.Title
+                    ),
+                    {
+                        SelectedCr: Dropdown3_12.Selected.Value
+                    }
+                );
+            OnSelect: |-
+                =// OnSelect property of Radio3
+                Patch(
+                    colSRAPOLIAnswers,
+                    LookUp(
+                        colSRAPOLIAnswers,
+                        Title = ThisItem.Title
+                    ),
+                    {
+                        SelectedCr: Dropdown3_12.Selected.Value
+                    }
+                );
+            Tooltip: =
+            Width: =243
+            X: =714
+            Y: =12
+            ZIndex: =13
+
+    Button1_11 As button:
+        Height: =36
+        OnSelect: |+
+            =
+            Set(varEndTime, Now());
+            
+            // Calculate time difference in minutes (or seconds)
+            Set(varTimeSpentMinutes, DateDiff(varStartTime, varEndTime, "Minutes"));
+            
+            // Optional: Show the time spent in a label or notification
+            Notify("You spent " & varTimeSpentMinutes & " minutes on this checklist.", NotificationType.Information);
+            
+            // Then your existing Patch/Submit logic here...
+            Patch(
+                'FS Survey',
+                Defaults('FS Survey'),
+                {
+                    // your fields,
+                    TimeSpentMinutes: varTimeSpentMinutes
+                }
+            );
+            
+            
+            Patch(
+                'FS Survey',
+                Coalesce(
+                    LookUp('FS Survey', 'Document Number' = NewDocumentNumber),
+                    Defaults('FS Survey')
+                ),
+                {
+                    Title: NewDocumentNumber,
+                    'Document Number': NewDocumentNumber,
+                    'Store Name': txtStoreName.Value,
+                    Cycle: txtStoreName_1.Value,
+            
+                    // Section scores
+                    FoodScore: foodScore,
+                    FridgesScore: fridgesScore,
+                    UtensilsScore: UtensilsScore,
+                    FoodHScore: foodhScore,
+                    CNDScore: cndScore,
+                    HygScore: hygscore,
+                    RestroomScore: restroomScore,
+                    GarScore: garScore,
+                    MaintScore: MaintScore,
+                    ChemScore: ChemScore,
+                    MonitScore: MonitScore,
+                    PolScore: polScore,
+                    CultScore: cultScore,
+            
+                    // Average Score
+                    Score: With(
+                        {
+                            Scores: [
+                                { val: foodScore },
+                                { val: fridgesScore },
+                                { val: UtensilsScore },
+                                { val: foodhScore },
+                                { val: cndScore },
+                                { val: hygscore },
+                                { val: restroomScore },
+                                { val: garScore },
+                                { val: MaintScore },
+                                { val: ChemScore },
+                                { val: MonitScore },
+                                { val: cultScore },
+                                { val: polScore }
+                            ]
+                        },
+                        Sum(Filter(Scores, !IsBlank(val) && val <> 0), val) /
+                        CountRows(Filter(Scores, !IsBlank(val) && val <> 0))
+                    )
+                }
+            );
+            
+            
+            Patch(
+                'Survey Responses List',
+                Coalesce(
+                    LookUp('Survey Responses List', 'Document Number'=NewDocumentNumber),
+                    Defaults('Survey Responses List')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colFoodAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            Patch(
+                'SRA Fridges',
+                Coalesce(
+                    LookUp('SRA Fridges', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Fridges')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRAFRidgesAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            
+            Patch(
+                'SRA Utensils and Equipment',
+                Coalesce(
+                    LookUp('SRA Utensils and Equipment', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Utensils and Equipment')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRAUtensilsAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            Patch(
+                'SRA Food Handling',
+                Coalesce(
+                    LookUp('SRA Food Handling', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Food Handling')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRAFoodhAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            
+            Patch(
+                'SRA Cleaning and Disinfection',
+                Coalesce(
+                    LookUp('SRA Cleaning and Disinfection', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Cleaning and Disinfection')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRACndAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            Patch(
+                'SRA Personal Hygiene',
+                Coalesce(
+                    LookUp('SRA Personal Hygiene', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Personal Hygiene')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRAHYGAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            
+            Patch(
+                'SRA Restrooms',
+                Coalesce(
+                    LookUp('SRA Restrooms', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Restrooms')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRARESTAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            Patch(
+                'SRA Garbage Storage and Disposal',
+                Coalesce(
+                    LookUp('SRA Garbage Storage and Disposal', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Garbage Storage and Disposal')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRAGARAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            
+            Patch(
+                'SRA Maintenance',
+                Coalesce(
+                    LookUp('SRA Maintenance', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Maintenance')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRAMAINAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            
+            Patch(
+                'SRA Chemicals Available',
+                Coalesce(
+                    LookUp('SRA Chemicals Available', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Chemicals Available')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRACHEMAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            
+            Patch(
+                'SRA Monitoring Sheets are Properly Filled/ Documents Present',
+                Coalesce(
+                    LookUp('SRA Monitoring Sheets are Properly Filled/ Documents Present', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Monitoring Sheets are Properly Filled/ Documents Present')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRAMonAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            
+            Patch(
+                'SRA Culture',
+                Coalesce(
+                    LookUp('SRA Culture', 'Document Number'=NewDocumentNumber),
+                    Defaults('SRA Culture')
+                ),
+                {
+                    ResponseJSON: JSON(
+                       colSRACultAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    'Document Number': NewDocumentNumber
+                }
+            );
+            Patch(
+                'SRA Policies, Procedures & Posters',
+                Coalesce(
+                    LookUp('SRA Policies, Procedures & Posters', DocumentNumber=NewDocumentNumber),
+                    Defaults('SRA Policies, Procedures & Posters')
+                ),
+                {
+                    ResponseJSON: JSON(
+                        colSRAPOLIAnswers
+                        ,// Remove Attachments
+                        JSONFormat.IgnoreBinaryData & JSONFormat. IgnoreUnsupportedTypes
+                    ),
+                    DocumentNumber: NewDocumentNumber
+                }
+            );
+            Refresh('FS Survey');
+            UpdateContext({forceRefresh: !forceRefresh});
+            
+            
+            Notify("Survey submitted!");
+            
+            
+        Text: ="Submit"
+        Width: =114
+        X: =1250
+        Y: =205
+        ZIndex: =4
+
+    Header1_12 As Header:
+        Align: =Align.Center
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(174, 208, 221, 1)
+        Height: =75
+        IsLogoVisible: =false
+        OnSelectLogo: =false
+        Style: ='Header.Style'.Light
+        Title: ="Policies, Procedures & Posters"
+        TitleRole: =""
+        UserEmail: =User().Email
+        UserImage: =User().Image
+        UserImageAltText: =User().FullName &" profile picture"
+        UserName: =User().FullName
+        Width: =Parent.Width
+        X: =0
+        Y: =0
+        ZIndex: =5
+
+    TextCanvas5_11 As Text:
+        DisplayMode: =DisplayMode.Edit
+        Height: =32
+        Text: |
+            =$"Score " & Text(polScore, "[$-en-US]0.00")
+        Width: =96
+        X: =1238
+        Y: =75
+        ZIndex: =6
+
+    Icon6_11 As icon.BackArrow:
+        Icon: =Icon.BackArrow
+        OnSelect: =Navigate(culture)
+        Y: =704
+        ZIndex: =7
+
+    TextCanvas4_11 As Text:
+        Align: ='TextCanvas.Align'.Start
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =32
+        Text: = "Page " & currentPageIndex +12
+        Width: =96
+        X: =602
+        Y: =733
+        ZIndex: =9
+
+    Icon5 As icon.DocumentPDF:
+        Icon: =Icon.DocumentPDF
+        OnSelect: =Navigate(ReportScreen)
+        X: =25
+        Y: =8
+        ZIndex: =10
+
+    ButtonCanvas3 As Button:
+        DisplayMode: =DisplayMode.Edit
+        Height: =27
+        Icon: ="Home"
+        OnSelect: =Navigate('Food Safety Checklist')
+        Text: =
+        Width: =61
+        X: =1255
+        Y: =107
+        ZIndex: =11
+
+    Label5 As label:
+        Height: =79
+        Text: |-
+            ="Total: " & CountRows(Gallery1.AllItems)  & 
+            " | Filled: " & CountIf(
+                Gallery1.AllItems,
+                ThisRecord.Dropdown1.SelectedText.Value <> "Check" // Checks if value is not zero
+            )
+        Width: =166
+        X: =1200
+        Y: =300
+        ZIndex: =12
+

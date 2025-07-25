@@ -1,0 +1,474 @@
+"'Food Safety Checklist' As screen.'tabletLayout_HeaderAndGallery_ver3.0'":
+    BackgroundImage: =
+    Fill: =RGBA(255, 201, 14, 1)
+    ImagePosition: =ImagePosition.Center
+    OnVisible: |-
+        =NewDocumentNumber;
+        
+         ClearCollect(
+            
+            Pdfcolletion, 
+            colFoodAnswers;
+            colSRAFRidgesAnswers
+        
+        );
+        //Set(PdfResult, PDF(Form2, {ExpandContainers: true}));
+        Refresh('FS Survey')
+
+    "TemplateGalleryList1 As gallery.'BrowseLayout_Vertical_ThreeTextOneImageVariant_ver5.0'":
+        DelayItemLoading: =true
+        Fill: =RGBA(255, 201, 14, 1)
+        FocusedBorderColor: =Self.Fill
+        Height: =573
+        Items: |-
+            =Filter(
+                'FS Survey',
+                
+                // Filter by date range
+                (
+                    IsBlank(DatePickerstart.SelectedDate) || 
+                    Created >= DatePickerstart.SelectedDate
+                ) &&
+                (
+                    IsBlank(dbdend.SelectedDate) || 
+                    Created <= dbdend.SelectedDate
+                ) &&
+                
+                // Filter by Store Name
+                (
+                    IsBlank(Dropdown2.Selected.'Store Name') || 
+                    'Store Name' = Dropdown2.Selected.'Store Name'
+                ))
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        NavigationStep: =10
+        OnSelect: |+
+            =Set(NewDocumentNumber, ThisItem.'Document Number');
+            Navigate(Food, ScreenTransition.Fade)
+            
+            
+            
+        ShowNavigation: =true
+        ShowScrollbar: =false
+        TabIndex: =-23
+        TemplateFill: |-
+            =If(
+                ThisItem.IsSelected, 
+                ColorFade(RGBA(211, 211, 211, 0.9)
+            , -10%), 
+                RGBA(0, 0, 0, 0)
+            )
+        TemplatePadding: =20
+        TemplateSize: =246
+        Transition: =Transition.Pop
+        Width: =1354
+        WrapCount: =2
+        Y: =190
+        ZIndex: =1
+
+        Button2 As button:
+            Fill: =Color.Transparent
+            FontWeight: =FontWeight.Bold
+            Height: =246
+            HoverFill: =ColorFade(Self.Fill, -20%)
+            OnSelect: =Select(Parent)
+            PressedFill: =ColorFade(Self.Fill, 30%)
+            Text: =""
+            Width: =1326
+            ZIndex: =2
+
+        Title9 As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =20
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: ="📄 "& ThisItem.'Document Number'
+            VerticalAlign: =VerticalAlign.Top
+            Width: =210
+            X: =200
+            Y: =64
+            ZIndex: =3
+
+        Body2 As label:
+            Align: =Align.Center
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =27
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =Switch(ThisItem.Status.Value,"Completed","✔️","InProgress","🛠️")& " " &ThisItem.Status.Value
+            VerticalAlign: =VerticalAlign.Top
+            Width: =177
+            X: =195
+            Y: =109
+            ZIndex: =4
+
+        Score As label:
+            FontWeight: =FontWeight.Bold
+            Text: |-
+                ="👌Score " & Text(
+                    If(
+                        IsBlank(ThisItem.Score), 
+                        0,  // Set to zero if blank
+                        ThisItem.Score
+                    ), 
+                    "[$-en-US]0.00"
+                )
+            X: =222
+            Y: =136
+            ZIndex: =5
+
+        Toggle1 As Toggle:
+            Checked: =If(ThisItem.Status.Value = "Completed", true, false)
+            DisplayMode: =DisplayMode.Edit
+            Height: =51
+            Label: ="Complete"
+            OnCheck: |-
+                =Patch(
+                    'FS Survey',  // Replace with your actual list name (FS Survey)
+                    ThisItem,  // Refers to the current item in the gallery
+                    {Status: {Value: "Completed"}}  // Update the status field to "Completed"
+                    
+                );
+            OnSelect: =
+            OnUncheck: |-
+                =Patch(
+                    'FS Survey',  // Replace with your actual list name (FS Survey)
+                    ThisItem,  // Refers to the current item in the gallery
+                   {Status: {Value: "InProgress"}} // Update the status field to "InProgress"
+                );
+            Width: =167
+            X: =222
+            Y: =176
+            ZIndex: =6
+
+        StoreName As label:
+            Align: =Align.Center
+            OnSelect: =Select(Parent)
+            Text: ="🏪"&ThisItem.'Store Name'
+            Width: =301
+            X: =125
+            ZIndex: =7
+
+        Rectangle3 As rectangle:
+            BorderThickness: =If(ThisItem.IsSelected,3,1)
+            Fill: =Color.Transparent
+            Height: =Parent.TemplateHeight
+            OnSelect: =Select(Parent)
+            Width: =644
+            ZIndex: =8
+
+        Completion As label:
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.Filled
+            Width: =174
+            X: =389
+            Y: =181
+            ZIndex: =9
+
+        Icon6 As icon.Mail:
+            Color: =RGBA(0, 0, 0, 1)
+            Icon: =Icon.Mail
+            OnSelect: =Navigate('Send Email')
+            X: =18
+            Y: =176
+            ZIndex: =10
+
+        Label6 As label:
+            Text: |
+                ="⏱ This item took " & ThisItem.TimeSpentMinutes & " minutes to finish"
+            Width: =231
+            X: =413
+            Y: =188
+            ZIndex: =11
+
+        Label4_1 As label:
+            Text: =
+            X: =40
+            Y: =108
+            ZIndex: =12
+
+        delete As icon:
+            Height: =31
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Remove(
+                    'FS Survey',
+                    ThisItem
+                )
+            Visible: |
+                =varUserRole = "Admin"
+            Width: =49
+            X: =114
+            Y: =190
+            ZIndex: =13
+
+    Header1_3 As Header:
+        Align: =Align.Center
+        BasePaletteColor: =RGBA(168, 110, 235, 1)
+        BorderRadiusTopLeft: =5
+        BorderRadiusTopRight: =5
+        BorderStyle: =BorderStyle.Solid
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(0, 0, 0, 1)
+        Font: =Font.'Segoe UI'
+        Height: =59
+        IsLogoVisible: =true
+        Logo: =download
+        LogoTooltip: =
+        OnSelectLogo: =false
+        Style: ='Header.Style'.Light
+        Title: =App.ActiveScreen.Name
+        TitleRole: =""
+        UserEmail: =User().Email
+        UserImage: =User().Image
+        UserImageAltText: =User().FullName &" profile picture"
+        UserName: |
+            =User().FullName
+        Visible: =true
+        Width: =1366
+        X: =1
+        Y: =1
+        ZIndex: =6
+
+    Icon2 As icon.Home:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =31
+        Icon: =Icon.Home
+        OnSelect: =Navigate(Screen1)
+        Width: =27
+        X: =20
+        Y: =82
+        ZIndex: =17
+
+    ButtonCanvas5 As Button:
+        DisplayMode: =DisplayMode.Edit
+        Height: =32
+        Icon: ="Add"
+        Layout: ='ButtonCanvas.Layout'.IconOnly
+        OnSelect: |-
+            =// Check if SequenceNumber exists in the data source (e.g., stored in a table/variable) 
+            // Get the last document number from your data source
+            Set(
+                LastDocumentRecord,
+                First(
+                    Sort(
+                        'FS Survey', // Replace with your data source name
+                        'Document Number', // Replace with the field that contains the sequence number
+                        SortOrder.Descending
+                    )
+                )
+            );
+            
+            // Extract the last sequence number and add 1
+            Set(
+                SequenceNumber,
+                Value(Mid(LastDocumentRecord.'Document Number', 12, 5)) + 1  // Adjust 12 if needed to match the position of the sequence
+            );
+            
+            // Create or use the new sequence number for your document or ID generation
+            Set(
+                NewDocumentNumber, 
+                "GMRL-FSACR-" & Text(SequenceNumber, "0000")  // Format the document number with the sequence
+            );
+            
+            // Proceed with your action (e.g., saving data, navigating)
+            Navigate(Food);
+        Text: ="Add  New"
+        Width: =77
+        X: =1253
+        Y: =60
+        ZIndex: =18
+
+    Container2_1 As groupContainer.manualLayoutContainer:
+        BorderStyle: =BorderStyle.Dotted
+        Height: =143
+        Width: =1156
+        X: =84
+        Y: =60
+        ZIndex: =19
+
+        Label4 As label:
+            Text: ="Start Date"
+            X: =674
+            Y: =40
+            ZIndex: =1
+
+        Label4_3 As label:
+            Text: ="End Date"
+            X: =824
+            Y: =41
+            ZIndex: =2
+
+        "DatePickerstart As 'Date picker'":
+            AccessibleLabel: =""
+            Appearance: ="FilledDarker"
+            BorderStyle: =""
+            ContentLanguage: =""
+            DateTimeZone: ="Local"
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =0
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Format: ="Long Abbreviated"
+            Height: =39
+            IsEditable: =false
+            OnChange: =false
+            Placeholder: ="Select a date..."
+            Required: =false
+            StartOfWeek: ="Sunday"
+            TabIndex: =0
+            Tooltip: =""
+            ValidationState: ="None"
+            Visible: =true
+            Width: =130
+            X: =652
+            Y: =70
+            ZIndex: =3
+
+        "dbdend As 'Date picker'":
+            AccessibleLabel: =""
+            Appearance: ="FilledDarker"
+            BorderStyle: =""
+            ContentLanguage: =""
+            DateTimeZone: ="Local"
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =0
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Format: ="Long Abbreviated"
+            Height: =36
+            IsEditable: =false
+            OnChange: =false
+            Placeholder: ="Select a date..."
+            Required: =false
+            StartOfWeek: ="Sunday"
+            TabIndex: =0
+            Tooltip: =""
+            ValidationState: ="None"
+            Visible: =true
+            Width: =133
+            X: =787
+            Y: =73
+            ZIndex: =4
+
+        Dropdown2 As dropdown:
+            BorderStyle: =BorderStyle.None
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            Height: =35
+            Items: =('FS Survey'.'Store Name')
+            Tooltip: ="Store Name"
+            Width: =251
+            X: =381
+            Y: =71
+            ZIndex: =5
+
+        Label4_4 As label:
+            Text: ="Store Name"
+            X: =421
+            Y: =40
+            ZIndex: =6
+
+        "'Error Label' As label":
+            Color: =RGBA(224, 86, 6, 1)
+            Height: =143
+            Text: ="Start Date connot be greater than End Date!"
+            Visible: |-
+                =And(
+                    Not(
+                        Or(
+                            IsBlank(DatePickerstart.SelectedDate),
+                            IsBlank(dbdend.SelectedDate)
+                        )
+                    ),
+                    DatePickerstart.SelectedDate > dbdend.SelectedDate
+                )
+            Width: =633
+            X: =221
+            ZIndex: =7
+
+        "TextInputCanvas2_1 As 'Text input'":
+            AccessibleLabel: =""
+            Align: =""
+            Appearance: ="FilledDarker"
+            BorderStyle: =""
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =0
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =32
+            MaxLength: =-1
+            Mode: ="SingleLine"
+            OnChange: =false
+            Placeholder: ="🔍Search Area Manager"
+            Required: =false
+            TabIndex: =0
+            Tooltip: =""
+            TriggerOutput: ="FocusOut"
+            Type: ="Text"
+            ValidationState: ="None"
+            Value: =
+            Visible: =true
+            Width: =320
+            X: =42
+            Y: =73
+            ZIndex: =8
+
+        Button1_2 As button:
+            Fill: =RGBA(17, 61, 15, 1)
+            OnSelect: =Reset(dbdend);Reset(DatePickerstart);Reset(Dropdown2);Reset(TextInputCanvas2_1)
+            Text: ="Reset"
+            X: =961
+            Y: =41
+            ZIndex: =9
+
+        Icon1 As icon.Filter:
+            Height: =41
+            Icon: =Icon.Filter
+            Width: =29
+            X: =1121
+            ZIndex: =10
+
+    IconHeaderRefresh As icon:
+        AccessibleLabel: ="Create new leave request"
+        BorderColor: =RGBA(101, 128, 187, 1)
+        Color: =
+        DisabledBorderColor: =RGBA(159, 167, 165, 1)
+        DisabledColor: =RGBA(193, 193, 193, 0.95)
+        DisabledFill: =IconHeaderRefresh.Fill
+        FocusedBorderColor: =IconHeaderRefresh.BorderColor
+        Height: =38
+        HoverBorderColor: =ColorFade(IconHeaderRefresh.BorderColor, 20%)
+        HoverColor: =ColorFade(IconHeaderRefresh.Color, 20%)
+        HoverFill: =IconHeaderRefresh.Fill
+        Icon: =Icon.Reload
+        OnSelect: =Refresh('FS Survey')
+        PaddingBottom: =7
+        PaddingLeft: =7
+        PaddingRight: =7
+        PaddingTop: =7
+        PressedBorderColor: =ColorFade(IconHeaderRefresh.BorderColor, -20%)
+        PressedColor: =ColorFade(IconHeaderRefresh.Color, -20%)
+        PressedFill: =IconHeaderRefresh.Fill
+        TabIndex: =
+        Width: =35
+        X: =16
+        Y: =132
+        ZIndex: =20
+

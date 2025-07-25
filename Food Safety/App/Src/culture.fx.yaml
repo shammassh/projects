@@ -1,0 +1,435 @@
+culture As screen:
+    OnVisible: |-
+        =// Retrieve the JSON response from your data source
+        Set(
+            varResponseJSON,
+            LookUp(
+                'SRA Culture',
+                'Document Number' = NewDocumentNumber,
+                ResponseJSON
+            )
+        );
+        
+        If(
+              Or(
+                varResponseJSON = "[]",  // Check if it's an empty JSON array
+                IsBlank(varResponseJSON)  // Check if it's blank (empty string)
+            ),
+          // Case 1: Initialize new collection (no quotes for new columns)
+            ClearCollect(
+                colSRACultAnswers,
+                AddColumns(
+                    'Food Safety Culture of the Store',
+                    SelectedChoice, "",
+                    comment, "",
+                    correctedaction, "",
+                    Priority, "",
+                    Picture, "",
+                    Value,0,
+                    SelectedCr,""
+                )
+            )
+            ,
+          // Case 2: Load existing JSON (no quotes for JSON properties)
+         
+          ClearCollect(
+          colSRACultAnswers,
+            ForAll(
+                ParseJSON(varResponseJSON),
+                {
+                Answer: Text(ThisRecord!Answer),
+                Title: Text(ThisRecord!Title), // Access properties with ! and convert to text
+                Coeff: Value(ThisRecord!Coeff), // Convert to number
+                SelectedChoice: Text(ThisRecord!SelectedChoice),
+                comment: Text(ThisRecord!comment),
+                correctedaction: Text(ThisRecord!correctedaction),
+                Priority: Text(ThisRecord!Priority),
+                Picture: Text(ThisRecord!Picture),
+                SelectedCr: Text(ThisRecord!SelectedCr),//only for Dropdown we need to add the defult and the loading 
+                cr: Text(ThisRecord!cr),//only for Dropdown we need to add the defult and the loading 
+        
+                // New calculated Value field
+                Value: Switch(
+                    Text(ThisRecord!SelectedChoice),
+                    "Yes", Value(ThisRecord!Coeff),
+                    "Partially", Value(ThisRecord!Coeff) / 2,
+                    "No", 0,
+                    "NA", Blank()
+                )
+                }
+            )
+          );
+          
+        );
+        
+        // OnVisible of the screen
+        
+        Set(
+            cultScore,
+            If(
+                IsBlank(Sum(Filter(colSRACultAnswers, !IsBlank(Value)), Coeff)), 
+                0,  // Return 0 if the sum of Coeff is zero to avoid division by zero
+                Sum(
+                    Filter(colSRACultAnswers, !IsBlank(Value)),  // Only include records where Value is not blank
+                    Value  // Sum of values
+                ) * 100 / Sum(
+                    Filter(colSRACultAnswers, !IsBlank(Value)),  // Only include records where Value is not blank
+                    Coeff  // Sum of coefficients
+                )
+            )
+        );
+
+    Header1_13 As Header:
+        Align: =Align.Center
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(166, 215, 153, 1)
+        Height: =75
+        IsLogoVisible: =false
+        IsProfilePictureVisible: =true
+        OnSelectLogo: =false
+        Style: ='Header.Style'.Light
+        Title: ="Food Safety Culture of the Store"
+        TitleRole: =""
+        UserEmail: =User().Email
+        UserImage: =User().Image
+        UserImageAltText: =User().FullName &" profile picture"
+        UserName: =User().FullName
+        Width: =Parent.Width
+        X: =0
+        Y: =0
+        ZIndex: =1
+
+    Label1_12 As label:
+        FontWeight: =FontWeight.Bold
+        Text: =
+        Width: =512
+        X: =405
+        Y: =8
+        ZIndex: =2
+
+    "Gallery1_12 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+        DelayItemLoading: =true
+        Height: =629
+        Items: =colSRACultAnswers
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        ShowNavigation: =true
+        TemplatePadding: =0
+        TemplateSize: =104
+        Width: =1270
+        Y: =75
+        ZIndex: =4
+
+        RectangleBox_11 As rectangle:
+            BorderColor: =RGBA(214, 221, 224, 1)
+            BorderThickness: =If(ThisItem.IsSelected,3,1)
+            Fill: =Color.Transparent
+            Height: =Parent.TemplateHeight
+            OnSelect: =Select(Parent)
+            Width: =Parent.TemplateWidth
+            ZIndex: =2
+
+        Rectangle1_12 As rectangle:
+            Height: =
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =4
+            ZIndex: =3
+
+        Radio3_12 As radio:
+            Default: |-
+                =LookUp(
+                  colSRAMonAnswers, 
+                  Title = ThisItem.Title,  // Match the current question
+                  SelectedChoice           // Show the saved answer
+                )
+            Height: =96
+            Items: =Split(ThisItem.Answer, ",")
+            Layout: =Layout.Horizontal
+            OnSelect: |-
+                =// OnSelect property of Radio3
+                Patch(
+                    colSRACultAnswers,
+                    LookUp(
+                        colSRACultAnswers,
+                        Title = ThisItem.Title
+                    ),
+                    {
+                        SelectedChoice: Radio3_12.Selected.Value,
+                        Value: Switch(
+                            Radio3_12.Selected.Value,  // Now it can reference the existing SelectedChoice
+                            "Yes", ThisItem.Coeff,
+                            "Partially", ThisItem.Coeff / 2,
+                            "No", 0,
+                            "NA", Blank()
+                        )
+                    }
+                );
+                
+                // OnVisible of the screen
+                Set(
+                    cultScore,
+                    If(
+                        IsBlank(Sum(Filter(colSRACultAnswers, !IsBlank(Value)), Coeff)), 
+                        0,  // Return 0 if the sum of Coeff is zero to avoid division by zero
+                        Sum(
+                            Filter(colSRACultAnswers, !IsBlank(Value)),  // Only include records where Value is not blank
+                            Value  // Sum of values
+                        ) * 100 / Sum(
+                            Filter(colSRACultAnswers, !IsBlank(Value)),  // Only include records where Value is not blank
+                            Coeff  // Sum of coefficients
+                        )
+                    )
+                );
+            Width: =261
+            X: =334
+            ZIndex: =4
+
+        DataCardValue36_1 As attachments:
+            BorderColor: =Color.Black
+            DisplayMode: =Parent.DisplayMode
+            Height: =104
+            IsInDataCard: =true
+            Items: =
+            OnAddFile: |
+                =Set(MyLink,
+                    UploadImagetoSharepointV2.Run({file:{contentBytes:Last(Self.Attachments).Value, name:Last(Self.Attachments).Name}})
+                );
+                // OnSelect property of Radio3
+                Patch(
+                    colSRAMonAnswers,
+                    LookUp(
+                        colSRAMonAnswers,
+                        Title = ThisItem.Title
+                    ),
+                    {
+                        Picture: MyLink.mylink
+                    }
+                );
+            PaddingBottom: =5
+            PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+            PaddingRight: =5
+            PaddingTop: =5
+            Tooltip: =
+            Width: =105
+            X: =1084
+            ZIndex: =5
+
+        Image1_12 As image:
+            Image: =ThisItem.Picture
+            X: =957
+            Y: =1
+            ZIndex: =6
+
+        TextInput1_12 As text:
+            Default: |-
+                =LookUp(
+                  colSRACultAnswers, 
+                  Title = ThisItem.Title,  // Match the current question
+                  comment           // Show the saved answer
+                )
+            HintText: ="Comments"
+            OnChange: |-
+                =// OnSelect property of Textinput2
+                Patch(
+                  colSRAMonAnswers,
+                  LookUp(colSRAMonAnswers, Title = ThisItem.Title),
+                  {
+                     comment: TextInput1_12.Text }
+                 
+                )
+                 
+            OnSelect: |
+                =// OnSelect property of Textinput1
+                Patch(
+                  colSRAMonAnswers,
+                  LookUp(colSRAMonAnswers, Title = ThisItem.Title),
+                  {
+                     comment: TextInput1_12.Text }
+                 
+                )
+            Width: =226
+            X: =708
+            Y: =64
+            ZIndex: =7
+
+        Title1_12 As label:
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =64
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Title
+            VerticalAlign: =VerticalAlign.Top
+            Width: =334
+            X: =18
+            Y: =16
+            ZIndex: =8
+
+        Dropdown1_12 As dropdown:
+            Default: |-
+                =LookUp(
+                  colSRAMonAnswers, 
+                  Title = ThisItem.Title,  // Match the current question
+                  Priority           // Show the saved answer
+                )
+            Items: |-
+                =Table({ Value:"Low" }, { Value:"Medium" }, { Value:"High" })
+            OnChange: |-
+                =// OnSelect property of Dropdown1
+                Patch(
+                    colSRACultAnswers,
+                    LookUp(
+                        colSRACultAnswers,
+                        Title = ThisItem.Title
+                    ),
+                    {Priority: Dropdown1_12.Selected.Value}
+                )
+            OnSelect: =
+            Width: =90
+            X: =595
+            Y: =16
+            ZIndex: =9
+
+        TextInput2_12 As text:
+            Default: |-
+                =LookUp(
+                  colSRACultAnswers, 
+                  Title = ThisItem.Title,  // Match the current question
+                  correctedaction         // Show the saved answer
+                )
+            Height: =32
+            HintText: ="Corrective action"
+            OnChange: |-
+                =// OnSelect property of Textinput2
+                Patch(
+                  colSRAMonAnswers,
+                  LookUp(colSRAMonAnswers, Title = ThisItem.Title),
+                  {
+                     correctedaction: TextInput2_12.Text }
+                 
+                )
+            OnSelect: =
+            Visible: =false
+            Width: =229
+            X: =726
+            Y: =48
+            ZIndex: =10
+
+        TextCanvas3_12 As Text:
+            DisplayMode: =DisplayMode.Edit
+            Height: =32
+            Text: =ThisItem.Value
+            Visible: =true
+            Width: =59
+            X: =1211
+            Y: =48
+            ZIndex: =11
+
+        Subtitle1_12 As label:
+            FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+            Height: =Self.Size * 1.8
+            OnSelect: =Select(Parent)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            Text: =ThisItem.Coeff
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =false
+            Width: =Title1_12.Width
+            X: =Title1_12.X
+            Y: =Title1_12.Y + Title1_12.Height
+            ZIndex: =12
+
+        Dropdown3_11 As dropdown:
+            Default: |-
+                =LookUp(
+                    colSRACultAnswers,
+                  Title = ThisItem.Title,  // Match the current question
+                  SelectedCr           // Show the saved answer
+                )
+            HoverFill: =RGBA(166, 215, 153, 1)
+            Items: =Split(Trim(ThisItem.cr), ",")
+            OnChange: |-
+                =// OnSelect property of Radio3
+                Patch(
+                    colSRACultAnswers,
+                    LookUp(
+                        colSRACultAnswers,
+                        Title = ThisItem.Title
+                    ),
+                    {
+                        SelectedCr: Dropdown3_11.Selected.Value
+                    }
+                );
+            OnSelect: |-
+                =// OnSelect property of Radio3
+                Patch(
+                    colSRACultAnswers,
+                    LookUp(
+                        colSRACultAnswers,
+                        Title = ThisItem.Title
+                    ),
+                    {
+                        SelectedCr: Dropdown3_11.Selected.Value
+                    }
+                );
+            Tooltip: =
+            Width: =243
+            X: =699
+            Y: =12
+            ZIndex: =13
+
+    Icon4_12 As icon.Home:
+        Height: =49
+        Icon: =Icon.Home
+        OnSelect: =Navigate('Food Safety Checklist')
+        Width: =44
+        X: =1322
+        Y: =77
+        ZIndex: =5
+
+    TextCanvas5_12 As Text:
+        DisplayMode: =DisplayMode.Edit
+        Height: =32
+        Text: |
+            =$"Score " & Text( cultScore, "[$-en-US]0.00")
+        Width: =96
+        X: =1270
+        Y: =200
+        ZIndex: =6
+
+    Icon3_10 As icon.Save:
+        Height: =46
+        Icon: =Icon.Save
+        OnSelect: =Navigate(PolicesndProcedure)
+        Width: =42
+        X: =1323
+        Y: =128
+        ZIndex: =7
+
+    Icon6_12 As icon.BackArrow:
+        Icon: =Icon.BackArrow
+        OnSelect: =Navigate(MonitoringSheets)
+        Y: =704
+        ZIndex: =8
+
+    Icon7_11 As icon.NextArrow:
+        Icon: =Icon.NextArrow
+        OnSelect: =Navigate(PolicesndProcedure)
+        X: =1302
+        Y: =704
+        ZIndex: =9
+
+    TextCanvas4_12 As Text:
+        DisplayMode: =DisplayMode.Edit
+        Height: =32
+        Text: = "Page " & currentPageIndex +11
+        Width: =96
+        X: =602
+        Y: =733
+        ZIndex: =10
+

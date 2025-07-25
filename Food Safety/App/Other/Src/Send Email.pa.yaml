@@ -1,0 +1,441 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Send Email:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |+
+        =
+
+        ClearCollect(
+            colCombinedAnswers,
+            ShowColumns(Gallery1.AllItems,Title1),
+            colSRACHEMAnswers
+        );
+
+        ClearCollect(
+            colSRAFridgesChecklist,
+            'Fridges and Freezers'
+        );
+
+        ClearCollect(
+            colSRAFoodChecklist,
+        'Food Storage and Dry Storage'
+        );
+
+        ClearCollect(
+            colSRAUtensilsChecklist,
+            'Utensils and Equipment'
+        );
+
+        ClearCollect(
+            colSRAFoodHandlingChecklist,
+            'Food Handling'
+        );
+
+        ClearCollect(
+            colSRACleaningChecklist,
+            'Cleaning and Disinfection'
+        );
+        ClearCollect(
+            colSRAPersonalHygieneChecklist,
+            'Personal Hygiene'
+        );
+        ClearCollect(
+            colSRAGarbageBinsChecklist,
+            'Garbage Storage and Disposal'
+        );
+        ClearCollect(
+            colFacilityChecklist,
+           Maintenance
+        );
+        ClearCollect(
+            colChemicalsChecklist,
+            'Chemicals Available'
+        );
+
+
+        ClearCollect(
+            colMonitoringLogsChecklist,
+            'Monitoring Sheets are Properly Filled/ Documents Present'
+        );
+        ClearCollect(
+            colFoodSafetyCulture,
+            'Food Safety Culture of the Store'
+        );
+
+        ClearCollect(
+            colFoodSafetyPolicies,
+            'Policies, Procedures & Posters'
+        );
+
+
+    Children:
+      - RTEBody:
+          Control: RichTextEditor@2.7.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Default: |
+              =$"
+              <div>
+                🏬 <b>Store Name:</b> {TemplateGalleryList1.Selected.'Store Name'}<br>--------------------------------------------------------------------------------------<br>
+                🧾 <b>Checklist ID:</b> {TemplateGalleryList1.Selected.'Document Number'}<br>--------------------------------------------------------------------------------------<br>
+                📅 <b>Issued Date:</b> {Text(TemplateGalleryList1.Selected.Created, "[$-en-US]yyyy-mm-dd")}<br>--------------------------------------------------------------------------------------<br>
+                👤 <b>Created By:</b> {TemplateGalleryList1.Selected.'Created By'.DisplayName}<br>--------------------------------------------------------------------------------------<br>
+                ✅ <b>Filled:</b> {TemplateGalleryList1.Selected.Filled}<br>--------------------------------------------------------------------------------------<br>
+                🔗 <b>Checklist Link:</b> 
+                <a href='https://apps.powerapps.com/play/e/default-b99fc2f6-d65e-4b48-935b-118659097da7/a/302bd67c-face-49a8-86c6-638984ac4ec9?tenantId=b99fc2f6-d65e-4b48-935b-118659097da7&hint=21eabc26-62f7-40be-b0de-253d38968ac6&sourcetime=1749799135465&&Source=ChecklistView&itemID={TemplateGalleryList1.Selected.ID}' target='_blank'>Open Checklist</a>
+
+                </a>
+              </div>"
+            Height: =151
+            Width: =1307
+            X: =59
+            Y: =90
+      - RectQuickActionBar1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Fill: =RGBA(56, 96, 178, 1)
+            Height: =64
+            Width: =1366
+      - LblAppName1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            Height: =64
+            PaddingLeft: =0
+            Size: =18
+            Text: ="Email"
+            Width: =564
+            Wrap: =false
+            X: =408
+      - iconMail1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(240, 240, 240, 0.5)
+            DisplayMode: |-
+              =/*Email must have a subject and recipients to be sent*/
+              If(Len(Trim(TextEmailSubject1.Text)) > 0 && !IsEmpty(MyPeople), DisplayMode.Edit, DisplayMode.Disabled)
+            Icon: =Icon.Send
+            OnSelect: |-
+              =/*Create semicolon separated list of people to email, send the email, reset subject & message fields*/           
+              Set(_emailRecipientString, Concat(MyPeople, Mail & ";"));           
+              Office365Outlook.SendEmailV2(_emailRecipientString, TextEmailSubject1.Text, RTEBody.HtmlText & "<br><br>" & HtmlText1.HtmlText, {Importance:"Normal"});           
+              Reset(TextEmailSubject1);           
+              Reset(RTEBody);           
+              Clear(MyPeople)
+            PaddingBottom: =14
+            PaddingLeft: =14
+            PaddingRight: =14
+            PaddingTop: =14
+            PressedFill: =RGBA(255, 255, 255, 0.3)
+            Tooltip: ="Send message"
+            X: =Parent.Width - Self.Width
+      - LblRecipientCount1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            PaddingLeft: =0
+            Text: ="*To (" &CountRows(MyPeople) & ")"
+            Width: =EmailPeopleGallery1.Width
+            Wrap: =false
+            X: =32
+            Y: =73
+      - TextSearchBox1:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Search people or add email address. At least one recipient is required for a successful submission."
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Default: =
+            Font: =Font.'Open Sans'
+            HintText: ="Search people or add email address"
+            HoverBorderColor: =RGBA(0, 18, 107, 1)
+            HoverFill: =RGBA(186, 202, 226, 1)
+            PaddingLeft: =50
+            Width: =Parent.Width - Self.X * 2
+            X: =32
+            Y: =LblRecipientCount1.Y + LblRecipientCount1.Height + 3
+      - SearchIcon1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =Self.Width
+            Icon: =Icon.Search
+            PaddingBottom: =8
+            PaddingLeft: =8
+            PaddingRight: =8
+            PaddingTop: =8
+            Tooltip: ="Search"
+            Width: =TextSearchBox1.Height
+            X: =TextSearchBox1.X + 5
+            Y: =TextSearchBox1.Y
+      - AddIcon1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =TextSearchBox1.Height
+            Icon: =Icon.Add
+            OnSelect: |-
+              =Collect(MyPeople,           
+              {DisplayName: TextSearchBox1.Text, UserPrincipalName: TextSearchBox1.Text, Mail: TextSearchBox1.Text});           
+              Reset(TextSearchBox1)
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            TabIndex: =0
+            Tooltip: ="Select to add user to collection"
+            Visible: |-
+              =!IsBlank(TextSearchBox1.Text) &&           
+
+              /*Is user entry a valid email address*/           
+              IsMatch(TextSearchBox1.Text, Match.Email)           &&
+
+              Not(Trim(TextSearchBox1.Text) in MyPeople.UserPrincipalName)
+            Width: =70
+            X: =TextSearchBox1.X + TextSearchBox1.Width - Self.Width - 10
+            Y: =TextSearchBox1.Y
+      - EmailPeopleGallery1:
+          Control: Gallery@2.15.0
+          Variant: SelectedUsersTabletGallery
+          Properties:
+            BorderColor: =TextSearchBox1.BorderColor
+            Height: |-
+              =/*Height adjusts to number of items in gallery*/
+              Min((Self.TemplateHeight + Self.TemplatePadding * 2) * RoundUp(CountRows(Self.AllItems) / 4, 0), 182)
+            Items: |-
+              =/*Collection of user selected people*/
+              MyPeople
+            ShowScrollbar: =Self.Height >= 182
+            TemplateSize: =42
+            Width: =Parent.Width - Self.X * 2
+            WrapCount: =4
+            X: =27
+            Y: =TextSearchBox1.Y + TextSearchBox1.Height
+          Children:
+            - Rectangle1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Fill: =RGBA(56, 96, 178, 1)
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  Width: =Parent.TemplateWidth
+            - Title2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(255, 255, 255, 1)
+                  FocusedBorderThickness: =2
+                  Font: =Font.'Open Sans'
+                  Height: =EmailPeopleGallery1.TemplateHeight
+                  OnSelect: =Set(_selectedUser, ThisItem)
+                  PaddingLeft: =10
+                  TabIndex: =If(PeopleBrowseGallery1.Visible, -1, 0)
+                  Text: =ThisItem.DisplayName
+                  Width: =EmailPeopleGallery1.TemplateWidth - iconRemove1.Width + 10
+                  Wrap: =false
+            - iconRemove1:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AccessibleLabel: =iconRemove1.Tooltip
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =Title2.Color
+                  Height: =EmailPeopleGallery1.TemplateHeight
+                  Icon: =Icon.Cancel
+                  OnSelect: =Remove(MyPeople, LookUp(MyPeople, UserPrincipalName = ThisItem.UserPrincipalName))
+                  PaddingBottom: =9
+                  PaddingLeft: =9
+                  PaddingRight: =9
+                  PaddingTop: =9
+                  TabIndex: =If(PeopleBrowseGallery1.Visible, -1, 0)
+                  Tooltip: ="Select to remove user from collection"
+                  Width: =Self.Height
+                  X: =EmailPeopleGallery1.TemplateWidth - Self.Width
+      - LblEmailSubject1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            PaddingLeft: =0
+            Text: ="*Subject"
+            Width: =Parent.Width - Self.X * 2
+            Wrap: =false
+            X: =34
+            Y: =201
+      - TextEmailSubject1:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="A subject is required to send an email."
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Default: |-
+              =$" Area Manager Checklist:  { TemplateGalleryList1.Selected.'Store Name'}  Store"
+            Font: =Font.'Open Sans'
+            HintText: ="Add a subject"
+            HoverBorderColor: =RGBA(0, 18, 107, 1)
+            HoverFill: =RGBA(186, 202, 226, 1)
+            TabIndex: =If(PeopleBrowseGallery1.Visible, -1, 0)
+            Width: =Parent.Width - Self.X * 2
+            X: =37
+            Y: =241
+      - LblEmailMessage1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            PaddingLeft: =0
+            Text: ="Message"
+            Width: =200
+            Wrap: =false
+            X: =109
+            Y: =281
+      - PeopleBrowseGallery1:
+          Control: Gallery@2.15.0
+          Variant: PeoplePickerGallerySmallTablet
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            BorderThickness: =2
+            Fill: =Parent.Fill
+            Height: =If(Self.Visible, Parent.Height / 2 + 200, 0)
+            Items: |-
+              =/*Only use Office 365 Users operation if user has started searching*/
+              If(!IsBlank(Trim(TextSearchBox1.Text)), Office365Users.SearchUser({searchTerm: Trim(TextSearchBox1.Text), top: 15}))
+            TemplatePadding: =0
+            Visible: =!IsBlank(Trim(TextSearchBox1.Text))
+            Width: =Parent.Width - Self.X * 2
+            X: =32
+            Y: =TextSearchBox1.Y + TextSearchBox1.Height
+          Children:
+            - Rectangle3_1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =Title3.Color
+                  BorderThickness: =If(ThisItem.UserPrincipalName in MyPeople.UserPrincipalName, 4, 0)
+                  Fill: =RGBA(0,0,0,0)
+                  Height: =Parent.TemplateHeight
+                  HoverFill: =RGBA(0,0,0,0)
+                  OnSelect: =Select(Title3)
+                  Width: =Parent.TemplateWidth
+            - Title3:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =Self.Color
+                  FocusedBorderThickness: =2
+                  Font: =Font.'Open Sans'
+                  OnSelect: |-
+                    =/*Select user, clear search contents and if this user hasn't been added to MyPeople collection, add them*/
+                    Concurrent(
+                    Set(_selectedUser, ThisItem),
+                    Reset(TextSearchBox1),
+                    If(Not(ThisItem.UserPrincipalName in MyPeople.UserPrincipalName), Collect(MyPeople, ThisItem)))
+                  Size: =17
+                  TabIndex: =0
+                  Text: =ThisItem.DisplayName
+                  Width: =PeopleBrowseGallery1.TemplateWidth - 2 * Self.X
+                  Wrap: =false
+                  X: =16
+                  Y: =4
+            - Subtitle2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =ColorFade(Title3.Color, 0.20)
+                  FocusedBorderThickness: =2
+                  Font: =Font.'Open Sans'
+                  OnSelect: =Select(Title3)
+                  Size: =17
+                  Text: =ThisItem.UserPrincipalName
+                  Width: =PeopleBrowseGallery1.TemplateWidth - 2 * Self.X
+                  Wrap: =false
+                  X: =Title3.X
+                  Y: =Title3.Y + Title3.Height + 3
+            - Separator1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Fill: =RGBA(0, 18, 107, 1)
+                  Height: =1
+                  OnSelect: =Select(Parent)
+                  Width: =Parent.TemplateWidth
+                  Y: =Parent.TemplateHeight - 1
+      - Icon3_12:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Icon: =Icon.BackArrow
+            OnSelect: =Navigate(Screen1)
+      - HtmlText1:
+          Control: HtmlViewer@2.1.0
+          Properties:
+            Font: =Font.'Open Sans'
+            Height: =417+varExportHeight
+            HtmlText: "=// --- CSS STYLE DEFINITIONS ---\n// Level 1: Define the core theme values (colors, fonts).\nWith(\n    {\n        primaryColor: \"#2554C7\",\n        headerTextColor: \"#FFFFFF\",\n        borderColor: \"#000000\",\n        fontFamilyString: \"Segoe UI, Arial, sans-serif\"\n    },\n    // Level 2: Use the core values to build the CSS style strings.\n    With(\n        {\n            pageStyle: \"padding:15px; font-family:\" & fontFamilyString & \";\",\n            h3Style: \"color:\" & primaryColor & \"; border-bottom: 2px solid \" & primaryColor & \"; padding-bottom: 5px; margin-top: 30px;\",\n            tableStyle: \"border-collapse:collapse; width:100%; margin-top:10px;\",\n            thStyle: \"background-color:\" & primaryColor & \"; color:\" & headerTextColor & \"; padding:12px; text-align:left;\",\n            tdStyle: \"padding:10px; border-bottom:1px solid \" & borderColor & \"; vertical-align:top;\",\n            imgStyle: \"width:80px; height:80px; border-radius:4px; object-fit:cover;\"\n        },\n\n        // --- HTML BODY ---\n        \"<div style='\" & pageStyle & \"'>\" &\n\n        // --- Main Header ---\n        \"<u>Checklist ID:</u> \" & Label1.Text & \"<br>\" &\n        \"<u>Store Name:</u> \" & Label2.Text & \"<br><br>\" &\n\n        // --- Chart Data Table ---\n        \"<h3 style='\" & h3Style & \"'>Chart Data Table</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Category</th>\" &\n                \"<th style='\" & thStyle & \"'>Value</th>\" &\n            \"</tr>\" &\n            Concat(\n                colChartDatat,\n                \"<tr><td style='\" & tdStyle & \"'>\" & Section & \"</td><td style='\" & tdStyle & \"'><b>\" & Score & \"</b></td></tr>\"\n            ) &\n        \"</table>\" &\n\n        // --- Food and storage Section ---\n        \"<h3 style='\" & h3Style & \"'>Food and storage Section - Score: \" & foodScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAFoodChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colFoodAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colFoodAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colFoodAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colFoodAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colFoodAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Fridges Section ---\n        \"<h3 style='\" & h3Style & \"'>Fridges Section - Score: \" & fridgesScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAFridgesChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAFRidgesAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Utensils and Equipment Section ---\n        \"<h3 style='\" & h3Style & \"'>Utensils and Equipment - Score: \" & UtensilsScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAUtensilsChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAUtensilsAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Food Handling Section ---\n        \"<h3 style='\" & h3Style & \"'>Food Handling - Score: \" & foodhScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAFoodHandlingChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFoodhAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFoodhAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAFoodhAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAFoodhAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFoodhAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Cleaning and Disinfection Section ---\n        \"<h3 style='\" & h3Style & \"'>Cleaning and Disinfection - Score: \" & cndScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRACleaningChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACndAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACndAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRACndAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRACndAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACndAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Personal Hygiene Section ---\n        \"<h3 style='\" & h3Style & \"'>Personal Hygiene - Score: \" & hygscore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAPersonalHygieneChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAHYGAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAHYGAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAHYGAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAHYGAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAHYGAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Restroom Section ---\n        \"<h3 style='\" & h3Style & \"'>Restrooms - Score: \" & restroomScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRARestroomChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRARESTAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRARESTAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRARESTAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRARESTAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRARESTAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Garbage Section ---\n        \"<h3 style='\" & h3Style & \"'>Garbage Storage and Disposal - Score: \" & garScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAGarbageBinsChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAGARAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAGARAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAGARAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAGARAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAGARAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Maintenance Section ---\n        \"<h3 style='\" & h3Style & \"'>Maintenance - Score: \" & MaintScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colFacilityChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMAINAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMAINAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAMAINAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAMAINAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMAINAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Chemicals Available Section ---\n        \"<h3 style='\" & h3Style & \"'>Chemicals Available - Score: \" & ChemScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colChemicalsChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACHEMAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACHEMAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRACHEMAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRACHEMAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACHEMAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Monitoring Sheets Section ---\n        \"<h3 style='\" & h3Style & \"'>Monitoring Sheets are Properly Filled/ Documents Present - Score: \" & MonitScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colMonitoringLogsChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMonAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMonAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAMonAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAMonAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMonAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Food Safety Culture Section ---\n        \"<h3 style='\" & h3Style & \"'>Food Safety Culture of the Store - Score: \" & cultScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colFoodSafetyCulture,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACultAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACultAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRACultAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRACultAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACultAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Policies, Procedures & Posters Section ---\n        \"<h3 style='\" & h3Style & \"'>Policies, Procedures & Posters - Score: \" & polScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colFoodSafetyPolicies,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAPOLIAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAPOLIAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAPOLIAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAPOLIAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAPOLIAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        \"</div>\" // This closes the main container div\n    )\n)             "
+            Width: =1044
+            X: =59
+            Y: =321
+      - ButtonCanvas1_1:
+          Control: Button@0.0.45
+          Properties:
+            Height: =33
+            Icon: ="Mail"
+            OnSelect: |
+              =Set(varExportHeight,AutoHieght.Height*1.2);
+
+              Office365Outlook.SendEmailV2(
+                  User().Email,
+                  "FS Survey Report - Full Overview",
+                  "Please find attached your report.",
+                  {
+                      Attachments: Table(
+                          {
+                              Name: "FS_Survey_Report.pdf",
+                              ContentBytes: PDF(HtmlText1, {ExpandContainers: true})
+                          }
+                      ),
+                      IsHtml: false
+                  }
+              );
+
+              Set(varExportHeight, 0); // Reset after export
+            Text: ="Email PDF"
+            Width: =122
+            X: =1145
+            Y: =355
+      - AutoHieght:
+          Control: Label@2.5.1
+          Properties:
+            AutoHeight: =true
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            Height: =
+            Text: =  PlainText(HtmlText1.HtmlText)
+            Visible: =false
+            Width: =HtmlText1.Width
+            X: =126
+            Y: =414
+      - HtmlText1_2:
+          Control: HtmlViewer@2.1.0
+          Properties:
+            Font: =Font.'Open Sans'
+            Height: =417+varExportHeight
+            HtmlText: "=// --- CSS STYLE DEFINITIONS ---\n// Level 1: Define the core theme values (colors, fonts).\nWith(\n    {\n        primaryColor: \"#2554C7\",\n        headerTextColor: \"#FFFFFF\",\n        borderColor: \"#000000\",\n        fontFamilyString: \"Segoe UI, Arial, sans-serif\",\n        fontWeightString: \"Bold\"\n    },\n    // Level 2: Use the core values to build the CSS style strings.\n   With(\n    {\n        pageStyle: \"padding:15px; font-family:\" & fontFamilyString & \";\",\n        h3Style: \"color:\" & primaryColor & \"; border-bottom: 2px solid \" & primaryColor & \"; padding-bottom: 5px; margin-top: 30px; font-weight:bold;\",\n        tableStyle: \"border-collapse:collapse; width:100%; margin-top:10px;\",\n        thStyle: \"background-color:\" & primaryColor & \"; color:\" & headerTextColor & \"; padding:12px; text-align:left; font-weight:bold;\",\n        tdStyle: \"padding:10px; border-bottom:1px solid \" & borderColor & \"; vertical-align:top;\",\n        imgStyle: \"width:80px; height:80px; border-radius:4px; object-fit:cover;\"\n    },\n\n        // --- HTML BODY ---\n        \"<div style='\" & pageStyle & \"'>\" &\n\n        // --- Main Header ---\n        \"<u>Checklist ID:</u> \" & Label1.Text & \"<br>\" &\n        \"<u>Store Name:</u> \" & Label2.Text & \"<br><br>\" &\n\n        // --- Chart Data Table ---\n        \"<h3 style='\" & h3Style & \"'>Chart Data Table</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Category</th>\" &\n                \"<th style='\" & thStyle & \"'>Value</th>\" &\n            \"</tr>\" &\n            Concat(\n                colChartDatat,\n                \"<tr><td style='\" & tdStyle & \"'>\" & Section & \"</td><td style='\" & tdStyle & \"'><b>\" & Score & \"</b></td></tr>\"\n            ) &\n        \"</table>\" &\n\n        // --- Food and storage Section ---\n        \"<h3 style='\" & h3Style & \"'>Food and storage Section - Score: \" & foodScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & tdStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAFoodChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colFoodAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colFoodAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colFoodAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colFoodAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colFoodAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Fridges Section ---\n        \"<h3 style='\" & h3Style & \"'>Fridges Section - Score: \" & fridgesScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAFridgesChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAFRidgesAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFRidgesAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Utensils and Equipment Section ---\n        \"<h3 style='\" & h3Style & \"'>Utensils and Equipment - Score: \" & UtensilsScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAUtensilsChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAUtensilsAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAUtensilsAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Food Handling Section ---\n        \"<h3 style='\" & h3Style & \"'>Food Handling - Score: \" & foodhScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAFoodHandlingChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFoodhAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFoodhAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAFoodhAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAFoodhAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAFoodhAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Cleaning and Disinfection Section ---\n        \"<h3 style='\" & h3Style & \"'>Cleaning and Disinfection - Score: \" & cndScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRACleaningChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACndAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACndAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRACndAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRACndAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACndAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Personal Hygiene Section ---\n        \"<h3 style='\" & h3Style & \"'>Personal Hygiene - Score: \" & hygscore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAPersonalHygieneChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAHYGAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAHYGAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAHYGAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAHYGAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAHYGAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Restroom Section ---\n        \"<h3 style='\" & h3Style & \"'>Restrooms - Score: \" & restroomScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRARestroomChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRARESTAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRARESTAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRARESTAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRARESTAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRARESTAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Garbage Section ---\n        \"<h3 style='\" & h3Style & \"'>Garbage Storage and Disposal - Score: \" & garScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colSRAGarbageBinsChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAGARAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAGARAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAGARAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAGARAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAGARAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Maintenance Section ---\n        \"<h3 style='\" & h3Style & \"'>Maintenance - Score: \" & MaintScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colFacilityChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMAINAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMAINAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAMAINAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAMAINAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMAINAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Chemicals Available Section ---\n        \"<h3 style='\" & h3Style & \"'>Chemicals Available - Score: \" & ChemScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colChemicalsChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACHEMAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACHEMAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRACHEMAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRACHEMAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACHEMAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Monitoring Sheets Section ---\n        \"<h3 style='\" & h3Style & \"'>Monitoring Sheets are Properly Filled/ Documents Present - Score: \" & MonitScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colMonitoringLogsChecklist,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMonAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMonAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAMonAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAMonAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAMonAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Food Safety Culture Section ---\n        \"<h3 style='\" & h3Style & \"'>Food Safety Culture of the Store - Score: \" & cultScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colFoodSafetyCulture,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACultAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACultAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRACultAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRACultAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRACultAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        // --- Policies, Procedures & Posters Section ---\n        \"<h3 style='\" & h3Style & \"'>Policies, Procedures & Posters - Score: \" & polScore & \"</h3>\" &\n        \"<table style='\" & tableStyle & \"'>\" &\n            \"<tr>\" &\n                \"<th style='\" & thStyle & \"'>Title</th>\" &\n                \"<th style='\" & thStyle & \"'>Coef</th>\" &\n                \"<th style='\" & thStyle & \"'>Answer</th>\" &\n                \"<th style='\" & thStyle & \"'>Comments</th>\" &\n                \"<th style='\" & thStyle & \"'>Picture</th>\" &\n                \"<th style='\" & thStyle & \"'>Corrective Action</th>\" &\n            \"</tr>\" &\n            Concat(\n                colFoodSafetyPolicies,\n                With({currentTitle: Title, Coeff: Coeff},\n                    \"<tr>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & currentTitle & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & Text(Coeff) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAPOLIAnswers, Title = currentTitle, Value) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAPOLIAnswers, Title = currentTitle, comment) & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & If(!IsBlank(LookUp(colSRAPOLIAnswers, Title = currentTitle, Picture)), \"<img src='\" & LookUp(colSRAPOLIAnswers, Title = currentTitle, Picture) & \"' style='\" & imgStyle & \"'>\", \"\") & \"</td>\" &\n                        \"<td style='\" & tdStyle & \"'>\" & LookUp(colSRAPOLIAnswers, Title = currentTitle, correctedaction) & \"</td>\" &\n                    \"</tr>\"\n                )\n            ) &\n        \"</table>\" &\n\n        \"</div>\" // This closes the main container div\n    )\n)             "
+            Visible: =false
+            Width: =1044
+            X: =79
+            Y: =341

@@ -1,0 +1,433 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Food Safety Checklist:
+    Properties:
+      Fill: =RGBA(255, 201, 14, 1)
+      ImagePosition: =ImagePosition.Center
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: "=NewDocumentNumber;\r\n\r\n ClearCollect(\r\n    \r\n    Pdfcolletion, \r\n    colFoodAnswers;\r\n    colSRAFRidgesAnswers\r\n\r\n);\r\n//Set(PdfResult, PDF(Form2, {ExpandContainers: true}));\r\nRefresh('FS Survey')"
+    Children:
+      - TemplateGalleryList1:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_ThreeTextOneImageVariant_ver5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Fill: =RGBA(255, 201, 14, 1)
+            FocusedBorderColor: =Self.Fill
+            Height: =573
+            Items: "=Filter(\r\n    'FS Survey',\r\n    \r\n    // Filter by date range\r\n    (\r\n        IsBlank(DatePickerstart.SelectedDate) || \r\n        Created >= DatePickerstart.SelectedDate\r\n    ) &&\r\n    (\r\n        IsBlank(dbdend.SelectedDate) || \r\n        Created <= dbdend.SelectedDate\r\n    ) &&\r\n    \r\n    // Filter by Store Name\r\n    (\r\n        IsBlank(Dropdown2.Selected.'Store Name') || \r\n        'Store Name' = Dropdown2.Selected.'Store Name'\r\n    ))"
+            NavigationStep: =10
+            OnSelect: |+
+              =Set(NewDocumentNumber, ThisItem.'Document Number');
+              Navigate(Food, ScreenTransition.Fade)
+
+
+
+            ShowNavigation: =true
+            ShowScrollbar: =false
+            TabIndex: =-23
+            TemplateFill: |-
+              =If(
+                  ThisItem.IsSelected, 
+                  ColorFade(RGBA(211, 211, 211, 0.9)
+              , -10%), 
+                  RGBA(0, 0, 0, 0)
+              )
+            TemplatePadding: =20
+            TemplateSize: =246
+            Transition: =Transition.Pop
+            Width: =1354
+            WrapCount: =2
+            Y: =190
+          Children:
+            - Button2:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =ColorFade(Self.Fill, -15%)
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                  Fill: =Color.Transparent
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =246
+                  HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =ColorFade(Self.Fill, -20%)
+                  OnSelect: =Select(Parent)
+                  PressedBorderColor: =Self.Fill
+                  PressedColor: =Self.Fill
+                  PressedFill: =ColorFade(Self.Fill, 30%)
+                  Text: =""
+                  Width: =1326
+            - Title9:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(50, 49, 48, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                  Height: =20
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =14
+                  Text: "=\"\U0001F4C4 \"& ThisItem.'Document Number'"
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =210
+                  X: =200
+                  Y: =64
+            - Body2:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                  Height: =27
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =12
+                  Text: "=Switch(ThisItem.Status.Value,\"Completed\",\"✔️\",\"InProgress\",\"\U0001F6E0️\")& \" \" &ThisItem.Status.Value"
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =177
+                  X: =195
+                  Y: =109
+            - Score:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Text: |-
+                    ="👌Score " & Text(
+                        If(
+                            IsBlank(ThisItem.Score), 
+                            0,  // Set to zero if blank
+                            ThisItem.Score
+                        ), 
+                        "[$-en-US]0.00"
+                    )
+                  X: =222
+                  Y: =136
+            - Toggle1:
+                Control: Toggle@1.1.5
+                Properties:
+                  Checked: =If(ThisItem.Status.Value = "Completed", true, false)
+                  Height: =51
+                  Label: ="Complete"
+                  OnCheck: "=Patch(\r\n    'FS Survey',  // Replace with your actual list name (FS Survey)\r\n    ThisItem,  // Refers to the current item in the gallery\r\n    {Status: {Value: \"Completed\"}}  // Update the status field to \"Completed\"\r\n    \r\n);"
+                  OnSelect: =
+                  OnUncheck: |-
+                    =Patch(
+                        'FS Survey',  // Replace with your actual list name (FS Survey)
+                        ThisItem,  // Refers to the current item in the gallery
+                       {Status: {Value: "InProgress"}} // Update the status field to "InProgress"
+                    );
+                  Width: =167
+                  X: =222
+                  Y: =176
+            - StoreName:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  OnSelect: =Select(Parent)
+                  Text: "=\"\U0001F3EA\"&ThisItem.'Store Name'"
+                  Width: =301
+                  X: =125
+            - Rectangle3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  BorderThickness: =If(ThisItem.IsSelected,3,1)
+                  Fill: =Color.Transparent
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  Width: =644
+            - Completion:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  OnSelect: =Select(Parent)
+                  Text: =ThisItem.Filled
+                  Width: =174
+                  X: =389
+                  Y: =181
+            - Icon6:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(0, 0, 0, 1)
+                  Icon: =Icon.Mail
+                  OnSelect: =Navigate('Send Email')
+                  X: =18
+                  Y: =176
+            - Label6:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Text: |+
+                    ="⏱ This item took " & ThisItem.TimeSpentMinutes & " minutes to finish"
+                  Width: =231
+                  X: =413
+                  Y: =188
+            - Label4_1:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Text: =
+                  X: =40
+                  Y: =108
+            - delete:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(0, 18, 107, 1)
+                  Height: =31
+                  Icon: =Icon.Trash
+                  OnSelect: |-
+                    =Remove(
+                        'FS Survey',
+                        ThisItem
+                    )
+                  Visible: |
+                    =varUserRole = "Admin"
+                  Width: =49
+                  X: =114
+                  Y: =190
+      - Header1_3:
+          Control: Header@0.0.44
+          Properties:
+            Align: =Align.Center
+            BasePaletteColor: =RGBA(168, 110, 235, 1)
+            BorderRadiusTopLeft: =5
+            BorderRadiusTopRight: =5
+            BorderStyle: =BorderStyle.Solid
+            Fill: =RGBA(0, 0, 0, 1)
+            Font: =Font.'Segoe UI'
+            Height: =59
+            Logo: =download
+            LogoTooltip: =
+            Style: ='Header.Style'.Light
+            UserName: |+
+              =User().FullName
+            Width: =1366
+            X: =1
+            Y: =1
+      - Icon2:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =31
+            Icon: =Icon.Home
+            OnSelect: =Navigate(Screen1)
+            Width: =27
+            X: =20
+            Y: =82
+      - ButtonCanvas5:
+          Control: Button@0.0.45
+          Properties:
+            Icon: ="Add"
+            Layout: ='ButtonCanvas.Layout'.IconOnly
+            OnSelect: |-
+              =// Check if SequenceNumber exists in the data source (e.g., stored in a table/variable) 
+              // Get the last document number from your data source
+              Set(
+                  LastDocumentRecord,
+                  First(
+                      Sort(
+                          'FS Survey', // Replace with your data source name
+                          'Document Number', // Replace with the field that contains the sequence number
+                          SortOrder.Descending
+                      )
+                  )
+              );
+
+              // Extract the last sequence number and add 1
+              Set(
+                  SequenceNumber,
+                  Value(Mid(LastDocumentRecord.'Document Number', 12, 5)) + 1  // Adjust 12 if needed to match the position of the sequence
+              );
+
+              // Create or use the new sequence number for your document or ID generation
+              Set(
+                  NewDocumentNumber, 
+                  "GMRL-FSACR-" & Text(SequenceNumber, "0000")  // Format the document number with the sequence
+              );
+
+              // Proceed with your action (e.g., saving data, navigating)
+              Navigate(Food);
+            Text: ="Add  New"
+            Width: =77
+            X: =1253
+            Y: =60
+      - Container2_1:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            BorderStyle: =BorderStyle.Dotted
+            Height: =143
+            Width: =1156
+            X: =84
+            Y: =60
+          Children:
+            - Label4:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Text: ="Start Date"
+                  X: =674
+                  Y: =40
+            - Label4_3:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Text: ="End Date"
+                  X: =824
+                  Y: =41
+            - DatePickerstart:
+                Control: DatePicker@0.0.46
+                Properties:
+                  Height: =39
+                  Width: =130
+                  X: =652
+                  Y: =70
+            - dbdend:
+                Control: DatePicker@0.0.46
+                Properties:
+                  Height: =36
+                  Width: =133
+                  X: =787
+                  Y: =73
+            - Dropdown2:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  BorderStyle: =BorderStyle.None
+                  ChevronBackground: =RGBA(0, 0, 0, 1)
+                  ChevronFill: =RGBA(255, 255, 255, 1)
+                  ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =35
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Items: =('FS Survey'.'Store Name')
+                  Items.Value: =Store_x0020_Name
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(0, 18, 107, 1)
+                  SelectionColor: =RGBA(255, 255, 255, 1)
+                  SelectionFill: =RGBA(56, 96, 178, 1)
+                  Tooltip: ="Store Name"
+                  Width: =251
+                  X: =381
+                  Y: =71
+            - Label4_4:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Text: ="Store Name"
+                  X: =421
+                  Y: =40
+            - Error Label:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(224, 86, 6, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =143
+                  Text: ="Start Date connot be greater than End Date!"
+                  Visible: |-
+                    =And(
+                        Not(
+                            Or(
+                                IsBlank(DatePickerstart.SelectedDate),
+                                IsBlank(dbdend.SelectedDate)
+                            )
+                        ),
+                        DatePickerstart.SelectedDate > dbdend.SelectedDate
+                    )
+                  Width: =633
+                  X: =221
+            - TextInputCanvas2_1:
+                Control: TextInput@0.0.54
+                Properties:
+                  Placeholder: "=\"\U0001F50DSearch Area Manager\""
+                  Value: =
+                  X: =42
+                  Y: =73
+            - Button1_2:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =ColorFade(Self.Fill, -15%)
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                  Fill: =RGBA(17, 61, 15, 1)
+                  Font: =Font.'Open Sans'
+                  HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  OnSelect: =Reset(dbdend);Reset(DatePickerstart);Reset(Dropdown2);Reset(TextInputCanvas2_1)
+                  PressedBorderColor: =Self.Fill
+                  PressedColor: =Self.Fill
+                  PressedFill: =Self.Color
+                  Text: ="Reset"
+                  X: =961
+                  Y: =41
+            - Icon1:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(0, 18, 107, 1)
+                  Height: =41
+                  Icon: =Icon.Filter
+                  Width: =29
+                  X: =1121
+      - IconHeaderRefresh:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            AccessibleLabel: ="Create new leave request"
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledColor: =RGBA(193, 193, 193, 0.95)
+            DisabledFill: =IconHeaderRefresh.Fill
+            FocusedBorderColor: =IconHeaderRefresh.BorderColor
+            Height: =38
+            HoverBorderColor: =ColorFade(IconHeaderRefresh.BorderColor, 20%)
+            HoverColor: =ColorFade(IconHeaderRefresh.Color, 20%)
+            HoverFill: =IconHeaderRefresh.Fill
+            Icon: =Icon.Reload
+            OnSelect: =Refresh('FS Survey')
+            PaddingBottom: =7
+            PaddingLeft: =7
+            PaddingRight: =7
+            PaddingTop: =7
+            PressedBorderColor: =ColorFade(IconHeaderRefresh.BorderColor, -20%)
+            PressedColor: =ColorFade(IconHeaderRefresh.Color, -20%)
+            PressedFill: =IconHeaderRefresh.Fill
+            TabIndex: =
+            Width: =35
+            X: =16
+            Y: =132

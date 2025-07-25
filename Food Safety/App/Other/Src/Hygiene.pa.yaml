@@ -1,0 +1,375 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Hygiene:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: "=// Retrieve the JSON response from your data source\r\nSet(\r\n    varResponseJSON,\r\n    LookUp(\r\n        'SRA Personal Hygiene',\r\n        'Document Number' = NewDocumentNumber,\r\n        ResponseJSON\r\n    )\r\n);\r\n\r\nIf(\r\n      Or(\r\n        varResponseJSON = \"[]\",  // Check if it's an empty JSON array\r\n        IsBlank(varResponseJSON)  // Check if it's blank (empty string)\r\n    ),\r\n  // Case 1: Initialize new collection (no quotes for new columns)\r\n    ClearCollect(\r\n        colSRAHYGAnswers,\r\n        AddColumns(\r\n            'Personal Hygiene',\r\n            SelectedChoice, \"\",\r\n            comment, \"\",\r\n            correctedaction, \"\",\r\n            Priority, \"\",\r\n            Picture, \"\",\r\n            Value,0,\r\n            SelectedCr,\"\"\r\n        )\r\n    )\r\n    ,\r\n  // Case 2: Load existing JSON (no quotes for JSON properties)\r\n \r\n  ClearCollect(\r\n  colSRAHYGAnswers,\r\n    ForAll(\r\n        ParseJSON(varResponseJSON),\r\n        {\r\n        Answer: Text(ThisRecord!Answer),\r\n        Title: Text(ThisRecord!Title), // Access properties with ! and convert to text\r\n        Coeff: Value(ThisRecord!Coeff), // Convert to number\r\n        SelectedChoice: Text(ThisRecord!SelectedChoice),\r\n        comment: Text(ThisRecord!comment),\r\n        correctedaction: Text(ThisRecord!correctedaction),\r\n        Priority: Text(ThisRecord!Priority),\r\n        Picture: Text(ThisRecord!Picture),\r\n        SelectedCr: Text(ThisRecord!SelectedCr),//only for Dropdown we need to add the defult and the loading \r\n        cr: Text(ThisRecord!cr),//only for Dropdown we need to add the defult and the loading \r\n\r\n        // New calculated Value field\r\n        Value: Switch(\r\n            Text(ThisRecord!SelectedChoice),\r\n            \"Yes\", Value(ThisRecord!Coeff),\r\n            \"Partially\", Value(ThisRecord!Coeff) / 2,\r\n            \"No\", 0,\r\n            \"NA\", Blank()\r\n        )\r\n        }\r\n    )\r\n  );\r\n  \r\n);\r\n\r\n// OnVisible of the screen\r\nSet(\r\n    hygscore,\r\n    If(\r\n        IsBlank(Sum(Filter(colSRAHYGAnswers, !IsBlank(Value)), Coeff)), \r\n        0,  // Return 0 if the sum of Coeff is zero to avoid division by zero\r\n        Sum(\r\n            Filter(colSRAHYGAnswers, !IsBlank(Value)),  // Only include records where Value is not blank\r\n            Value  // Sum of values\r\n        ) * 100 / Sum(\r\n            Filter(colSRAHYGAnswers, !IsBlank(Value)),  // Only include records where Value is not blank\r\n            Coeff  // Sum of coefficients\r\n        )\r\n    )\r\n);"
+    Children:
+      - Gallery1_6:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Height: =636
+            Items: =colSRAHYGAnswers
+            ShowNavigation: =true
+            Width: =1206
+            X: =6
+            Y: =68
+          Children:
+            - RectangleBox_5:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(214, 221, 224, 1)
+                  BorderThickness: =If(ThisItem.IsSelected,3,1)
+                  Fill: =Color.Transparent
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  Width: =Parent.TemplateWidth
+            - Rectangle1_6:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Fill: =RGBA(0, 18, 107, 1)
+                  Height: =
+                  OnSelect: =Select(Parent)
+                  Visible: =ThisItem.IsSelected
+                  Width: =4
+            - Radio3_6:
+                Control: Classic/Radio@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =LookUp(
+                      colSRAHYGAnswers, 
+                      Title = ThisItem.Title,  // Match the current question
+                      SelectedChoice           // Show the saved answer
+                    )
+                  Font: =Font.'Open Sans'
+                  Height: =96
+                  HoverColor: =RGBA(0, 18, 107, 1)
+                  Items: =Split(ThisItem.Answer, ",")
+                  Items.Value: =Value
+                  Layout: =Layout.Horizontal
+                  OnSelect: |-
+                    =// OnSelect property of Radio3
+                    Patch(
+                        colSRAHYGAnswers,
+                        LookUp(
+                            colSRAHYGAnswers,
+                            Title = ThisItem.Title
+                        ),
+                        {
+                            SelectedChoice: Radio3_6.Selected.Value,
+                            Value: Switch(
+                                Radio3_6.Selected.Value,  // Now it can reference the existing SelectedChoice
+                                "Yes", ThisItem.Coeff,
+                                "Partially", ThisItem.Coeff / 2,
+                                "No", 0,
+                                "NA", Blank()
+                            )
+                        }
+                    );
+
+                    // OnVisible of the screen
+                    Set(
+                        hygscore,
+                        If(
+                            IsBlank(Sum(Filter(colSRAHYGAnswers, !IsBlank(Value)), Coeff)), 
+                            0,  // Return 0 if the sum of Coeff is zero to avoid division by zero
+                            Sum(
+                                Filter(colSRAHYGAnswers, !IsBlank(Value)),  // Only include records where Value is not blank
+                                Value  // Sum of values
+                            ) * 100 / Sum(
+                                Filter(colSRAHYGAnswers, !IsBlank(Value)),  // Only include records where Value is not blank
+                                Coeff  // Sum of coefficients
+                            )
+                        )
+                    );
+                  RadioBorderColor: =RGBA(0, 18, 107, 1)
+                  RadioSelectionFill: =RGBA(0, 0, 0, 1)
+                  Width: =246
+                  X: =443
+            - Title1_6:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(50, 49, 48, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                  Height: =96
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =14
+                  Text: =ThisItem.Title
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =432
+                  X: =11
+                  Y: =8
+            - Dropdown1_6:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  ChevronBackground: =RGBA(56, 96, 178, 1)
+                  ChevronFill: =RGBA(255, 255, 255, 1)
+                  ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                  Default: |-
+                    =LookUp(
+                      colSRAHYGAnswers, 
+                      Title = ThisItem.Title,  // Match the current question
+                      Priority           // Show the saved answer
+                    )
+                  Font: =Font.'Open Sans'
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Items: =Table({ Value:"Low" }, { Value:"Medium" }, { Value:"High" })
+                  Items.Value: =Value
+                  OnChange: |-
+                    =// OnSelect property of Dropdown1
+                    Patch(
+                        colSRAHYGAnswers,
+                        LookUp(
+                            colSRAHYGAnswers,
+                            Title = ThisItem.Title
+                        ),
+                        {Priority: Dropdown1_6.Selected.Value}
+                    )
+                  OnSelect: =
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(0, 18, 107, 1)
+                  SelectionColor: =RGBA(255, 255, 255, 1)
+                  SelectionFill: =RGBA(56, 96, 178, 1)
+                  Width: =93
+                  X: =686
+                  Y: =24
+            - TextInput1_6:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =LookUp(
+                      colSRAHYGAnswers, 
+                      Title = ThisItem.Title,  // Match the current question
+                      comment           // Show the saved answer
+                    )
+                  Font: =Font.'Open Sans'
+                  HintText: ="Comments"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  OnChange: "=// OnSelect property of Textinput2\r\nPatch(\r\n  colSRAHYGAnswers,\r\n  LookUp(colSRAHYGAnswers, Title = ThisItem.Title),\r\n  {\r\n     comment: TextInput1_6.Text }\r\n \r\n)\r\n "
+                  OnSelect: "=// OnSelect property of Textinput1\r\nPatch(\r\n  colSRAHYGAnswers,\r\n  LookUp(colSRAHYGAnswers, Title = ThisItem.Title),\r\n  {\r\n     comment: TextInput1_6.Text }\r\n \r\n)\r\n"
+                  Width: =226
+                  X: =782
+                  Y: =61
+            - TextInput2_6:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =LookUp(
+                      colSRAHYGAnswers, 
+                      Title = ThisItem.Title,  // Match the current question
+                      correctedaction         // Show the saved answer
+                    )
+                  Font: =Font.'Open Sans'
+                  Height: =32
+                  HintText: ="Corrective action"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  OnChange: "=// OnSelect property of Textinput2\r\nPatch(\r\n  colSRAHYGAnswers,\r\n  LookUp(colSRAHYGAnswers, Title = ThisItem.Title),\r\n  {\r\n     correctedaction: TextInput2_6.Text }\r\n \r\n)"
+                  OnSelect: =
+                  Visible: =false
+                  Width: =229
+                  X: =779
+                  Y: =44
+            - Subtitle1_6:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                  Height: =Self.Size * 1.8
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =12
+                  Text: =ThisItem.Coeff
+                  VerticalAlign: =VerticalAlign.Top
+                  Visible: =false
+                  Width: =Title1_6.Width
+                  X: =Title1_6.X
+                  Y: =Title1_6.Y + Title1_6.Height
+            - TextCanvas3_5:
+                Control: Text@0.0.51
+                Properties:
+                  Text: =ThisItem.Value
+                  X: =1215
+                  Y: =32
+            - DataCardValue45:
+                Control: Attachments@2.3.0
+                Properties:
+                  BorderColor: =Color.Black
+                  DisplayMode: =Parent.DisplayMode
+                  Font: =Font.'Open Sans'
+                  Height: =104
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  ItemColor: =RGBA(255, 255, 255, 1)
+                  ItemFill: =RGBA(56, 96, 178, 1)
+                  ItemHoverFill: =RGBA(186, 202, 226, 1)
+                  OnAddFile: |+
+                    =Set(MyLink,
+                        UploadImagetoSharepointV2.Run({file:{contentBytes:Last(Self.Attachments).Value, name:Last(Self.Attachments).Name}})
+                    );
+                    // OnSelect property of Radio3
+                    Patch(
+                        colSRAHYGAnswers,
+                        LookUp(
+                            colSRAHYGAnswers,
+                            Title = ThisItem.Title
+                        ),
+                        {
+                            Picture: MyLink.mylink
+                        }
+                    );
+                  PaddingBottom: =5
+                  PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(0, 18, 107, 1)
+                  Tooltip: =
+                  Width: =84
+                  X: =1102
+            - Image1_5:
+                Control: Image@2.2.3
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Image: =ThisItem.Picture
+                  X: =957
+                  Y: =1
+            - Dropdown3_5:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  ChevronBackground: =RGBA(56, 96, 178, 1)
+                  ChevronFill: =RGBA(255, 255, 255, 1)
+                  ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                  Default: |-
+                    =LookUp(
+                      colSRAHYGAnswers, 
+                      Title = ThisItem.Title,  // Match the current question
+                      SelectedCr           // Show the saved answer
+                    )
+                  Font: =Font.'Open Sans'
+                  HoverFill: =RGBA(166, 215, 153, 1)
+                  Items: =Split(Trim(ThisItem.cr), ",")
+                  Items.Value: =Value
+                  OnChange: |-
+                    =// OnSelect property of Radio3
+                    Patch(
+                        colSRAHYGAnswers,
+                        LookUp(
+                            colSRAHYGAnswers,
+                            Title = ThisItem.Title
+                        ),
+                        {
+                            SelectedCr: Dropdown3_5.Selected.Value
+                        }
+                    );
+                  OnSelect: |-
+                    =// OnSelect property of Radio3
+                    Patch(
+                        colSRAHYGAnswers,
+                        LookUp(
+                            colSRAHYGAnswers,
+                            Title = ThisItem.Title
+                        ),
+                        {
+                            SelectedCr: Dropdown3_5.Selected.Value
+                        }
+                    );
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(0, 18, 107, 1)
+                  SelectionColor: =RGBA(255, 255, 255, 1)
+                  SelectionFill: =RGBA(56, 96, 178, 1)
+                  Tooltip: =
+                  Width: =243
+                  X: =782
+                  Y: =28
+      - Header1_6:
+          Control: Header@0.0.44
+          Properties:
+            Align: =Align.Center
+            Fill: =RGBA(166, 215, 153, 1)
+            IsLogoVisible: =false
+            Style: ='Header.Style'.Light
+            Title: ="Personal Hygiene"
+      - TextCanvas5_5:
+          Control: Text@0.0.51
+          Properties:
+            Height: =26
+            Text: |+
+              =$"Score " & Text(hygscore, "[$-en-US]0.00")
+            Width: =74
+            X: =1227
+            Y: =79
+      - Icon6_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Icon: =Icon.BackArrow
+            OnSelect: =Navigate(Cnd);
+            X: =6
+            Y: =704
+      - Icon7_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Icon: =Icon.NextArrow
+            OnSelect: =Navigate(Restroom);
+            X: =1301
+            Y: =703
+      - Icon3_4:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =46
+            Icon: =Icon.Save
+            OnSelect: =Navigate(PolicesndProcedure)
+            Width: =42
+            X: =1323
+            Y: =128
+      - Icon4_5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =49
+            Icon: =Icon.Home
+            OnSelect: =Navigate('Food Safety Checklist')
+            Width: =44
+            X: =1321
+            Y: =77
+      - TextCanvas4_5:
+          Control: Text@0.0.51
+          Properties:
+            Text: |+
+              = "Page " & currentPageIndex+5
+            X: =602
+            Y: =733
