@@ -1,0 +1,24 @@
+If(
+    "Pending" in _requestTypeFilter,
+    Filter(
+        'Leave Request',
+        'Created By'.Email = User().Email && (Status.Value = "Pending Manager Approval" || Status.Value = "Pending HR Approval")
+    ),
+    Filter(
+        'Leave Request',
+        'Created By'.Email = User().Email && (Status.Value = _requestTypeFilter || _requestTypeFilter = "All")
+    )
+)
+
+// On Start for Leave Req
+
+Set(
+    _requestTypeFilter,
+    "All"
+);
+Set(
+    userEmail,
+    User().Email
+);
+Set(userManager, Office365Users.ManagerV2(userEmail));
+Set(HRManagerEmail, "joelle.sadaka@gmrlgroup.com")
