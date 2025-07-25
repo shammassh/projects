@@ -1,0 +1,21 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |-
+        =Set(
+            _requestTypeFilter,
+            "All"
+        );
+        Set(
+            userEmail,
+            User().Email
+        );
+        Set(userManager, Office365Users.ManagerV2(userEmail));
+        Set(HRManagerEmail, "joelle.sadaka@gmrlgroup.com")
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

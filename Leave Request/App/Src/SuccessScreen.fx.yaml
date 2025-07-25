@@ -1,0 +1,84 @@
+"SuccessScreen As screen.'tabletLayout_Success_ver3.0'":
+    Fill: =RGBA(237, 237, 237, 1)
+
+    iconCircle1 As circle.Circle:
+        Fill: =RGBA(255, 201, 14, 1)
+        X: =Parent.Width/2 - Self.Width/2
+        Y: =(Parent.Height/2 - Self.Height/2) * .7
+        ZIndex: =1
+
+    iconCheck1 As icon.Check:
+        Height: =iconCircle1.Height
+        Icon: =Icon.Check
+        PaddingBottom: =Self.PaddingTop
+        PaddingLeft: =Self.PaddingTop
+        PaddingRight: =Self.PaddingTop
+        PaddingTop: =24
+        Width: =iconCircle1.Width
+        X: =Parent.Width/2 - Self.Width/2
+        Y: =(Parent.Height/2 - Self.Height/2) * .7
+        ZIndex: =2
+
+    LblSuccessMsg1 As label:
+        Align: =Align.Center
+        AutoHeight: =true
+        Height: =iconCircle1.Height
+        Size: =20
+        Text: ="Your leave request was successfully submitted"
+        Width: =Parent.Width * 0.75
+        X: =Parent.Width/2 - Self.Width/2
+        Y: =iconCheck1.Y + iconCheck1.Height + 100
+        ZIndex: =3
+
+    Rectangle1_2 As rectangle:
+        BorderColor: =RGBA(101, 128, 187, 1)
+        DisabledFill: =Rectangle1_2.Fill
+        Fill: =RGBA(0, 0, 0, 1)
+        FocusedBorderColor: =Rectangle1_2.BorderColor
+        Height: =80
+        HoverFill: =Rectangle1_2.Fill
+        PressedFill: =Rectangle1_2.Fill
+        Width: =1366
+        ZIndex: =4
+
+    Label8_1 As label:
+        Align: =LayoutAlignItems.Center
+        BorderColor: =RGBA(101, 128, 187, 1)
+        Color: =RGBA(255, 255, 255, 1)
+        DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+        FocusedBorderColor: =Label8_1.BorderColor
+        Font: =Font.Lato
+        FontWeight: =FontWeight.Semibold
+        Height: =86
+        HoverBorderColor: =Label8_1.BorderColor
+        HoverColor: =Label8_1.Color
+        HoverFill: =Label8_1.Fill
+        PressedBorderColor: =Label8_1.BorderColor
+        PressedColor: =Label8_1.Color
+        PressedFill: =Label8_1.Fill
+        Size: =20
+        Text: ="Success"
+        Width: =243
+        X: =560
+        ZIndex: =5
+
+    icon2_3 As icon.ArrowRight:
+        BorderColor: =RGBA(101, 128, 187, 1)
+        Color: =Color.White
+        DisabledBorderColor: =RGBA(159, 167, 165, 1)
+        DisabledColor: =RGBA(193, 193, 193, 0.95)
+        DisabledFill: =icon2_3.Fill
+        FocusedBorderColor: =icon2_3.BorderColor
+        HoverBorderColor: =ColorFade(icon2_3.BorderColor, 20%)
+        HoverColor: =ColorFade(icon2_3.Color, 20%)
+        HoverFill: =icon2_3.Fill
+        Icon: =Icon.Home
+        OnSelect: =Navigate(HomeScreen)
+        PressedBorderColor: =ColorFade(icon2_3.BorderColor, -20%)
+        PressedColor: =ColorFade(icon2_3.Color, -20%)
+        PressedFill: =icon2_3.Fill
+        Width: =32
+        X: =16
+        Y: =9
+        ZIndex: =6
+

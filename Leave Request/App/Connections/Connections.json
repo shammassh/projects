@@ -1,0 +1,178 @@
+{
+  "49a1455c-b34a-44d9-8b18-2e4519480314": {
+    "appActions": [],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Logic flows",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1752/1.0.1752.4216/logicflows/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_logicflows",
+      "parameterHints": {
+        "76a12617-43a0-43f7-8b5b-0a5e98afe045": {
+          "value": "shared_sharepointonline"
+        },
+        "ad58caaa-be00-4ac5-8379-376f777c9d12": {
+          "value": "shared_office365users"
+        },
+        "c8e0a1af-133f-40a1-b8d8-fbea4739f50c": {
+          "value": "shared_approvals"
+        },
+        "workflowDisplayName": {
+          "value": "Approval"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "38848f03-111f-4aeb-8c08-6b0fd8e0bfec"
+        }
+      },
+      "parameterHintsV2": {
+        "shared_approvals": {
+          "value": "c8e0a1af-133f-40a1-b8d8-fbea4739f50c"
+        },
+        "shared_office365users": {
+          "value": "ad58caaa-be00-4ac5-8379-376f777c9d12"
+        },
+        "shared_sharepointonline": {
+          "value": "76a12617-43a0-43f7-8b5b-0a5e98afe045"
+        },
+        "workflowDisplayName": {
+          "value": "Approval"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "38848f03-111f-4aeb-8c08-6b0fd8e0bfec"
+        }
+      }
+    },
+    "datasets": {},
+    "dataSources": [
+      "Approval"
+    ],
+    "dependencies": {
+      "shared_approvals": "c8e0a1af-133f-40a1-b8d8-fbea4739f50c",
+      "shared_office365users": "ad58caaa-be00-4ac5-8379-376f777c9d12",
+      "shared_sharepointonline": "76a12617-43a0-43f7-8b5b-0a5e98afe045"
+    },
+    "dependents": [],
+    "id": "49a1455c-b34a-44d9-8b18-2e4519480314"
+  },
+  "76a12617-43a0-43f7-8b5b-0a5e98afe045": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1754/1.0.1754.4231/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://spinneysleb.sharepoint.com/operations": {
+        "dataSources": {
+          "Leave Request": {
+            "tableName": "6f307617-d767-488e-8435-ab7e7dca2fff"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Leave Request"
+    ],
+    "dependencies": {},
+    "dependents": [
+      "bd4a3c43-6822-4ec0-a39a-fce98568aa60",
+      "49a1455c-b34a-44d9-8b18-2e4519480314"
+    ],
+    "id": "76a12617-43a0-43f7-8b5b-0a5e98afe045"
+  },
+  "ad58caaa-be00-4ac5-8379-376f777c9d12": {
+    "appActions": [
+      "ManagerV2"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1751/1.0.1751.4213/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [
+      "bd4a3c43-6822-4ec0-a39a-fce98568aa60",
+      "49a1455c-b34a-44d9-8b18-2e4519480314"
+    ],
+    "id": "ad58caaa-be00-4ac5-8379-376f777c9d12"
+  },
+  "bd4a3c43-6822-4ec0-a39a-fce98568aa60": {
+    "appActions": [],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Logic flows",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1752/1.0.1752.4216/logicflows/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_logicflows",
+      "parameterHints": {
+        "76a12617-43a0-43f7-8b5b-0a5e98afe045": {
+          "value": "shared_sharepointonline"
+        },
+        "ad58caaa-be00-4ac5-8379-376f777c9d12": {
+          "value": "shared_office365users"
+        },
+        "c8e0a1af-133f-40a1-b8d8-fbea4739f50c": {
+          "value": "shared_approvals"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "51df9431-2183-4d1e-85ce-6c8da86684f8"
+        }
+      },
+      "parameterHintsV2": {
+        "shared_approvals": {
+          "value": "c8e0a1af-133f-40a1-b8d8-fbea4739f50c"
+        },
+        "shared_office365users": {
+          "value": "ad58caaa-be00-4ac5-8379-376f777c9d12"
+        },
+        "shared_sharepointonline": {
+          "value": "76a12617-43a0-43f7-8b5b-0a5e98afe045"
+        }
+      }
+    },
+    "datasets": {},
+    "dataSources": [
+      "LeaveRequestApprovalProcessflow"
+    ],
+    "dependencies": {
+      "shared_approvals": "c8e0a1af-133f-40a1-b8d8-fbea4739f50c",
+      "shared_office365users": "ad58caaa-be00-4ac5-8379-376f777c9d12",
+      "shared_sharepointonline": "76a12617-43a0-43f7-8b5b-0a5e98afe045"
+    },
+    "dependents": [],
+    "id": "bd4a3c43-6822-4ec0-a39a-fce98568aa60"
+  },
+  "c8e0a1af-133f-40a1-b8d8-fbea4739f50c": {
+    "appActions": [],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Standard approvals",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1758/1.0.1758.4260/approvals/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_approvals",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [],
+    "dependencies": {},
+    "dependents": [
+      "bd4a3c43-6822-4ec0-a39a-fce98568aa60",
+      "49a1455c-b34a-44d9-8b18-2e4519480314"
+    ],
+    "id": "c8e0a1af-133f-40a1-b8d8-fbea4739f50c"
+  }
+}

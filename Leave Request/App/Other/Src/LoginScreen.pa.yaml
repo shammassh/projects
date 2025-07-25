@@ -1,0 +1,242 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  LoginScreen:
+    Properties:
+      Fill: =RGBA(255, 201, 14, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+    Children:
+      - HeaderBackgroundImage:
+          Control: Image@2.2.3
+          Group: WelcomePageHeaderGroup
+          Properties:
+            ApplyEXIFOrientation: =false
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledFill: =RGBA(193, 193, 193, 0.95)
+            FocusedBorderColor: =HeaderBackgroundImage.BorderColor
+            Height: =768
+            HoverBorderColor: =ColorFade(HeaderBackgroundImage.BorderColor, 20%)
+            HoverFill: =ColorFade(HeaderBackgroundImage.Fill, 20%)
+            Image: =vacation
+            ImagePosition: =ImagePosition.Fill
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =ColorFade(HeaderBackgroundImage.BorderColor, -20%)
+            PressedFill: =ColorFade(HeaderBackgroundImage.Fill, -20%)
+            Width: =886
+      - LblManagerLogin:
+          Control: Label@2.5.1
+          Group: LoginAsManagerGroup
+          Properties:
+            Align: =LayoutAlignItems.Center
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            FocusedBorderColor: =LblManagerLogin.BorderColor
+            FocusedBorderThickness: =2
+            Font: =Font.Lato
+            Height: =63
+            HoverBorderColor: =LblManagerLogin.BorderColor
+            HoverColor: =LblManagerLogin.Color
+            HoverFill: =LblManagerLogin.Fill
+            Live: =Live.Polite
+            OnSelect: =Select(BtnManagerLogin)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =LblManagerLogin.BorderColor
+            PressedColor: =LblManagerLogin.Color
+            PressedFill: =LblManagerLogin.Fill
+            Size: =16
+            Text: |-
+              ="TO APPROVE OR DECLINE 
+              PENDING LEAVE REQUESTS"
+            Visible: =false
+            Width: =413
+            X: =933
+            Y: =437
+      - LblEmployeeLogin:
+          Control: Label@2.5.1
+          Group: LoginAsEmployeeGroup
+          Properties:
+            Align: =LayoutAlignItems.Center
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            FocusedBorderColor: =LblEmployeeLogin.BorderColor
+            FocusedBorderThickness: =2
+            Font: =Font.Lato
+            Height: =77
+            HoverBorderColor: =LblEmployeeLogin.BorderColor
+            HoverColor: =LblEmployeeLogin.Color
+            HoverFill: =LblEmployeeLogin.Fill
+            Live: =Live.Polite
+            OnSelect: =Select(BtnEmployeeLogin)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =LblEmployeeLogin.BorderColor
+            PressedColor: =LblEmployeeLogin.Color
+            PressedFill: =LblEmployeeLogin.Fill
+            Size: =16
+            Text: ="TO SUBMIT A LEAVE REQUEST"
+            Width: =287
+            X: =991
+            Y: =263
+      - LeaveLabel:
+          Control: Label@2.5.1
+          Group: WelcomePageHeaderGroup
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            FocusedBorderColor: =LeaveLabel.BorderColor
+            Font: =Font.Lato
+            Height: =43
+            HoverBorderColor: =LeaveLabel.BorderColor
+            HoverColor: =LeaveLabel.Color
+            HoverFill: =LeaveLabel.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =LeaveLabel.BorderColor
+            PressedColor: =LeaveLabel.Color
+            PressedFill: =LeaveLabel.Fill
+            Size: =34
+            Text: ="LEAVE"
+            Width: =156
+            X: =556
+            Y: =609
+      - RequestLabel:
+          Control: Label@2.5.1
+          Group: WelcomePageHeaderGroup
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            FocusedBorderColor: =RequestLabel.BorderColor
+            Font: =Font.Lato
+            Height: =43
+            HoverBorderColor: =RequestLabel.BorderColor
+            HoverColor: =RequestLabel.Color
+            HoverFill: =RequestLabel.Fill
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0.00
+            PaddingTop: =0.00
+            PressedBorderColor: =RequestLabel.BorderColor
+            PressedColor: =RequestLabel.Color
+            PressedFill: =RequestLabel.Fill
+            Size: =34
+            Text: ="REQUEST"
+            Width: =219
+            X: =274
+            Y: =608
+      - BtnEmployeeLogin:
+          Control: Classic/Button@2.2.0
+          Group: LoginAsEmployeeGroup
+          Properties:
+            BorderColor: =ColorFade(BtnEmployeeLogin.Fill, -15%)
+            BorderThickness: =0
+            Color: =RGBA(255,255,255,1)
+            DisabledBorderColor: =ColorFade(BtnEmployeeLogin.BorderColor, 70%)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            DisabledFill: =ColorFade(RGBA(159, 167, 165, 1), 50%)
+            Fill: =RGBA(0, 0, 0, 1)
+            FocusedBorderColor: =BtnEmployeeLogin.BorderColor
+            Font: =Font.'Open Sans'
+            Height: =38
+            HoverBorderColor: =ColorFade(BtnEmployeeLogin.BorderColor, 20%)
+            HoverColor: =BtnEmployeeLogin.Color
+            HoverFill: =ColorFade(BtnEmployeeLogin.Fill, 20%)
+            OnSelect: |-
+              =
+              Set(_requestTypeFilter,"All");
+              Navigate(HomeScreen,BorderStyle.None)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =BtnEmployeeLogin.Fill
+            PressedColor: =BtnEmployeeLogin.Fill
+            PressedFill: =BtnEmployeeLogin.Color
+            RadiusBottomLeft: =15
+            RadiusBottomRight: =15
+            RadiusTopLeft: =15
+            RadiusTopRight: =15
+            Text: ="Login as an employee"
+            Width: =298
+            X: =991
+            Y: =357
+      - BtnManagerLogin:
+          Control: Classic/Button@2.2.0
+          Group: LoginAsManagerGroup
+          Properties:
+            BorderColor: =ColorFade(BtnManagerLogin.Fill, -15%)
+            BorderThickness: =0
+            Color: =RGBA(255,255,255,1)
+            DisabledBorderColor: =ColorFade(BtnManagerLogin.BorderColor, 70%)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            DisabledFill: =ColorFade(RGBA(159, 167, 165, 1), 50%)
+            Fill: =RGBA(0, 71, 144, 1)
+            FocusedBorderColor: =BtnManagerLogin.BorderColor
+            Font: =Font.'Open Sans'
+            Height: =38
+            HoverBorderColor: =ColorFade(BtnManagerLogin.BorderColor, 20%)
+            HoverColor: =BtnManagerLogin.Color
+            HoverFill: =ColorFade(BtnManagerLogin.Fill, 20%)
+            OnSelect: =Refresh('Leave Request'); Navigate(ApprovalDashboard,BorderStyle.None)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =BtnManagerLogin.Fill
+            PressedColor: =BtnManagerLogin.Fill
+            PressedFill: =BtnManagerLogin.Color
+            RadiusBottomLeft: =15
+            RadiusBottomRight: =15
+            RadiusTopLeft: =15
+            RadiusTopRight: =15
+            Text: ="Login as an approver"
+            Visible: =false
+            Width: =298
+            X: =991
+            Y: =520
+      - icoArrow:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledColor: =RGBA(193, 193, 193, 0.95)
+            DisabledFill: =icoArrow.Fill
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =icoArrow.BorderColor
+            Height: =56
+            HoverBorderColor: =ColorFade(icoArrow.BorderColor, 20%)
+            HoverColor: =ColorFade(icoArrow.Color, 20%)
+            HoverFill: =icoArrow.Fill
+            Icon: =Icon.ArrowRight
+            PressedBorderColor: =ColorFade(icoArrow.BorderColor, -20%)
+            PressedColor: =ColorFade(icoArrow.Color, -20%)
+            PressedFill: =icoArrow.Fill
+            Width: =56
+            X: =496
+            Y: =601
+      - Image1:
+          Control: Image@2.2.3
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Height: =218
+            Image: ='WhatsApp Image 2025-07-15 at 3.22.36 PM'
+            Width: =326
+            X: =976
+            Y: =26

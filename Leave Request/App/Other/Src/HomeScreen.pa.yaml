@@ -1,0 +1,1020 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  HomeScreen:
+    Properties:
+      Fill: =RGBA(255, 201, 14, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+    Children:
+      - RectangleBkg:
+          Control: Rectangle@2.3.0
+          Group: Header
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DisabledFill: =RectangleBkg.Fill
+            Fill: =RGBA(0, 0, 0, 1)
+            FocusedBorderColor: =RectangleBkg.BorderColor
+            Height: =80
+            HoverFill: =RectangleBkg.Fill
+            PressedFill: =RectangleBkg.Fill
+            Width: =1366
+      - LblHeaderTItleRequest:
+          Control: Label@2.5.1
+          Group: Header
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            FocusedBorderColor: =LblHeaderTItleRequest.BorderColor
+            Font: =Font.Lato
+            Height: =80
+            HoverBorderColor: =LblHeaderTItleRequest.BorderColor
+            HoverColor: =LblHeaderTItleRequest.Color
+            HoverFill: =LblHeaderTItleRequest.Fill
+            PressedBorderColor: =LblHeaderTItleRequest.BorderColor
+            PressedColor: =LblHeaderTItleRequest.Color
+            PressedFill: =LblHeaderTItleRequest.Fill
+            Size: =18
+            Text: =Upper("Request")
+            Width: =117
+            X: =70
+      - LblHeaderTitleLeave:
+          Control: Label@2.5.1
+          Group: Header
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            FocusedBorderColor: =LblHeaderTitleLeave.BorderColor
+            Font: =Font.'Open Sans'
+            Height: =80
+            HoverBorderColor: =LblHeaderTitleLeave.BorderColor
+            HoverColor: =LblHeaderTitleLeave.Color
+            HoverFill: =LblHeaderTitleLeave.Fill
+            PressedBorderColor: =LblHeaderTitleLeave.BorderColor
+            PressedColor: =LblHeaderTitleLeave.Color
+            PressedFill: =LblHeaderTitleLeave.Fill
+            Size: =18
+            Text: =Upper("Leave")
+            Width: =138
+            X: =218
+      - icoArrowRight:
+          Control: Classic/Icon@2.5.0
+          Group: Header
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =Color.White
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledColor: =RGBA(193, 193, 193, 0.95)
+            DisabledFill: =icoArrowRight.Fill
+            FocusedBorderColor: =icoArrowRight.BorderColor
+            HoverBorderColor: =ColorFade(icoArrowRight.BorderColor, 20%)
+            HoverColor: =ColorFade(icoArrowRight.Color, 20%)
+            HoverFill: =icoArrowRight.Fill
+            Icon: =Icon.ArrowRight
+            PressedBorderColor: =ColorFade(icoArrowRight.BorderColor, -20%)
+            PressedColor: =ColorFade(icoArrowRight.Color, -20%)
+            PressedFill: =icoArrowRight.Fill
+            Width: =32
+            X: =183
+            Y: =9
+      - CircleHeaderCreateNew:
+          Control: Circle@2.3.0
+          Group: Header
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DisabledFill: =CircleHeaderCreateNew.Fill
+            Fill: =Color.White
+            FocusedBorderColor: =CircleHeaderCreateNew.BorderColor
+            Height: =46
+            HoverFill: =CircleHeaderCreateNew.Fill
+            OnSelect: =ResetForm(Form1);NewForm(Form1);Navigate(NewRequestScreen)
+            PressedFill: =CircleHeaderCreateNew.Fill
+            Width: =46
+            X: =1149
+            Y: =18
+      - IconHeaderCreateNew:
+          Control: Classic/Icon@2.5.0
+          Group: Header
+          Properties:
+            AccessibleLabel: ="Create new leave request"
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RectangleBkg.Fill
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledColor: =RGBA(193, 193, 193, 0.95)
+            DisabledFill: =IconHeaderCreateNew.Fill
+            FocusedBorderColor: =IconHeaderCreateNew.BorderColor
+            Height: =46
+            HoverBorderColor: =ColorFade(IconHeaderCreateNew.BorderColor, 20%)
+            HoverColor: =ColorFade(IconHeaderCreateNew.Color, 20%)
+            HoverFill: =IconHeaderCreateNew.Fill
+            Icon: =Icon.Add
+            OnSelect: =ResetForm(Form1);NewForm(Form1);Navigate(NewRequestScreen)
+            PaddingBottom: =7
+            PaddingLeft: =7
+            PaddingRight: =7
+            PaddingTop: =7
+            PressedBorderColor: =ColorFade(IconHeaderCreateNew.BorderColor, -20%)
+            PressedColor: =ColorFade(IconHeaderCreateNew.Color, -20%)
+            PressedFill: =IconHeaderCreateNew.Fill
+            TabIndex: =
+            Width: =46
+            X: =1149
+            Y: =18
+      - LblHeaderCreateNew:
+          Control: Label@2.5.1
+          Group: Header
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            FocusedBorderColor: =LblHeaderCreateNew.BorderColor
+            FocusedBorderThickness: =02
+            Font: =Font.Lato
+            FontWeight: =FontWeight.Bold
+            Height: =80
+            HoverBorderColor: =LblHeaderCreateNew.BorderColor
+            HoverColor: =LblHeaderCreateNew.Color
+            HoverFill: =LblHeaderCreateNew.Fill
+            OnSelect: =ResetForm(Form1);NewForm(Form1);Navigate(NewRequestScreen)
+            PaddingBottom: =0
+            PaddingLeft: =0
+            PaddingRight: =0
+            PaddingTop: =0
+            PressedBorderColor: =LblHeaderCreateNew.BorderColor
+            PressedColor: =LblHeaderCreateNew.Color
+            PressedFill: =LblHeaderCreateNew.Fill
+            Size: =13.5
+            Text: ="Create Request"
+            Width: =155
+            X: =1211
+      - LblRequestDetailsHeader:
+          Control: Label@2.5.1
+          Properties:
+            Align: =LayoutAlignItems.Center
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            FocusedBorderColor: =LblRequestDetailsHeader.BorderColor
+            Font: =Font.Lato
+            FontWeight: =FontWeight.Bold
+            Height: =31
+            HoverBorderColor: =LblRequestDetailsHeader.BorderColor
+            HoverColor: =LblRequestDetailsHeader.Color
+            HoverFill: =LblRequestDetailsHeader.Fill
+            PressedBorderColor: =LblRequestDetailsHeader.BorderColor
+            PressedColor: =LblRequestDetailsHeader.Color
+            PressedFill: =LblRequestDetailsHeader.Fill
+            Size: =18
+            Text: ="Request Details"
+            Width: =257
+            X: =1027
+            Y: =102
+      - FilterGallery:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Horizontal_TwoTextOneImageVariant_ver4.0
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DelayItemLoading: =false
+            Height: =46
+            Items: |-
+              =Table({Filter: "All"}, {Filter: "Pending"}, {Filter: "Approved"}, {Filter: "Declined"})
+            LoadingSpinner: =LoadingSpinner.None
+            LoadingSpinnerColor: =FilterGallery.BorderColor
+            ShowScrollbar: =false
+            TemplateSize: =140
+            Width: =564
+            X: =163
+            Y: =98
+          Children:
+            - FilterButton:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =RGBA(10, 106, 204, 1)
+                  Color: =If(_requestTypeFilter=ThisItem.Filter,RGBA(255, 255, 255, 1),RGBA(10, 106, 204, 1))
+                  DisabledBorderColor: =ColorFade(FilterButton.BorderColor, 70%)
+                  DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+                  DisabledFill: =ColorFade(RGBA(159, 167, 165, 1), 50%)
+                  Fill: =If(_requestTypeFilter=ThisItem.Filter,RGBA(0, 71, 144, 1),RGBA(255, 255, 255, 1))
+                  FocusedBorderColor: =FilterButton.BorderColor
+                  FocusedBorderThickness: =2
+                  Font: =Font.Lato
+                  FontWeight: =FontWeight.Bold
+                  Height: =36
+                  HoverBorderColor: =ColorFade(FilterButton.BorderColor, 20%)
+                  HoverColor: =FilterButton.Color
+                  HoverFill: =ColorFade(FilterButton.Fill, 20%)
+                  OnSelect: |-
+                    =If(ThisItem.Filter <> _requestTypeFilter,
+                    Set(_showDetails, false); 
+                    Set(_requestTypeFilter, ThisItem.Filter))
+                  PressedBorderColor: =FilterButton.Fill
+                  PressedColor: =If(_requestTypeFilter=ThisItem.Filter,RGBA(255, 255, 255, 1),RGBA(10, 106, 204, 1))
+                  PressedFill: =FilterButton.Color
+                  RadiusBottomLeft: =25
+                  RadiusBottomRight: =25
+                  RadiusTopLeft: =25
+                  RadiusTopRight: =25
+                  Size: =14
+                  Text: =ThisItem.Filter
+                  Width: =116
+                  X: =12
+                  Y: =6
+      - icoLogo:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =Color.White
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledColor: =RGBA(193, 193, 193, 0.95)
+            DisabledFill: =icoLogo.Fill
+            FocusedBorderColor: =icoLogo.BorderColor
+            HoverBorderColor: =ColorFade(icoLogo.BorderColor, 20%)
+            HoverColor: =ColorFade(icoLogo.Color, 20%)
+            HoverFill: =icoLogo.Fill
+            Icon: =Icon.LogJournal
+            OnSelect: =Navigate(LoginScreen)
+            PressedBorderColor: =ColorFade(icoLogo.BorderColor, -20%)
+            PressedColor: =ColorFade(icoLogo.Color, -20%)
+            PressedFill: =icoLogo.Fill
+            Width: =32
+            X: =20
+            Y: =8
+      - IconHeaderRefresh:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            AccessibleLabel: ="Create new leave request"
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RectangleBkg.Fill
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledColor: =RGBA(193, 193, 193, 0.95)
+            DisabledFill: =IconHeaderRefresh.Fill
+            FocusedBorderColor: =IconHeaderRefresh.BorderColor
+            Height: =46
+            HoverBorderColor: =ColorFade(IconHeaderRefresh.BorderColor, 20%)
+            HoverColor: =ColorFade(IconHeaderRefresh.Color, 20%)
+            HoverFill: =IconHeaderRefresh.Fill
+            Icon: =Icon.Reload
+            OnSelect: =Refresh('Leave Request')
+            PaddingBottom: =7
+            PaddingLeft: =7
+            PaddingRight: =7
+            PaddingTop: =7
+            PressedBorderColor: =ColorFade(IconHeaderRefresh.BorderColor, -20%)
+            PressedColor: =ColorFade(IconHeaderRefresh.Color, -20%)
+            PressedFill: =IconHeaderRefresh.Fill
+            TabIndex: =
+            Width: =46
+            X: =13
+            Y: =100
+      - galLeaveRequests:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver4.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DelayItemLoading: =false
+            Fill: =RGBA(255, 201, 14, 0.01)
+            Height: =596
+            Items: |-
+              =If(
+                  "Pending" in _requestTypeFilter,
+                  Filter(
+                      'Leave Request',
+                      'Created By'.Email = User().Email && (Status.Value = "Pending Manager Approval" || Status.Value = "Pending HR Approval")
+                  ),
+                  Filter(
+                      'Leave Request',
+                      'Created By'.Email = User().Email && (Status.Value = _requestTypeFilter || _requestTypeFilter = "All")
+                  )
+              )
+            LoadingSpinner: =LoadingSpinner.None
+            TemplatePadding: =20
+            TemplateSize: =293
+            Width: =974
+            WrapCount: =2
+            Y: =172
+          Children:
+            - Rectangle2:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  BorderThickness: =If(ThisItem.IsSelected,3,1)
+                  DisplayMode: =DisplayMode.View
+                  Fill: =RGBA(255, 255, 255, 1)
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  Width: =Parent.TemplateWidth
+            - Rectangle4:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Fill: =RGBA(56, 96, 178, 1)
+                  Height: =4
+                  OnSelect: =Select(Parent)
+                  Width: =205
+                  X: =131
+                  Y: =193
+            - Title2:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =LayoutAlignItems.Center
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Semibold
+                  Height: =37
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =20
+                  Text: =ThisItem.Title
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =Parent.TemplateWidth
+                  Y: =16
+            - Subtitle2:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =LayoutAlignItems.Center
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =Self.Size * 1.8
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =18
+                  Text: =ThisItem.'Leave Type'.Value
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =Title2.Width
+                  X: =Title2.X
+                  Y: =65
+            - Separator2:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Fill: =RGBA(0, 18, 107, 1)
+                  Height: =1
+                  OnSelect: =Select(Parent)
+                  Width: =Parent.TemplateWidth
+                  Y: =Parent.TemplateHeight - 1
+            - Subtitle2_1:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =LayoutAlignItems.Center
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =Self.Size * 1.8
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =18
+                  Text: =ThisItem.From & " - " & ThisItem.To
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =Title2.Width
+                  X: =Title2.X
+                  Y: =112
+            - Subtitle2_2:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =LayoutAlignItems.Center
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(255, 255, 255, 1)
+                  Fill: =Switch(Self.Text,"Approved",Color.DarkGreen,"Declined",Color.DarkRed,Color.DarkGoldenRod)
+                  Font: =Font.'Open Sans'
+                  Height: =Self.Size * 1.8
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =18
+                  Text: =ThisItem.Status.Value
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =Title2.Width
+                  X: =Title2.X
+                  Y: =260
+            - Image3:
+                Control: Image@2.2.3
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Height: =75
+                  Image: =ThisItem.'Created By'.Picture
+                  ImagePosition: =ImagePosition.Fill
+                  OnSelect: =Select(Parent)
+                  RadiusBottomLeft: =75
+                  RadiusBottomRight: =75
+                  RadiusTopLeft: =75
+                  RadiusTopRight: =75
+                  Width: =75
+                  X: =56
+                  Y: =157
+            - Image3_1:
+                Control: Image@2.2.3
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Height: =75
+                  Image: =ThisItem.Manager.Picture
+                  ImagePosition: =ImagePosition.Fill
+                  OnSelect: =Select(Parent)
+                  RadiusBottomLeft: =75
+                  RadiusBottomRight: =75
+                  RadiusTopLeft: =75
+                  RadiusTopRight: =75
+                  Width: =75
+                  X: =190
+                  Y: =157
+            - Image3_2:
+                Control: Image@2.2.3
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Height: =75
+                  Image: =ThisItem.HR.Picture
+                  ImagePosition: =ImagePosition.Fill
+                  OnSelect: =Select(Parent)
+                  RadiusBottomLeft: =75
+                  RadiusBottomRight: =75
+                  RadiusTopLeft: =75
+                  RadiusTopRight: =75
+                  Width: =75
+                  X: =324
+                  Y: =157
+            - Icon2:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(0, 18, 107, 1)
+                  Height: =39
+                  Icon: =Icon.Post
+                  OnSelect: =Select(Parent)
+                  Width: =34
+                  X: =33
+                  Y: =137
+            - Icon2_1:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: |-
+                    =If(
+                        ThisItem.Status.Value = "Approved" || ThisItem.Status.Value = "Pending HR Approval",
+                        Color.DarkGreen,
+                        If(
+                            ThisItem.Status.Value = "Pending Manager Approval",
+                            Color.DarkGoldenRod,
+                            Color.DarkRed
+                        )
+                    )
+                  Fill: =Color.Transparent
+                  Height: =32
+                  Icon: |-
+                    =If(
+                        ThisItem.Status.Value = "Approved" || ThisItem.Status.Value = "Pending HR Approval",
+                        Icon.CheckBadge,
+                        If(
+                            ThisItem.Status.Value = "Pending Manager Approval",
+                            Icon.QuestionMark,
+                            Icon.CancelBadge
+                        )
+                    )
+                  OnSelect: =Select(Parent)
+                  Width: =28
+                  X: =162
+                  Y: =144
+            - Icon2_2:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: |-
+                    =If(
+                        ThisItem.Status.Value = "Approved" ,
+                        Color.DarkGreen,
+                        If(
+                            ThisItem.Status.Value = "Pending Manager Approval" || ThisItem.Status.Value = "Pending HR Approval",
+                            Color.DarkGoldenRod,
+                            Color.DarkRed
+                        )
+                    )
+                  Fill: =Color.Transparent
+                  Height: =32
+                  Icon: |-
+                    =If(
+                        ThisItem.Status.Value = "Approved" ,
+                        Icon.CheckBadge,
+                        If(
+                            ThisItem.Status.Value = "Pending Manager Approval" || ThisItem.Status.Value = "Pending HR Approval",
+                            Icon.QuestionMark,
+                            Icon.CancelBadge
+                        )
+                    )
+                  OnSelect: =Select(Parent)
+                  Width: =28
+                  X: =308
+                  Y: =144
+      - FormViewer:
+          Control: FormViewer@2.3.4
+          Layout: Horizontal
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            DataSource: ='Leave Request'
+            Fill: =RGBA(255, 201, 14, 1)
+            Height: =596
+            Item: =galLeaveRequests.Selected
+            NumberOfColumns: =1
+            Width: =394
+            X: =959
+            Y: =172
+          Children:
+            - Employee ID_DataCard2:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicTextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="EmployeeID"
+                  Default: =ThisItem.'Employee ID'
+                  DisplayName: =DataSourceInfo([@'Leave Request'],DataSourceInfo.DisplayName,'EmployeeID')
+                  Required: =false
+                  Width: =394
+                  X: =0
+                  Y: =0
+                Children:
+                  - DataCardKey19:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldName
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =34
+                        Text: =Parent.DisplayName
+                        Width: =(Parent.Width - 60) * 0.4
+                        Wrap: =false
+                        X: =30
+                        Y: =10 + (DataCardValue18.Height / 2) - (Self.Height / 2)
+                  - DataCardValue18:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldValue
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        Height: =27
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Text: =Parent.Default
+                        Width: =(Parent.Width - 60) * 0.6
+                        X: =DataCardKey19.X + DataCardKey19.Width
+                        Y: =10
+            - Title_DataCard2:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicTextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="Title"
+                  Default: =ThisItem.Title
+                  DisplayName: ="Title"
+                  Required: =true
+                  Width: =394
+                  X: =0
+                  Y: =1
+                Children:
+                  - DataCardKey2:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldName
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =34
+                        Text: =Parent.DisplayName
+                        Width: =(Parent.Width - 60) * 0.4
+                        Wrap: =false
+                        X: =30
+                        Y: =10 + (DataCardValue2.Height / 2) - (Self.Height / 2)
+                  - DataCardValue2:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldValue
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        Height: =27
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Text: =Parent.Default
+                        Width: =(Parent.Width - 60) * 0.6
+                        X: =DataCardKey2.X + DataCardKey2.Width
+                        Y: =10
+            - Detail_DataCard1:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicTextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="Detail"
+                  Default: =ThisItem.Detail
+                  DisplayName: ="Detail"
+                  Required: =false
+                  Width: =394
+                  X: =0
+                  Y: =2
+                Children:
+                  - DataCardKey6:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldName
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =34
+                        Text: =Parent.DisplayName
+                        Width: =(Parent.Width - 60) * 0.4
+                        Wrap: =false
+                        X: =30
+                        Y: =10 + (DataCardValue3.Height / 2) - (Self.Height / 2)
+                  - DataCardValue3:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldValue
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        Height: =27
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Text: =Parent.Default
+                        Width: =(Parent.Width - 60) * 0.6
+                        X: =DataCardKey6.X + DataCardKey6.Width
+                        Y: =10
+            - Leave Type_DataCard2:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicComboBoxView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="LeaveType"
+                  Default: =ThisItem.'Leave Type'
+                  DisplayName: ="Leave Type"
+                  Required: =false
+                  Update: =DataCardValue7.Selected
+                  Width: =394
+                  X: =0
+                  Y: =3
+                Children:
+                  - DataCardKey9:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldName
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =34
+                        Text: =Parent.DisplayName
+                        Width: =(Parent.Width - 60) * 0.4
+                        Wrap: =false
+                        X: =30
+                        Y: =10 + (DataCardValue7.Height / 2) - (Self.Height / 2)
+                  - DataCardValue7:
+                      Control: Classic/ComboBox@2.4.0
+                      MetadataKey: FieldValue
+                      Properties:
+                        BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                        ChevronBackground: =RGBA(56, 96, 178, 1)
+                        ChevronFill: =RGBA(255, 255, 255, 1)
+                        ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                        ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                        DefaultSelectedItems: =Parent.Default
+                        DisplayFields: =["Value"]
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        HoverFill: =RGBA(186, 202, 226, 1)
+                        Items: =Choices([@'Leave Request'].'Leave Type')
+                        PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(0, 18, 107, 1)
+                        SearchFields: =["Value"]
+                        SelectMultiple: =false
+                        SelectionColor: =RGBA(255, 255, 255, 1)
+                        SelectionFill: =RGBA(56, 96, 178, 1)
+                        Width: =(Parent.Width - 60) * 0.6
+                        X: =DataCardKey9.X + DataCardKey9.Width
+                        Y: =10
+                  - ErrorMessage2:
+                      Control: Label@2.5.1
+                      MetadataKey: ErrorMessage
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(168, 0, 0, 1)
+                        Font: =Font.'Open Sans'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =10
+                        Live: =Live.Assertive
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =14
+                        Text: =Parent.Error
+                        Visible: =Parent.DisplayMode=DisplayMode.Edit
+                        Width: =Parent.Width - 60
+                        X: =30
+                        Y: =DataCardValue7.Y + DataCardValue7.Height
+                  - StarVisible2:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldRequired
+                      Properties:
+                        Align: =Align.Center
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =DataCardKey9.Height
+                        Text: ="*"
+                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =30
+                        Wrap: =false
+                        Y: =DataCardKey9.Y
+            - From_DataCard2:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicTextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="From"
+                  Default: =ThisItem.From
+                  DisplayName: ="From"
+                  Required: =false
+                  Width: =394
+                  X: =0
+                  Y: =4
+                Children:
+                  - DataCardKey10:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldName
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =34
+                        Text: =Parent.DisplayName
+                        Width: =(Parent.Width - 60) * 0.4
+                        Wrap: =false
+                        X: =30
+                        Y: =10 + (DataCardValue9.Height / 2) - (Self.Height / 2)
+                  - DataCardValue9:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldValue
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        Height: =27
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Text: =Parent.Default
+                        Width: =(Parent.Width - 60) * 0.6
+                        X: =DataCardKey10.X + DataCardKey10.Width
+                        Y: =10
+            - To_DataCard2:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicTextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="To"
+                  Default: =ThisItem.To
+                  DisplayName: ="To"
+                  Required: =false
+                  Width: =394
+                  X: =0
+                  Y: =5
+                Children:
+                  - DataCardKey11:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldName
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =34
+                        Text: =Parent.DisplayName
+                        Width: =(Parent.Width - 60) * 0.4
+                        Wrap: =false
+                        X: =30
+                        Y: =10 + (DataCardValue10.Height / 2) - (Self.Height / 2)
+                  - DataCardValue10:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldValue
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        Height: =27
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Text: =Parent.Default
+                        Width: =(Parent.Width - 60) * 0.6
+                        X: =DataCardKey11.X + DataCardKey11.Width
+                        Y: =10
+            - Returned Date_DataCard2:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicTextualView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="ReturnedDate"
+                  Default: =ThisItem.'Returned Date'
+                  DisplayName: =DataSourceInfo([@'Leave Request'],DataSourceInfo.DisplayName,'ReturnedDate')
+                  Required: =false
+                  Width: =394
+                  X: =0
+                  Y: =6
+                Children:
+                  - DataCardKey20:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldName
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =34
+                        Text: =Parent.DisplayName
+                        Width: =(Parent.Width - 60) * 0.4
+                        Wrap: =false
+                        X: =30
+                        Y: =10 + (DataCardValue19.Height / 2) - (Self.Height / 2)
+                  - DataCardValue19:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldValue
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        Height: =27
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Text: =Parent.Default
+                        Width: =(Parent.Width - 60) * 0.6
+                        X: =DataCardKey20.X + DataCardKey20.Width
+                        Y: =10
+            - Status_DataCard1:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicComboBoxView
+                IsLocked: true
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="Status"
+                  Default: =ThisItem.Status
+                  DisplayName: ="Status"
+                  Required: =false
+                  Update: =DataCardValue11.Selected
+                  Width: =394
+                  X: =0
+                  Y: =7
+                Children:
+                  - DataCardKey12:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldName
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =34
+                        Text: =Parent.DisplayName
+                        Width: =(Parent.Width - 60) * 0.4
+                        Wrap: =false
+                        X: =30
+                        Y: =10 + (DataCardValue11.Height / 2) - (Self.Height / 2)
+                  - DataCardValue11:
+                      Control: Classic/ComboBox@2.4.0
+                      MetadataKey: FieldValue
+                      Properties:
+                        BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                        ChevronBackground: =RGBA(56, 96, 178, 1)
+                        ChevronFill: =RGBA(255, 255, 255, 1)
+                        ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                        ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                        DefaultSelectedItems: =Parent.Default
+                        DisplayFields: =["Value"]
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        HoverFill: =RGBA(186, 202, 226, 1)
+                        Items: =Choices([@'Leave Request'].Status)
+                        PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =RGBA(0, 18, 107, 1)
+                        SearchFields: =["Value"]
+                        SelectMultiple: =false
+                        SelectionColor: =RGBA(255, 255, 255, 1)
+                        SelectionFill: =RGBA(56, 96, 178, 1)
+                        Width: =(Parent.Width - 60) * 0.6
+                        X: =DataCardKey12.X + DataCardKey12.Width
+                        Y: =10
+                  - ErrorMessage6:
+                      Control: Label@2.5.1
+                      MetadataKey: ErrorMessage
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(168, 0, 0, 1)
+                        Font: =Font.'Open Sans'
+                        FontWeight: =FontWeight.Semibold
+                        Height: =10
+                        Live: =Live.Assertive
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Size: =14
+                        Text: =Parent.Error
+                        Visible: =Parent.DisplayMode=DisplayMode.Edit
+                        Width: =Parent.Width - 60
+                        X: =30
+                        Y: =DataCardValue11.Y + DataCardValue11.Height
+                  - StarVisible6:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldRequired
+                      Properties:
+                        Align: =Align.Center
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =DataCardKey12.Height
+                        Text: ="*"
+                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =30
+                        Wrap: =false
+                        Y: =DataCardKey12.Y
+            - Approval Comments_DataCard1:
+                Control: TypedDataCard@1.0.7
+                Variant: ClassicTextualView
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  DataField: ="ApprovalComments"
+                  Default: =ThisItem.'Approval Comments'
+                  DisplayName: ="Approval Comments"
+                  Fill: =RGBA(255, 201, 14, 1)
+                  Height: =256
+                  Required: =false
+                  Width: =394
+                  X: =0
+                  Y: =8
+                Children:
+                  - DataCardKey13:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldName
+                      Properties:
+                        BorderColor: =RGBA(0, 0, 0, 1)
+                        Color: =RGBA(0, 18, 107, 1)
+                        Font: =Font.'Open Sans'
+                        Height: =36
+                        Text: =Parent.DisplayName
+                        Width: =311
+                        Wrap: =false
+                        X: =30
+                        Y: =21
+                  - DataCardValue12:
+                      Control: Label@2.5.1
+                      MetadataKey: FieldValue
+                      Properties:
+                        AutoHeight: =true
+                        BorderColor: =RGBA(0, 18, 107, 1)
+                        DisplayMode: =Parent.DisplayMode
+                        Font: =Font.'Open Sans'
+                        Height: =102
+                        PaddingLeft: =0
+                        PaddingRight: =0
+                        PaddingTop: =0
+                        Text: =Parent.Default
+                        Width: =339
+                        X: =30
+                        Y: =68

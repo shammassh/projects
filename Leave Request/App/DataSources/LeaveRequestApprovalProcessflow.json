@@ -1,0 +1,9 @@
+[
+  {
+    "AddinConnectorId": "9d6ab4af-4040-414a-a016-027f621c12e7",
+    "AddinId": "6d1f157d-95bf-406d-b65d-cfd3240f724e",
+    "Name": "LeaveRequestApprovalProcessflow",
+    "ServiceKind": "AddinWadl",
+    "Type": "ServiceInfo"
+  }
+]

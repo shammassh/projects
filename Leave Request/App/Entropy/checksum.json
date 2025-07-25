@@ -1,0 +1,31 @@
+{
+  "ClientPerFileChecksums": {
+    ".gitignore": "C8_VaC8EcEG56Ufcy1DFyC8Ky19iV9xSsXMDIAcmF2GTj8=",
+    "AppCheckerResult.sarif": "C8_k6mq/AYCCKYEIu1cersCLcB3edM12/7ASPSHHl5pvos=",
+    "Assets\\Images\\0004.jpg": "C8_5ELQ1EjswyyGr06y3s8f0EK245V3EO/WO39mBtajlCU=",
+    "Assets\\Images\\3bd1335a-bc43-4070-a97b-a2b0de48e869.jpeg": "C8_hRbQvRsI2gjT/r/mJk1wazheO0m3ijjhIEc9RWkxLpc=",
+    "Assets\\Images\\8ae6c158-1943-4f64-ba3a-7f058b529e9b.jpeg": "C8_Cb6PFmaHl7n0Dw42YNIk2sDZTgH5CHEYXBJOsfYZM78=",
+    "Controls\\1.json": "C8_nyyMNWIoVfW44QnywzZZfHCN8msoRlXOMvoasPjHXSA=",
+    "Controls\\138.json": "C8_ZjAFsvL1ZxUaXiazDu9o2G7c2ih+LDtgP+PZ1k39JLE=",
+    "Controls\\145.json": "C8_NTuPhketA+QJdwh9+Gc6nqoCmzZbDyREBOrnVPsxLA8=",
+    "Controls\\158.json": "C8_AihZy0rH0iK2YIZ2o5KtOq3easO92TfMW8nUs9/q7fk=",
+    "Controls\\4.json": "C8_szXnERFfzMPiQp9AzM1EQa1uYTGs1uTLpu+gSQoSVAA=",
+    "Controls\\66.json": "C8_3eGkVQRtCjuUoJegA3RAuEDk+nJbRSC39YPw4lUJQRg=",
+    "Header.json": "C8_dv7duhnAvirtwgOeG90C0XY0hQo0jEkQ9VU3sUDTHCE=",
+    "Properties.json": "C8_CLBCHsYdwMmVreygCYRPkDKSv3lxy4dnaA+S87UwEUw=",
+    "References\\DataSources.json": "C8_ryewns4qvqLLHBV71mGm0JZQSD3/QLJUju4dcqELV70=",
+    "References\\Resources.json": "C8_HBHYIu5h76v0q3pU4llbbEYgzIyB2V3kTvspIimOCF4=",
+    "References\\Templates.json": "C8_/BjJN6cQMCnjFJjEimKTdXF9GrHZ2H91ITLCa0LsuUw=",
+    "References\\Themes.json": "C8_U6GkEVSVX0RurjLXTifVheUvroE6Kj+fwRIgg1y8tQ4=",
+    "Resources\\PublishInfo.json": "C8_FQkcWmg890uYOBrw81JkEP1U0ipYCbTuatBOgeVFq5w=",
+    "Resources\\wslciwmx.jpg": "C8_8dvr17mfUvoE7RaWHWA5Sg0grinJjyrt1gDYDa97l9g=",
+    "Src\\_EditorState.pa.yaml": "C8_FPf+5QVOfnZqqF6mGtQog6ZpHWciiGAIoIJWxHR0YSI=",
+    "Src\\App.pa.yaml": "C8_ZHp4DrATeYNGsyz4zBe3iTPsHTUESexUMe/Za1d1Ar8=",
+    "Src\\ApprovalDashboard.pa.yaml": "C8_6W7PAuXPStztA/nWFLifbX0HjGpBoQDzyk1xwFe3x2o=",
+    "Src\\HomeScreen.pa.yaml": "C8_/UjZMH+mf+MkrgYEP5b5Gp6DpA59r4jZiZO9+JaUQDE=",
+    "Src\\LoginScreen.pa.yaml": "C8_lzp1QwycOn2l4CAcVtXW1tTrnW2st0PDqaPH6boRcZM=",
+    "Src\\NewRequestScreen.pa.yaml": "C8_TZfJMrTstgfaRRxzriKz+HUTkIyRJO6UTeyGEijd4cs=",
+    "Src\\SuccessScreen.pa.yaml": "C8_LkGRTfNaJYQcDID+CI3NmqkvrtW4NmKlZJAuHEwqKz8="
+  },
+  "ClientStampedChecksum": "C8_Az2CkqSg5djCkD3Nk90BxKUs1dRMpNrqbJ9TKJntwso="
+}
