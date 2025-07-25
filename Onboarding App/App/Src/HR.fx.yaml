@@ -1,0 +1,121 @@
+HR As screen:
+    LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    OnVisible: |-
+        =If(
+            !IsBlank(Param("itemID")),
+            Set(varEmployeeDetailsTableoff, LookUp('Offboarding Employees', ID = Value(Param("itemID"))))
+        );
+        If(
+            !IsBlank(Param("itemID")),
+            Set(varLMDetailsTable, LookUp(OffLM, itemID = Value(Param("itemID"))))
+        );
+        
+        If(
+            !IsBlank(Param("itemID")),
+            Set(varITMDetailsTable, LookUp(OffITM, ItemID = Value(Param("itemID"))))
+        );
+        
+        If(
+            !IsBlank(Param("itemID")),
+            Set(varFMDetailsTable, LookUp(OffFM, ItemID = Value(Param("itemID"))))
+        );
+        If(
+            !IsBlank(Param("itemID")),
+            Set(varFleetDetailsTable, LookUp(OffFleet, ItemID = Value(Param("itemID"))))
+        );
+
+    RichTextEditor1 As richTextEditor:
+        BorderColor: =RGBA(245, 245, 245, 1)
+        Default: |
+            ="<html><body>" &
+            
+            "<style>
+            table { border-collapse: collapse; width: 100%; font-family: Arial; font-size: 14px; }
+            td, th { border: 1px solid #ccc; padding: 8px; vertical-align: top; }
+            th { background-color: #f2f2f2; text-align: left; }
+            .section-title { font-weight: bold; margin-top: 20px; font-size: 16px; }
+            </style>" &
+            
+            "<div class='section-title'>Employee Details</div>" &
+            "<table>" & 
+                "<tr><th>Employee Name</th><td>" & varEmployeeDetailsTableoff.'Name (Title)' & "</td></tr>" &
+                "<tr><th>Resignation Date</th><td>" & Text(varEmployeeDetailsTableoff.'Resignation Date', "yyyy-mmmm-dd") & "</td></tr>" &
+                "<tr><th>Department</th><td>" & varEmployeeDetailsTableoff.Department.Value & "</td></tr>" &
+                "<tr><th>Employee ID</th><td>" & varEmployeeDetailsTableoff.'Staff ID' & "</td></tr>" &
+                "<tr><th>Department Manager</th><td>" & varEmployeeDetailsTableoff.'Line Manager' & "</td></tr>" &
+            "</table>" &
+            
+            "<div class='section-title'>Line Manager</div>" &
+            "<table>" &
+                "<tr><th>Data Returned</th><td>" & varLMDetailsTable.'Data Returned' & "</td></tr>" &
+                "<tr><th>Email Forward</th><td>" & varLMDetailsTable.'Forward Email' & "</td></tr>" &
+            "</table>" &
+            
+            "<div class='section-title'>IT Manager</div>" &
+            "<table>" &
+                "<tr><th>Desktop</th><td>" & If(varITMDetailsTable.Desktop, "Returned", If(varITMDetailsTable.'NA Desktop', "NA", "None Selected")) & "</td></tr>"  &
+                "<tr><th>Laptop</th><td>" & If(varITMDetailsTable.Laptop, "Returned", If(varITMDetailsTable.'NA Laptop', "NA", "None Selected")) & "</td></tr>" &
+                "<tr><th>Tablet</th><td>" & If(varITMDetailsTable.Tablet, "Returned", If(varITMDetailsTable.'NA Tablet', "NA", "None Selected")) & "</td></tr>" &
+                "<tr><th>ERP Dynamics 365</th><td>" & If(varITMDetailsTable.Dynamics365, "Returned", If(varITMDetailsTable.'NA Dynamics', "NA", "None Selected")) & "</td></tr>" &
+                "<tr><th>Disable Access</th><td>" & If(varITMDetailsTable.'Diable Access', "Returned", If(varITMDetailsTable.'NA Disable', "NA", "None Selected")) & "</td></tr>" &
+                "<tr><th>SIM Cards</th><td>" & If(varITMDetailsTable.'SIM Card', "Returned", If(varITMDetailsTable.'NA SIM Card', "NA", "None Selected")) & "</td></tr>" &
+            "</table>" &
+            
+            "<div class='section-title'>FM Manager</div>" &
+            "<table>" &
+                "<tr><th>Fuel Card</th><td>" & If(varFMDetailsTable.'Fuel Card', "Returned", If(varFMDetailsTable.NA, "NA", "None Selected")) & "</td></tr>"  &
+            "</table>" &
+            
+            "<div class='section-title'>Fleet Manager</div>" &
+            "<table>" &
+                "<tr><th>Vehicle</th><td>" & If(varFleetDetailsTable.Vehicle, "Returned", If(varFleetDetailsTable.NA, "NA", "None Selected")) & "</td></tr>"  &
+            "</table>" &
+            
+            "</body></html>"
+        DisplayMode: =DisplayMode.View
+        Height: =404
+        Width: =1283
+        X: =35
+        Y: =25
+        ZIndex: =1
+
+    "TextInputCanvas3 As 'Text input'":
+        DisplayMode: =DisplayMode.Edit
+        Height: =32
+        Value: =varEmployeeDetailsTableoff.'Name (Title)'
+        Width: =320
+        X: =70
+        Y: =460
+        ZIndex: =2
+
+    "TextInputCanvas3_1 As 'Text input'":
+        AccessibleLabel: =""
+        Align: =""
+        Appearance: ="FilledDarker"
+        BorderStyle: =""
+        ContentLanguage: =""
+        DisplayMode: =DisplayMode.Edit
+        Font: =""
+        FontItalic: =false
+        FontSize: =0
+        FontStrikethrough: =false
+        FontUnderline: =false
+        FontWeight: =""
+        Height: =32
+        MaxLength: =-1
+        Mode: ="SingleLine"
+        OnChange: =false
+        Placeholder: =""
+        Required: =false
+        TabIndex: =0
+        Tooltip: =""
+        TriggerOutput: ="FocusOut"
+        Type: ="Text"
+        ValidationState: ="None"
+        Value: =varITMDetailsTable.Desktop
+        Visible: =true
+        Width: =320
+        X: =70
+        Y: =512
+        ZIndex: =3
+

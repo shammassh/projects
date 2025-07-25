@@ -1,0 +1,559 @@
+"Screen_Noknok As screen.'headerFormLayout_ver1.0'":
+    LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    OnVisible: |
+        =If(
+            !IsBlank(Param("itemID")),
+            Set(varEmployeeDetailsTable, LookUp('MainRequests', ID = Value(Param("itemID"))))
+        );
+
+    ScreenContainer9 As groupContainer.verticalAutoLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Fill: =RGBA(245, 245, 245, 1)
+        Height: =Parent.Height
+        LayoutAlignItems: =LayoutAlignItems.Stretch
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutGap: =16
+        LayoutMode: =LayoutMode.Auto
+        PaddingBottom: =16
+        PaddingLeft: =16
+        PaddingRight: =16
+        PaddingTop: =16
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Width: =Parent.Width
+        ZIndex: =1
+
+        HeaderContainer8 As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            DropShadow: =DropShadow.Light
+            FillPortions: =0
+            Height: =75
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            ZIndex: =2
+
+            Header7 As Header:
+                DisplayMode: =DisplayMode.Edit
+                Height: =75
+                LayoutMinHeight: =75
+                LayoutMinWidth: =Parent.Width
+                OnSelectLogo: =false
+                Title: ="Header"
+                TitleRole: =""
+                UserEmail: =User().Email
+                UserImage: =User().Image
+                UserImageAltText: =User().FullName &" profile picture"
+                UserName: =User().FullName
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+                ZIndex: =3
+
+        MainContainer8 As groupContainer.horizontalAutoLayoutContainer:
+            AlignInContainer: =AlignInContainer.SetByContainer
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutGap: =16
+            LayoutMinHeight: =100
+            LayoutMinWidth: =250
+            LayoutMode: =LayoutMode.Auto
+            LayoutWrap: =true
+            PaddingBottom: =2
+            PaddingLeft: =2
+            PaddingRight: =2
+            PaddingTop: =2
+            ZIndex: =4
+
+            FormContainer5 As groupContainer.verticalAutoLayoutContainer:
+                AlignInContainer: =AlignInContainer.SetByContainer
+                DropShadow: =DropShadow.Light
+                FillPortions: =7
+                LayoutDirection: =LayoutDirection.Vertical
+                LayoutGap: =16
+                LayoutMinHeight: =100
+                LayoutMinWidth: =250
+                LayoutMode: =LayoutMode.Auto
+                LayoutOverflowY: =LayoutOverflow.Scroll
+                PaddingBottom: =15
+                PaddingLeft: =15
+                PaddingRight: =15
+                PaddingTop: =15
+                RadiusBottomLeft: =8
+                RadiusBottomRight: =8
+                RadiusTopLeft: =8
+                RadiusTopRight: =8
+                ZIndex: =5
+
+                Form7 As form.PowerApps_CoreControls_Form:
+                    BorderColor: =RGBA(245, 245, 245, 1)
+                    DataSource: ='Employee Onboarding Noknok'
+                    DefaultMode: =FormMode.New
+                    LayoutMinHeight: =250
+                    LayoutMinWidth: =0
+                    NumberOfColumns: =1
+                    OnSuccess: |
+                        =Set(varNoknokRequestID, Form7.LastSubmit.ID);
+                    UseFluentV9Cards: =true
+                    ZIndex: =6
+
+                    "'Add to email groups | Ghana_DataCard1' As typedDataCard.fluentV9ComboBoxMultiSelectEditCard":
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Add_x0020_to_x0020_email_x0020_g0"
+                        Default: =ThisItem.'Add to email groups | Ghana'
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Employee Onboarding Noknok'],DataSourceInfo.DisplayName,'Add to email groups | Ghana')
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =70
+                        Required: =false
+                        Update: =DataCardValue1.SelectedItems
+                        Width: =1300
+                        X: =0
+                        Y: =3
+                        ZIndex: =1
+
+                        DataCardKey1 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =22
+                            Text: =Parent.DisplayName
+                            Weight: ='TextCanvas.Weight'.Semibold
+                            Width: =Parent.Width - 48
+                            Wrap: =false
+                            X: =24
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue1 As Combobox.pcfdataset:
+                            AccessibleLabel: =Parent.DisplayName
+                            DefaultSelectedItems: =Parent.Default
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =32
+                            Items: =Choices([@'Employee Onboarding Noknok'].'Add to email groups | Ghana')
+                            Required: =Parent.Required
+                            SelectMultiple: =true
+                            ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                            Width: =Parent.Width - 48
+                            X: =24
+                            Y: =DataCardKey1.Y + DataCardKey1.Height + 4
+                            ZIndex: =2
+
+                        ErrorMessage1 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =30
+                            Text: =Parent.Error
+                            Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =Parent.Width - 48
+                            Wrap: =true
+                            X: =24
+                            Y: =DataCardValue1.Y + DataCardValue1.Height
+                            ZIndex: =3
+
+                        StarVisible1 As Text:
+                            Align: ='TextCanvas.Align'.Center
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =20
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            X: =0
+                            Y: =DataCardKey1.Y
+                            ZIndex: =4
+
+                    "'Add to email groups | Lebanon_DataCard1' As typedDataCard.fluentV9ComboBoxMultiSelectEditCard":
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Add_x0020_to_x0020_email_x0020_g"
+                        Default: =ThisItem.'Add to email groups | Lebanon'
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Employee Onboarding Noknok'],DataSourceInfo.DisplayName,'Add to email groups | Lebanon')
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =70
+                        Required: =false
+                        Update: =DataCardValue10.SelectedItems
+                        Width: =1300
+                        X: =0
+                        Y: =4
+                        ZIndex: =1
+
+                        DataCardKey10 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =22
+                            Text: =Parent.DisplayName
+                            Weight: ='TextCanvas.Weight'.Semibold
+                            Width: =Parent.Width - 48
+                            Wrap: =false
+                            X: =24
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue10 As Combobox.pcfdataset:
+                            AccessibleLabel: =Parent.DisplayName
+                            DefaultSelectedItems: =Parent.Default
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =32
+                            Items: =Choices([@'Employee Onboarding Noknok'].'Add to email groups | Lebanon')
+                            Required: =Parent.Required
+                            SelectMultiple: =true
+                            ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                            Width: =Parent.Width - 48
+                            X: =24
+                            Y: =DataCardKey10.Y + DataCardKey10.Height + 4
+                            ZIndex: =2
+
+                        ErrorMessage10 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =30
+                            Text: =Parent.Error
+                            Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =Parent.Width - 48
+                            Wrap: =true
+                            X: =24
+                            Y: =DataCardValue10.Y + DataCardValue10.Height
+                            ZIndex: =3
+
+                        StarVisible10 As Text:
+                            Align: ='TextCanvas.Align'.Center
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =20
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            X: =0
+                            Y: =DataCardKey10.Y
+                            ZIndex: =4
+
+                    MainRequestID_DataCard2 As typedDataCard.fluentV9NumberEditCard:
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="MainRequestID"
+                        Default: =ThisItem.MainRequestID
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Employee Onboarding Noknok'],DataSourceInfo.DisplayName,MainRequestID)
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =70
+                        Required: =false
+                        Update: =Value(DataCardValue15.Value)
+                        Visible: =false
+                        Width: =1300
+                        X: =0
+                        Y: =5
+                        ZIndex: =1
+
+                        DataCardKey15 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =22
+                            Text: =Parent.DisplayName
+                            Weight: ='TextCanvas.Weight'.Semibold
+                            Width: =Parent.Width - 48
+                            Wrap: =false
+                            X: =24
+                            Y: =10
+                            ZIndex: =1
+
+                        "DataCardValue15 As 'Number input'":
+                            AccessibleLabel: =Parent.DisplayName
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =32
+                            Max: =Blank()
+                            Min: =Blank()
+                            Step: =1
+                            ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                            Value: =varMainRequestID
+                            Width: =Parent.Width - 48
+                            X: =24
+                            Y: =DataCardKey15.Y + DataCardKey15.Height + 4
+                            ZIndex: =2
+
+                        ErrorMessage15 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =30
+                            Text: =Parent.Error
+                            Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =Parent.Width - 48
+                            Wrap: =true
+                            X: =24
+                            Y: =DataCardValue15.Y + DataCardValue15.Height
+                            ZIndex: =3
+
+                        StarVisible15 As Text:
+                            Align: ='TextCanvas.Align'.Center
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =30
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            X: =0
+                            Y: =DataCardKey15.Y
+                            ZIndex: =4
+
+                    "'Requester Operation_DataCard2' As typedDataCard.fluentV9ComboBoxEditCard":
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Requester_x0020_Operation"
+                        Default: =ThisItem.'Requester Operation'
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Employee Onboarding Noknok'],DataSourceInfo.DisplayName,'Requester Operation')
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =70
+                        Required: =false
+                        Update: =DataCardValue21.Selected
+                        Width: =1300
+                        X: =0
+                        Y: =0
+                        ZIndex: =7
+
+                        DataCardKey21 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =22
+                            Text: =Parent.DisplayName
+                            Weight: ='TextCanvas.Weight'.Semibold
+                            Width: =Parent.Width - 48
+                            Wrap: =false
+                            X: =24
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue21 As Combobox.pcfdataset:
+                            AccessibleLabel: =Parent.DisplayName
+                            DefaultSelectedItems: =[Parent.Default]
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =32
+                            Items: =Choices([@'Employee Onboarding Noknok'].'Requester Operation')
+                            Required: =Parent.Required
+                            ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                            Width: =Parent.Width - 48
+                            X: =24
+                            Y: =DataCardKey21.Y + DataCardKey21.Height + 4
+                            ZIndex: =2
+
+                        ErrorMessage20 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =30
+                            Text: =Parent.Error
+                            Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =Parent.Width - 48
+                            Wrap: =true
+                            X: =24
+                            Y: =DataCardValue21.Y + DataCardValue21.Height
+                            ZIndex: =3
+
+                        StarVisible20 As Text:
+                            Align: ='TextCanvas.Align'.Center
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =20
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            X: =0
+                            Y: =DataCardKey21.Y
+                            ZIndex: =4
+
+                    "'Replacement of Existing Employee_DataCard2' As typedDataCard.fluentV9ToggleEditCard":
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Replacement_x0020_of_x0020_Exist"
+                        Default: =ThisItem.'Replacement of Existing Employee'
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Employee Onboarding Noknok'],DataSourceInfo.DisplayName,'Replacement of Existing Employee')
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =70
+                        Required: =false
+                        Update: =DataCardValue22.Checked
+                        Width: =1300
+                        X: =0
+                        Y: =1
+                        ZIndex: =7
+
+                        DataCardKey22 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =22
+                            Text: =Parent.DisplayName
+                            Weight: ='TextCanvas.Weight'.Semibold
+                            Width: =Parent.Width - 48
+                            Wrap: =false
+                            X: =24
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue22 As Toggle:
+                            AccessibleLabel: =If(Parent.Required, Substitute("{0}. Required.", "{0}", Parent.DisplayName), Parent.DisplayName)
+                            Checked: =Parent.Default
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =32
+                            Label: =""
+                            OnCheck: =false
+                            OnUncheck: =false
+                            Width: =Parent.Width - 48
+                            X: =24
+                            Y: =DataCardKey22.Y + DataCardKey22.Height + 4
+                            ZIndex: =2
+
+                        ErrorMessage21 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =30
+                            Text: =Parent.Error
+                            Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =Parent.Width - 48
+                            Wrap: =true
+                            X: =24
+                            Y: =DataCardValue22.Y + DataCardValue22.Height
+                            ZIndex: =3
+
+                        StarVisible21 As Text:
+                            Align: ='TextCanvas.Align'.Center
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =30
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            X: =0
+                            Y: =DataCardKey22.Y
+                            ZIndex: =4
+
+                    "'Line Manager_DataCard2' As typedDataCard.fluentV9ComboBoxEditCard":
+                        BorderColor: =RGBA(245, 245, 245, 1)
+                        BorderStyle: =BorderStyle.Solid
+                        DataField: ="Line_x0020_Manager"
+                        Default: =ThisItem.'Line Manager'
+                        DisplayMode: =Parent.DisplayMode
+                        DisplayName: =DataSourceInfo([@'Employee Onboarding Noknok'],DataSourceInfo.DisplayName,'Line Manager')
+                        Fill: =RGBA(0, 0, 0, 0)
+                        Height: =70
+                        Required: =false
+                        Update: =DataCardValue23.Selected
+                        Width: =1300
+                        X: =0
+                        Y: =2
+                        ZIndex: =7
+
+                        DataCardKey23 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =22
+                            Text: =Parent.DisplayName
+                            Weight: ='TextCanvas.Weight'.Semibold
+                            Width: =Parent.Width - 48
+                            Wrap: =false
+                            X: =24
+                            Y: =10
+                            ZIndex: =1
+
+                        DataCardValue23 As Combobox.pcfdataset:
+                            AccessibleLabel: =Parent.DisplayName
+                            DefaultSelectedItems: =[Parent.Default]
+                            DisplayMode: =Parent.DisplayMode
+                            Height: =32
+                            Items: =Choices([@'Employee Onboarding Noknok'].'Line Manager')
+                            Required: =Parent.Required
+                            ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                            Width: =Parent.Width - 48
+                            X: =24
+                            Y: =DataCardKey23.Y + DataCardKey23.Height + 4
+                            ZIndex: =2
+
+                        ErrorMessage22 As Text:
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =30
+                            Text: =Parent.Error
+                            Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =Parent.Width - 48
+                            Wrap: =true
+                            X: =24
+                            Y: =DataCardValue23.Y + DataCardValue23.Height
+                            ZIndex: =3
+
+                        StarVisible22 As Text:
+                            Align: ='TextCanvas.Align'.Center
+                            DisplayMode: =DisplayMode.Edit
+                            Height: =20
+                            Text: ="*"
+                            Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                            Width: =30
+                            X: =0
+                            Y: =DataCardKey23.Y
+                            ZIndex: =4
+
+                ButtonContainer7 As groupContainer.horizontalAutoLayoutContainer:
+                    FillPortions: =0
+                    Height: =50
+                    LayoutGap: =10
+                    LayoutJustifyContent: =LayoutJustifyContent.End
+                    LayoutMinHeight: =100
+                    LayoutMinWidth: =0
+                    LayoutMode: =LayoutMode.Auto
+                    PaddingBottom: =10
+                    PaddingRight: =24
+                    PaddingTop: =10
+                    ZIndex: =7
+
+                    SubmitButton7 As Button:
+                        AccessibleLabel: ="Submit form button"
+                        AlignInContainer: =AlignInContainer.Center
+                        DisplayMode: =DisplayMode.Edit
+                        Height: =32
+                        LayoutMinHeight: =32
+                        LayoutMinWidth: =96
+                        OnSelect: |-
+                            =Set(
+                                varITResourcesnoknok,
+                                Concat(
+                                    Table(
+                                        { Value: Concat(DataCardValue13.SelectedItems, Value, ", ") },
+                                        { Value: Concat(DataCardValue21.SelectedItems, Value, ", ") },
+                                        { Value: Concat(DataCardValue1.SelectedItems, Value, ", ") },
+                                        { Value: Concat(DataCardValue10.SelectedItems, Value, ", ") }
+                                    ),
+                                    Value,
+                                    ", "
+                                )
+                            );
+                            Set(
+                                varEmployeeDetails,
+                                "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%;'>" &
+                                "<tr><td><b>Employee Name:</b></td><td>" &  varEmployeeDetailsTable.'Employee Name'& "</td></tr>" &
+                                "<tr><td><b>Employee Position:</b></td><td>" &varEmployeeDetailsTable.'Employee Position' & "</td></tr>" &
+                                "<tr><td><b>Appointment Date:</b></td><td>" & Text(varEmployeeDetailsTable.'Appointment Date', "dd mmmm yyyy") & "</td></tr>" &
+                                "<tr><td><b>Employee Location:</b></td><td>" & varEmployeeDetailsTable.'Employee Location'.Value & "</td></tr>" &
+                                "<tr><td><b>Department:</b></td><td>" & varEmployeeDetailsTable.Department.Value & "</td></tr>" &
+                                "<tr><td><b>Employee ID:</b></td><td>" & varEmployeeDetailsTable.'Employee ID' & "</td></tr>" &
+                                "<tr><td><b>Mobile:</b></td><td>" & varEmployeeDetailsTable.Mobile & "</td></tr>" &
+                                 "<tr><td><b>Mobile:</b></td><td>" & varEmployeeDetailsTable.Comments & "</td></tr>" &
+                                "</table>"
+                            );
+                            
+                            
+                            
+                            // Send Email to IT
+                            Office365Outlook.SendEmailV2(
+                                "Muhammad.shammas@gmrlgroup.com", // IT Email
+                                "New Employee Access Request - IT Resources - ID " & varEmployeeDetailsTable.'Employee ID' &" Name "& varEmployeeDetailsTable.'First Name',
+                                "<html><body>" &
+                            
+                                "<p>Dear IT Department,</p>" &
+                                "<p>A new employee has submitted a request for IT resources. Below are the details:</p>" &
+                            
+                                "<b>Employee Profile:</b><br/><br/>" & varEmployeeDetails & "<br/><br/>" &
+                            
+                                "<b>Selected IT Resources:</b><br/>" &
+                                "<table border='1' cellspacing='0' cellpadding='5' style='border-collapse: collapse; width: 100%;'>" &
+                                "<tr><td>" & varITResourcesnoknok & "</td></tr>" &
+                                "</table>" &
+                            
+                                "<br/><p>Please review the request and proceed with the necessary approvals.</p>" &
+                                "<br/><p>Best regards,<br/>" & User().FullName & "</p>" &
+                            
+                                "</body></html>",
+                                { IsHtml: true }
+                            );
+                            Navigate(Success);
+                        Text: ="Submit"
+                        Width: =120
+                        X: =0
+                        Y: =0
+                        ZIndex: =9
+

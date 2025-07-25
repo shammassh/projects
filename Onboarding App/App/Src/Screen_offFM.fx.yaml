@@ -1,0 +1,373 @@
+Screen_offFM As screen:
+    LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    OnVisible: |+
+        =If(
+            !IsBlank(Param("itemID")),
+            Set(varEmployeeDetailsTableoff, LookUp('Offboarding Employees', ID = Value(Param("itemID"))))
+        );
+        
+        
+        If(
+            !IsBlank(Param("itemID")),
+            Set(varLMDetailsTable, LookUp(OffLM, itemID = Value(Param("itemID"))))
+        );
+        If(
+            !IsBlank(Param("itemID")),
+            Set(varFMDetailsTable, LookUp(OffFM, ItemID = Value(Param("itemID"))))
+        );
+        
+        If(
+            !IsBlank(Param("itemID")),
+            Set(varITMDetailsTable, LookUp(OffITM, ItemID = Value(Param("itemID"))))
+        );
+        Set(varSelectedCompany,  Param("varSelectedCompany"));
+        
+
+    Container1_1 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Height: =696
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Width: =1345
+        X: =16
+        Y: =16
+        ZIndex: =1
+
+        Icon4 As icon.ShoppingCart:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =RGBA(0, 120, 212, 1)
+            DisabledBorderColor: =RGBA(245, 245, 245, 1)
+            DisabledColor: =RGBA(225, 223, 221, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =348
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(16, 110, 190, 1)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.ShoppingCart
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(16, 110, 190, 1)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =704
+            X: =620
+            Y: =130
+            ZIndex: =8
+
+    Container2_1 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Height: =55
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Width: =1299
+        X: =40
+        Y: =40
+        ZIndex: =2
+
+        Label4_1 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(50, 49, 48, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Size: =13
+            Text: ="Facility Managment"
+            Width: =249
+            X: =575
+            Y: =5
+            ZIndex: =1
+
+    Container6 As groupContainer.manualLayoutContainer:
+        DropShadow: =DropShadow.Light
+        Height: =365
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        Width: =571
+        X: =40
+        Y: =136
+        ZIndex: =3
+
+        CheckboxCanvas1_6 As Checkbox:
+            AccessibleLabel: =""
+            CheckboxSize: =16
+            Checked: =false
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =0
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =32
+            Label: ="NA"
+            OnCheck: =false
+            OnSelect: =false
+            OnUncheck: =false
+            TabIndex: =0
+            Tooltip: =""
+            Visible: =true
+            Width: =160
+            X: =205
+            Y: =85
+            ZIndex: =1
+
+        CheckboxCanvas1_2 As Checkbox:
+            AccessibleLabel: =""
+            CheckboxSize: =16
+            Checked: =false
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =0
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =32
+            Label: ="Returned"
+            OnCheck: =false
+            OnSelect: =false
+            OnUncheck: =false
+            TabIndex: =0
+            Tooltip: =""
+            Visible: =true
+            Width: =160
+            X: =45
+            Y: =85
+            ZIndex: =2
+
+        "TextInputCanvas2_2 As 'Text input'":
+            AccessibleLabel: =""
+            Align: =""
+            Appearance: ='TextInputCanvas.Appearance'.Outline
+            BorderStyle: =""
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =0
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =148
+            MaxLength: =-1
+            Mode: ='TextInputCanvas.Mode'.Multiline
+            OnChange: =false
+            Placeholder: ="Comments"
+            Required: =false
+            TabIndex: =0
+            Tooltip: =""
+            TriggerOutput: ="FocusOut"
+            Type: ="Text"
+            ValidationState: ="None"
+            Value: =""
+            Visible: =true
+            Width: =384
+            X: =0
+            Y: =179
+            ZIndex: =3
+
+        CancelButton1_3 As Button:
+            AcceptsFocus: =true
+            AccessibleLabel: ="Cancel form button"
+            Align: =""
+            Appearance: ='ButtonCanvas.Appearance'.Secondary
+            BorderStyle: =""
+            ContentLanguage: =""
+            DisplayMode: |-
+                =If(
+                    (CheckboxCanvas1_2.Checked <> CheckboxCanvas1_6.Checked),
+                    DisplayMode.Edit,
+                    DisplayMode.Disabled
+                )
+            Font: =""
+            FontItalic: =false
+            FontSize: =0
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Height: =32
+            Icon: =""
+            IconRotation: =0
+            IconStyle: ="Outline"
+            Layout: ="Icon before"
+            OnSelect: |
+                =Patch(        // Pach to Sharepoint
+                    OffFM,
+                    Defaults(OffFM),
+                    {
+                        'Fuel Card':CheckboxCanvas1_2.Checked,
+                        NA:CheckboxCanvas1_6.Checked,
+                        Comments: TextInputCanvas2_2.Value,
+                        ItemID:varEmployeeDetailsTableoff.ID
+                    }
+                );
+                
+                Set(varSelectedCompany, ComboboxCanvas1.Selected.Value);
+                Set(
+                    varDeepLink,
+                    "https://apps.powerapps.com/play/e/default-b99fc2f6-d65e-4b48-935b-118659097da7/a/8af96f61-d24f-49fd-88c8-29203a77b26a?" &
+                    "tenantId=b99fc2f6-d65e-4b48-935b-118659097da7&screenname=offfleet&itemID=" &  varEmployeeDetailsTableoff.ID 
+                );
+                
+                
+                    
+                Office365Outlook.SendEmailV2(
+                   
+                    "Muhammad.shammas@gmrlgroup.com", // HR
+                    "Employee Resignation Form -ID "& varEmployeeDetailsTableoff.'Staff ID'&"Name " &varEmployeeDetailsTableoff.'Name (Title)',
+                    "<html>" & 
+                    "<body>" &
+                    "<p>Dear Fleet Manager,</p>" &      
+                    
+                    "<p style='font-size:15px;'>📄 An offboarding request for a resigning employee has been submitted. Please find the details below:</p>" &
+                
+                "<h3 style='color:#003366; margin-top:30px;'>🧑 Employee Information</h3>" &
+                "<table cellspacing='0' cellpadding='8' style='border-collapse:collapse; width:100%; font-size:14px;'>" & 
+                    "<tr style='background-color:#e9eff5;'><td style='border:1px solid #ccc; font-weight:bold; width:35%;'>🧑 Employee Name:</td><td style='border:1px solid #ccc;'>" & varEmployeeDetailsTableoff.'Name (Title)' & "</td></tr>" &
+                    "<tr><td style='border:1px solid #ccc; font-weight:bold;'>📅 Last Working Day:</td><td style='border:1px solid #ccc;'>" & Text(varEmployeeDetailsTableoff.'Resignation Date', "dd mmmm yyyy") & "</td></tr>" &
+                    "<tr style='background-color:#e9eff5;'><td style='border:1px solid #ccc; font-weight:bold;'>🏢 Department:</td><td style='border:1px solid #ccc;'>" & varEmployeeDetailsTableoff.Department.Value & "</td></tr>" &
+                    "<tr><td style='border:1px solid #ccc; font-weight:bold;'>🆔 Employee ID:</td><td style='border:1px solid #ccc;'>" & varEmployeeDetailsTableoff.'Staff ID' & "</td></tr>" &
+                    "<tr style='background-color:#e9eff5;'><td style='border:1px solid #ccc; font-weight:bold;'>👨‍💼 Department Manager:</td><td style='border:1px solid #ccc;'>" & varEmployeeDetailsTableoff.'Line Manager' & "</td></tr>" &
+                "</table>" &
+                
+                "<h3 style='color:#003366; margin-top:30px;'>📩 Line Manager Input</h3>" & // LM
+                "<table cellspacing='0' cellpadding='8' style='border-collapse:collapse; width:100%; font-size:14px; border:1px solid #ccc;'>" &
+                
+                    "<tr style='background-color:#003366; color:#ffffff;'>" &
+                        "<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Field</th>" &
+                        "<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Value</th>" &
+                    "</tr>" &
+                
+                    "<tr style='background-color:#f9f9f9;'>" &
+                        "<td style='border:1px solid #ccc; font-weight:bold;'>📩 Email Status:</td>" &
+                        "<td style='border:1px solid #ccc;'>" &
+                            If(
+                                varLMDetailsTable.'Forward Email',
+                                "📩 Forwarded",
+                                If(varLMDetailsTable.'NA F', "🚫 NA", "❌ Not Set")
+                            ) &
+                        "</td>" &
+                    "</tr>" &
+                
+                    "<tr style='background-color:#ffffff;'>" &
+                        "<td style='border:1px solid #ccc; font-weight:bold;'>📤 Handover Returned:</td>" &
+                        "<td style='border:1px solid #ccc;'>" &
+                            If(
+                                varLMDetailsTable.'Data Returned',
+                                "📤 Returned",
+                                If(varLMDetailsTable.NA, "🚫 NA", "❌ Not Set")
+                            ) &
+                        "</td>" &
+                    "</tr>" &
+                
+                "</table>" &
+                
+                "<br/><h3 style='color:#003366;'>⛽ FM Manager</h3>" &
+                "<table cellspacing='0' cellpadding='8' style='border-collapse:collapse; width:100%; font-size:14px; border:1px solid #ccc;'>" &
+                
+                    "<tr style='background-color:#003366; color:#ffffff;'>" &
+                        "<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Item</th>" &
+                        "<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Status</th>" &
+                    "</tr>" &
+                
+                    "<tr style='background-color:#f9f9f9;'>" &
+                        "<td style='border:1px solid #ccc;'>⛽ Fuel Card</td>" &
+                        "<td style='border:1px solid #ccc;'>" &
+                            If(CheckboxCanvas1_2.Checked, "✅ Returned", If(CheckboxCanvas1_6.Checked, "🚫 NA", "❌ None Selected")) &
+                        "</td>" &
+                    "</tr>" &
+                
+                "</table>" &
+                
+                If(
+                    !IsBlank(TextInputCanvas2_2.Value),
+                    "<br/><p style='font-size:15px; color:#003366;'><b>💬 Facility Manager Comments:</b></p>" &
+                    "<p style='border-left: 4px solid #003366; padding-left:10px;'>" & TextInputCanvas2_2.Value & "</p>",
+                    ""
+                )&
+                
+                
+                    
+                    "<br/><p>Click the following link to access the offboarding request and take appropriate action:</p>" & 
+                    "<p><a href='" & varDeepLink & "' style='background-color: #007bff; color: white; padding: 10px; text-decoration: none; border-radius: 5px;'>Review Offboarding Request</a></p>" & 
+                
+                    "<br/><p>Best regards,<br/>" & User().Email & "</p>" &
+                
+                    "</body></html>",
+                    {
+                        IsHtml: true
+                    }
+                );
+                
+                Navigate(Success);
+            TabIndex: =0
+            Text: ="Submit"
+            Tooltip: =""
+            VerticalAlign: =""
+            Visible: =true
+            Width: =120
+            X: =447
+            Y: =327
+            ZIndex: =4
+
+        Label5 As label:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(50, 49, 48, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Size: =13
+            Text: ="Fuel Card"
+            X: =205
+            Y: =22
+            ZIndex: =5
+
+        Label7_4 As label:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(50, 49, 48, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Size: =13
+            Text: ="Comments"
+            Width: =384
+            Y: =139
+            ZIndex: =6
+
+    Label1_7 As label:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.None
+        BorderThickness: =2
+        Color: =RGBA(50, 49, 48, 1)
+        DisabledBorderColor: =RGBA(0, 0, 0, 0)
+        DisabledColor: =RGBA(161, 159, 157, 1)
+        FocusedBorderThickness: =4
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Size: =13
+        Text: ="Please Choose one of the below"
+        Width: =347
+        X: =124
+        Y: =96
+        ZIndex: =4
+

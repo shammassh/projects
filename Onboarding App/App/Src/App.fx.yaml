@@ -1,0 +1,45 @@
+App As appinfo:
+    BackEnabled: =true
+    OnStart: =
+    StartScreen: |
+        =If(
+            !IsBlank(Param("screenname")),
+            Switch(
+                Param("screenname"),
+                "gmrl", Screen_GMRL,
+                "noknok", Screen_Noknok,
+                "offIT", Screen_offIT,
+                "offFM", Screen_offFM,
+                "offfleet", Screen_offfleet,
+                "Offhr", scrEmployeeDetails_off,
+                "offLM",Screen_LM,
+                'Home Screen'
+            ),
+            
+            If(
+                !IsBlank(ComboboxCanvas1.Selected.Value),
+                Switch(
+                    ComboboxCanvas1.Selected.Value,
+                    "gmrl", Screen_GMRL,
+                    "noknok", Screen_Noknok,
+                    'Home Screen'
+                ),
+                Switch(
+                    ComboboxCanvas2.Selected.Value,
+                    "offboardIT", Screen_offIT,
+                    "offboardFM", Screen_offFM,
+                    "offboardFleet", Screen_offfleet,
+                    "offLM",Screen_LM
+                    
+                )
+            )
+        )
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

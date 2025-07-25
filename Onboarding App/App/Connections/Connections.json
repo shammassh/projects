@@ -1,0 +1,118 @@
+{
+  "156b3571-e680-413d-bf56-bbc7e5783e24": {
+    "appActions": [
+      "SendEmailV2"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Outlook",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/office365u_g_sqlPartialBuild/1.0.1759.4273/office365/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Outlook"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "156b3571-e680-413d-bf56-bbc7e5783e24"
+  },
+  "2bafd38f-2088-414c-8181-a13b355ffa07": {
+    "appActions": [
+      "SearchUser",
+      "UserPhoto"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1751/1.0.1751.4213/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "2bafd38f-2088-414c-8181-a13b355ffa07"
+  },
+  "761a84a1-cad9-4208-95c8-d5e1c16c8b23": {
+    "appActions": [],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Power Automate Management",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1762/1.0.1762.4298/flowmanagement/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_flowmanagement",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "PowerAutomateManagement"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "761a84a1-cad9-4208-95c8-d5e1c16c8b23"
+  },
+  "a3f13d96-af27-408d-a06a-7b678cb402fd": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1754/1.0.1754.4231/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://spinneysleb.sharepoint.com/operations": {
+        "dataSources": {
+          "Employee Onboarding GMRL": {
+            "tableName": "d5a08b4e-0836-4047-b4e6-6290c8420e5b"
+          },
+          "Employee Onboarding Noknok": {
+            "tableName": "a50bd1e7-51c9-4154-9ef1-f55f1447cb24"
+          },
+          "MainRequests": {
+            "tableName": "46ab9a11-1e28-4ee0-a7ac-c278f1277c63"
+          },
+          "Offboarding Employees": {
+            "tableName": "4dc113b7-d88c-4936-a65a-1141a9d0c129"
+          },
+          "OffFleet": {
+            "tableName": "66e6fb7d-c514-42c0-879e-72e52f657b70"
+          },
+          "OffFM": {
+            "tableName": "49b2034b-8b4a-481f-9c69-3ad8b7136ffe"
+          },
+          "OffITM": {
+            "tableName": "0e58f8d7-ca24-451e-971d-7af4b8d298fc"
+          },
+          "OffLM": {
+            "tableName": "abaf2ded-9254-459f-b713-f10cfbb1cc90"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Employee Onboarding Noknok",
+      "Employee Onboarding GMRL",
+      "MainRequests",
+      "Offboarding Employees",
+      "OffLM",
+      "OffITM",
+      "OffFM",
+      "OffFleet"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "a3f13d96-af27-408d-a06a-7b678cb402fd"
+  }
+}

@@ -1,0 +1,395 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Screen_offIT:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+      OnVisible: |+
+        =If(
+            !IsBlank(Param("itemID")),
+            Set(varEmployeeDetailsTableoff, LookUp('Offboarding Employees', ID = Value(Param("itemID"))))
+        );
+        If(
+            !IsBlank(Param("itemID")),
+            Set(varLMDetailsTable, LookUp(OffLM, itemID = Value(Param("itemID"))))
+        );
+        If(
+            !IsBlank(Param("itemID")),
+            Set(varFMDetailsTable, LookUp(OffFM, ItemID = Value(Param("itemID"))))
+        );
+
+        If(
+            !IsBlank(Param("itemID")),
+            Set(varFleetDetailsTable, LookUp(OffFleet, ItemID = Value(Param("itemID"))))
+        );
+
+        Set(varSelectedCompany,  Param("varSelectedCompany"));
+    Children:
+      - Container1_3:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            Height: =690
+            Width: =1345
+            X: =16
+            Y: =5
+          Children:
+            - CheckboxCanvas1_4:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="Returned"
+                  X: =245
+                  Y: =102
+            - CheckboxCanvas1_5:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="Returned"
+                  X: =245
+                  Y: =147
+            - TextInputCanvas2_4:
+                Control: TextInput@0.0.54
+                Properties:
+                  Appearance: ='TextInputCanvas.Appearance'.Outline
+                  Height: =203
+                  Mode: ='TextInputCanvas.Mode'.Multiline
+                  Placeholder: ="Comments"
+                  Width: =482
+                  X: =30
+                  Y: =460
+            - CancelButton1_5:
+                Control: Button@0.0.45
+                Properties:
+                  AccessibleLabel: ="Cancel form button"
+                  Appearance: ='ButtonCanvas.Appearance'.Secondary
+                  DisplayMode: "=If(\r\n    (CheckboxCanvas1_4.Checked <> CheckboxCanvas1_11.Checked) &&\r\n    (CheckboxCanvas1_5.Checked <> CheckboxCanvas1_12.Checked) &&\r\n    (CheckboxCanvas1_13.Checked <> CheckboxCanvas1_14.Checked) &&\r\n    (CheckboxCanvas1_15.Checked <> CheckboxCanvas1_16.Checked) &&\r\n    (CheckboxCanvas1_17.Checked <> CheckboxCanvas1_18.Checked) &&\r\n    (CheckboxCanvas1_19.Checked <> CheckboxCanvas1_20.Checked) &&\r\n    (CheckboxCanvas1_21.Checked <> CheckboxCanvas1_22.Checked),\r\n    \r\n    DisplayMode.Edit,\r\n    DisplayMode.Disabled\r\n)"
+                  OnSelect: "=Patch(// Pach to Sharepoint\r\n    OffITM,\r\n    Defaults(OffITM),\r\n    {\r\n        Desktop:CheckboxCanvas1_4.Checked,\r\n        'NA Desktop':CheckboxCanvas1_11.Checked,\r\n        Laptop:CheckboxCanvas1_5.Checked,\r\n        'NA Laptop':CheckboxCanvas1_12.Checked,\r\n        Tablet:CheckboxCanvas1_13.Checked,\r\n       'NA Tablet':CheckboxCanvas1_14.Checked,\r\n       Dynamics365:CheckboxCanvas1_15.Checked,\r\n       'NA Dynamics':CheckboxCanvas1_16.Checked,\r\n       'Diable Access':CheckboxCanvas1_17.Checked,\r\n       'NA Disable':CheckboxCanvas1_18.Checked,\r\n       'SIM Card':CheckboxCanvas1_19.Checked,\r\n       'NA SIM Card':CheckboxCanvas1_20.Checked,\r\n       Comments: TextInputCanvas2_4.Value,\r\n       ItemID:varEmployeeDetailsTableoff.ID // primary key tolinkitems\r\n    }\r\n);\r\n\r\nSet(varSelectedCompany, ComboboxCanvas1.Selected.Value);\r\nSet(\r\n    varDeepLink,\r\n    \"https://apps.powerapps.com/play/e/default-b99fc2f6-d65e-4b48-935b-118659097da7/a/8af96f61-d24f-49fd-88c8-29203a77b26a?\" &\r\n    \"tenantId=b99fc2f6-d65e-4b48-935b-118659097da7&screenname=offhr&itemID=\" & varEmployeeDetailsTableoff.ID\r\n);\r\n\r\n\r\n    \r\nOffice365Outlook.SendEmailV2(\r\n   \r\n    \"Muhammad.shammas@gmrlgroup.com\", // IT Email\r\n    \"Employee Resignation Form -ID \"& varEmployeeDetailsTableoff.'Staff ID'&\"Name \" &varEmployeeDetailsTableoff.'Name (Title)' ,\r\n    \"<html>\" & \r\n    \"<body>\" &\r\n    \"<p>Dear HR Manager,</p>\" &\r\n    \r\n    \"<p style='font-size:15px;'>\U0001F4C4 An offboarding request for a resigning employee has been submitted. Please find the details below:</p>\" &\r\n\r\n\"<h3 style='color:#003366; margin-top:30px;'>\U0001F9D1 Employee Information</h3>\" &\r\n\"<table cellspacing='0' cellpadding='8' style='border-collapse:collapse; width:100%; font-size:14px;'>\" & \r\n    \"<tr style='background-color:#e9eff5;'><td style='border:1px solid #ccc; font-weight:bold; width:35%;'>\U0001F9D1 Employee Name:</td><td style='border:1px solid #ccc;'>\" & varEmployeeDetailsTableoff.'Name (Title)' & \"</td></tr>\" &\r\n    \"<tr><td style='border:1px solid #ccc; font-weight:bold;'>\U0001F4C5 Last Working Day:</td><td style='border:1px solid #ccc;'>\" & Text(varEmployeeDetailsTableoff.'Resignation Date', \"dd mmmm yyyy\") & \"</td></tr>\" &\r\n    \"<tr style='background-color:#e9eff5;'><td style='border:1px solid #ccc; font-weight:bold;'>\U0001F3E2 Department:</td><td style='border:1px solid #ccc;'>\" & varEmployeeDetailsTableoff.Department.Value & \"</td></tr>\" &\r\n    \"<tr><td style='border:1px solid #ccc; font-weight:bold;'>\U0001F194 Employee ID:</td><td style='border:1px solid #ccc;'>\" & varEmployeeDetailsTableoff.'Staff ID' & \"</td></tr>\" &\r\n    \"<tr style='background-color:#e9eff5;'><td style='border:1px solid #ccc; font-weight:bold;'>\U0001F468‍\U0001F4BC Department Manager:</td><td style='border:1px solid #ccc;'>\" & varEmployeeDetailsTableoff.'Line Manager' & \"</td></tr>\" &\r\n\"</table>\" &\r\n   \r\n \"<h3 style='color:#003366; margin-top:30px;'>\U0001F4E9 Line Manager Input</h3>\" & // LM\r\n\"<table cellspacing='0' cellpadding='8' style='border-collapse:collapse; width:100%; font-size:14px; border:1px solid #ccc;'>\" &\r\n\r\n    \"<tr style='background-color:#003366; color:#ffffff;'>\" &\r\n        \"<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Field</th>\" &\r\n        \"<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Value</th>\" &\r\n    \"</tr>\" &\r\n\r\n    \"<tr style='background-color:#f9f9f9;'>\" &\r\n        \"<td style='border:1px solid #ccc; font-weight:bold;'>\U0001F4E9 Email Status:</td>\" &\r\n        \"<td style='border:1px solid #ccc;'>\" &\r\n            If(\r\n                varLMDetailsTable.'Forward Email',\r\n                \"\U0001F4E9 Forwarded\",\r\n                If(varLMDetailsTable.'NA F', \"\U0001F6AB NA\", \"❌ Not Set\")\r\n            ) &\r\n        \"</td>\" &\r\n    \"</tr>\" &\r\n\r\n    \"<tr style='background-color:#ffffff;'>\" &\r\n        \"<td style='border:1px solid #ccc; font-weight:bold;'>\U0001F4E4 Handover Returned:</td>\" &\r\n        \"<td style='border:1px solid #ccc;'>\" &\r\n            If(\r\n                varLMDetailsTable.'Data Returned',\r\n                \"\U0001F4E4 Returned\",\r\n                If(varLMDetailsTable.NA, \"\U0001F6AB NA\", \"❌ Not Set\")\r\n            ) &\r\n        \"</td>\" &\r\n    \"</tr>\" &\r\n\r\n\"</table>\" &\r\n\r\n\"<h3 style='color:#003366; margin-top:30px;'>\U0001F4E9 FM Manager Input</h3>\" & // FM\r\n\"<table cellspacing='0' cellpadding='8' style='border-collapse:collapse; width:100%; font-size:14px; border:1px solid #ccc;'>\" &\r\n\r\n    \"<tr style='background-color:#003366; color:#ffffff;'>\" &\r\n        \"<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Field</th>\" &\r\n        \"<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Value</th>\" &\r\n    \"</tr>\" &\r\n\r\n    \"<tr style='background-color:#f9f9f9;'>\" &\r\n        \"<td style='border:1px solid #ccc; font-weight:bold;'>\U0001F4E9 Fuel Card:</td>\" &\r\n        \"<td style='border:1px solid #ccc;'>\" &\r\n            If(\r\n                varFMDetailsTable.'Fuel Card',\r\n                \"\U0001F4E9 Returned\",\r\n                If(varFMDetailsTable.NA, \"\U0001F6AB NA\", \"❌ Not Set\")\r\n            ) &\r\n        \"</td>\" &\r\n    \"</tr>\" &\r\n\r\n\"</table>\" &\r\n\r\n\"<h3 style='color:#003366; margin-top:30px;'>\U0001F4E9 Fleet Manager Input</h3>\" & // Fleet Manager\r\n\"<table cellspacing='0' cellpadding='8' style='border-collapse:collapse; width:100%; font-size:14px; border:1px solid #ccc;'>\" &\r\n\r\n    \"<tr style='background-color:#003366; color:#ffffff;'>\" &\r\n        \"<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Field</th>\" &\r\n        \"<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Value</th>\" &\r\n    \"</tr>\" &\r\n\r\n    \"<tr style='background-color:#f9f9f9;'>\" &\r\n        \"<td style='border:1px solid #ccc; font-weight:bold;'>\U0001F4E9 Fuel Card:</td>\" &\r\n        \"<td style='border:1px solid #ccc;'>\" &\r\n            If(\r\n                varFleetDetailsTable.Vehicle,\r\n                \"\U0001F4E9 Returned\",\r\n                If(varFleetDetailsTable.NA, \"\U0001F6AB NA\", \"❌ Not Set\")\r\n            ) &\r\n        \"</td>\" &\r\n    \"</tr>\" &\r\n\r\n\"</table>\" &\r\n\r\n\r\n\r\n\r\n\"<br/><h3 style='color:#003366;'>\U0001F5A5️ IT Manager</h3>\" &\r\n\"<table cellspacing='0' cellpadding='8' style='border-collapse:collapse; width:100%; font-size:14px; border:1px solid #ccc;'>\" &\r\n\r\n    \"<tr style='background-color:#003366; color:#ffffff;'>\" &\r\n        \"<th style='border:1px solid #ccc; text-align:left; padding:10px;'>\U0001F9FE Item</th>\" &\r\n        \"<th style='border:1px solid #ccc; text-align:left; padding:10px;'>Status</th>\" &\r\n    \"</tr>\" &\r\n\r\n    \"<tr style='background-color:#f9f9f9;'><td style='border:1px solid #ccc;'>\U0001F5A5️ Desktop</td><td style='border:1px solid #ccc;'>\" &\r\n        If(CheckboxCanvas1_4.Checked, \"✅ Returned\", If(CheckboxCanvas1_11.Checked, \"\U0001F6AB NA\", \"❌ None Selected\")) &\r\n    \"</td></tr>\" &\r\n\r\n    \"<tr style='background-color:#ffffff;'><td style='border:1px solid #ccc;'>\U0001F4BB Laptop</td><td style='border:1px solid #ccc;'>\" &\r\n        If(CheckboxCanvas1_5.Checked, \"✅ Returned\", If(CheckboxCanvas1_12.Checked, \"\U0001F6AB NA\", \"❌ None Selected\")) &\r\n    \"</td></tr>\" &\r\n\r\n    \"<tr style='background-color:#f9f9f9;'><td style='border:1px solid #ccc;'>\U0001F4F1 Tablet</td><td style='border:1px solid #ccc;'>\" &\r\n        If(CheckboxCanvas1_13.Checked, \"✅ Returned\", If(CheckboxCanvas1_14.Checked, \"\U0001F6AB NA\", \"❌ None Selected\")) &\r\n    \"</td></tr>\" &\r\n\r\n    \"<tr style='background-color:#ffffff;'><td style='border:1px solid #ccc;'>\U0001F9EE ERP Dynamics 365</td><td style='border:1px solid #ccc;'>\" &\r\n        If(CheckboxCanvas1_15.Checked, \"✅ Returned\", If(CheckboxCanvas1_16.Checked, \"\U0001F6AB NA\", \"❌ None Selected\")) &\r\n    \"</td></tr>\" &\r\n\r\n    \"<tr style='background-color:#f9f9f9;'><td style='border:1px solid #ccc;'>\U0001F510 Disable Access</td><td style='border:1px solid #ccc;'>\" &\r\n        If(CheckboxCanvas1_17.Checked, \"✅ Returned\", If(CheckboxCanvas1_18.Checked, \"\U0001F6AB NA\", \"❌ None Selected\")) &\r\n    \"</td></tr>\" &\r\n\r\n    \"<tr style='background-color:#ffffff;'><td style='border:1px solid #ccc;'>\U0001F4F6 SIM Cards</td><td style='border:1px solid #ccc;'>\" &\r\n        If(CheckboxCanvas1_19.Checked, \"✅ Returned\", If(CheckboxCanvas1_20.Checked, \"\U0001F6AB NA\", \"❌ None Selected\")) &\r\n    \"</td></tr>\" &\r\n\r\n    \"<tr style='background-color:#f9f9f9;'><td style='border:1px solid #ccc;'>\U0001F3A7 Accessories</td><td style='border:1px solid #ccc;'>\" &\r\n        If(CheckboxCanvas1_21.Checked, \"✅ Returned\", If(CheckboxCanvas1_22.Checked, \"\U0001F6AB NA\", \"❌ None Selected\")) &\r\n    \"</td></tr>\" &\r\n\r\n\"</table>\" &\r\n\r\nIf(\r\n    !IsBlank(TextInputCanvas2_4.Value),\r\n    \"<br/><p style='font-size:15px; color:#003366;'><b>\U0001F4AC IT Manager Comments:</b></p><p style='border-left: 4px solid #003366; padding-left:10px;'>\" & TextInputCanvas2_4.Value & \"</p>\",\r\n    \"\"\r\n)&\r\n\r\n\r\n    \"<br/><p>Click the following link to access the offboarding request and take appropriate action:</p>\" & \r\n    \"<p><a href='\" & varDeepLink & \"' style='background-color: #007bff; color: white; padding: 10px; text-decoration: none; border-radius: 5px;'>Review Offboarding Request</a></p>\" & \r\n\r\n    \"<br/><p>Best regards,<br/>\" & User().Email & \"</p>\" &\r\n\r\n    \"</body></html>\",\r\n    {\r\n        IsHtml: true\r\n    }\r\n);\r\n\r\nNavigate(Success);\r\n\r\n\r\n"
+                  Text: ="Submit"
+                  Width: =120
+                  X: =792
+                  Y: =583
+            - CheckboxCanvas1_11:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="NA"
+                  X: =405
+                  Y: =102
+            - CheckboxCanvas1_12:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="NA"
+                  X: =405
+                  Y: =147
+            - CheckboxCanvas1_13:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="Returned"
+                  X: =245
+                  Y: =179
+            - CheckboxCanvas1_14:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="NA"
+                  X: =405
+                  Y: =184
+            - CheckboxCanvas1_15:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="Returned"
+                  X: =245
+                  Y: =225
+            - CheckboxCanvas1_16:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="NA"
+                  X: =405
+                  Y: =222
+            - CheckboxCanvas1_17:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="Returned"
+                  X: =245
+                  Y: =258
+            - CheckboxCanvas1_18:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="NA"
+                  X: =405
+                  Y: =256
+            - CheckboxCanvas1_19:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="Returned"
+                  X: =245
+                  Y: =299
+            - CheckboxCanvas1_20:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="NA"
+                  X: =405
+                  Y: =299
+            - Label7_3:
+                Control: Label@2.5.1
+                Properties:
+                  Align: =Align.Center
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Text: ="Comments"
+                  Width: =485
+                  X: =4
+                  Y: =415
+            - CheckboxCanvas1_21:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="Returned"
+                  X: =245
+                  Y: =342
+            - CheckboxCanvas1_22:
+                Control: CheckBox@0.0.30
+                Properties:
+                  Label: ="NA"
+                  X: =405
+                  Y: =342
+            - Label1_9:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Text: ="Please Choose one of the below"
+                  Width: =347
+                  X: =58
+                  Y: =45
+      - Container2_2:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            Height: =55
+            Width: =1299
+            X: =40
+            Y: =40
+          Children:
+            - Label4_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  FontWeight: =FontWeight.Bold
+                  Text: ="IT Department"
+                  Width: =249
+                  X: =580
+                  Y: =5
+      - Container9:
+          Control: GroupContainer@1.3.0
+          Variant: ManualLayout
+          Properties:
+            Height: =289
+            Width: =189
+            X: =60
+            Y: =95
+          Children:
+            - Label8:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  Text: ="Desktop"
+                  X: =5
+                  Y: =5
+            - Label8_1:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  Text: ="Tablet"
+                  X: =5
+                  Y: =85
+            - Label8_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  Text: ="Dynmics365"
+                  X: =5
+                  Y: =125
+            - Label8_3:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  Text: ="Disable Access"
+                  X: =5
+                  Y: =165
+            - Label8_4:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  Text: ="SIM Card"
+                  X: =5
+                  Y: =205
+            - Label8_6:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  Text: |-
+                    ="Laptop
+                    "
+                  X: =5
+                  Y: =45
+            - Label8_5:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  BorderStyle: =BorderStyle.None
+                  BorderThickness: =2
+                  Color: =RGBA(50, 49, 48, 1)
+                  DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                  DisabledColor: =RGBA(161, 159, 157, 1)
+                  FocusedBorderThickness: =4
+                  Font: =Font.'Segoe UI'
+                  Text: ="Accessories"
+                  X: =5
+                  Y: =245
+            - Icon7:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  Color: =RGBA(0, 120, 212, 1)
+                  DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                  DisabledColor: =RGBA(225, 223, 221, 1)
+                  DisabledFill: =RGBA(0, 0, 0, 0)
+                  FocusedBorderThickness: =4
+                  Height: =45
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  HoverColor: =RGBA(16, 110, 190, 1)
+                  HoverFill: =RGBA(0, 0, 0, 0)
+                  Icon: =Icon.Laptop
+                  PressedBorderColor: =RGBA(0, 0, 0, 0)
+                  PressedColor: =RGBA(16, 110, 190, 1)
+                  PressedFill: =RGBA(0, 0, 0, 0)
+                  Width: =27
+                  X: =86
+                  Y: =45
+            - Icon8:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 0)
+                  Color: =RGBA(0, 120, 212, 1)
+                  DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                  DisabledColor: =RGBA(225, 223, 221, 1)
+                  DisabledFill: =RGBA(0, 0, 0, 0)
+                  FocusedBorderThickness: =4
+                  Height: =29
+                  HoverBorderColor: =RGBA(0, 0, 0, 0)
+                  HoverColor: =RGBA(16, 110, 190, 1)
+                  HoverFill: =RGBA(0, 0, 0, 0)
+                  Icon: =Icon.Tablet
+                  PressedBorderColor: =RGBA(0, 0, 0, 0)
+                  PressedColor: =RGBA(16, 110, 190, 1)
+                  PressedFill: =RGBA(0, 0, 0, 0)
+                  Width: =19
+                  X: =86
+                  Y: =85
+      - Icon5:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =RGBA(0, 120, 212, 1)
+            DisabledBorderColor: =RGBA(245, 245, 245, 1)
+            DisabledColor: =RGBA(225, 223, 221, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =453
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(16, 110, 190, 1)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.ComputerDesktop
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(16, 110, 190, 1)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =478
+            X: =759
+            Y: =110
+      - Icon6:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =RGBA(0, 120, 212, 1)
+            DisabledBorderColor: =RGBA(245, 245, 245, 1)
+            DisabledColor: =RGBA(225, 223, 221, 1)
+            DisabledFill: =RGBA(0, 0, 0, 0)
+            FocusedBorderThickness: =4
+            Height: =51
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(16, 110, 190, 1)
+            HoverFill: =RGBA(0, 0, 0, 0)
+            Icon: =Icon.ComputerDesktop
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(16, 110, 190, 1)
+            PressedFill: =RGBA(0, 0, 0, 0)
+            Width: =22
+            X: =145
+            Y: =95

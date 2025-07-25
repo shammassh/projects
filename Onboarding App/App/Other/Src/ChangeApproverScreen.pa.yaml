@@ -1,0 +1,246 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  ChangeApproverScreen:
+    Properties:
+      Fill: =RGBA(255,255,255,1)
+      Height: =Max(App.Height, App.DesignHeight)
+      LoadingSpinnerColor: =RGBA(0, 51, 102, 1)
+      OnVisible: |-
+        =Set(_changingApprover, true);
+        Reset(TextInputSearchUser);
+      Width: =Max(App.Width, App.DesignWidth)
+    Children:
+      - Image4:
+          Control: Image@2.2.3
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledFill: =RGBA(193, 193, 193, 0.95)
+            FocusedBorderColor: =Image4.BorderColor
+            Height: =768
+            HoverBorderColor: =ColorFade(Image4.BorderColor, 20%)
+            HoverFill: =ColorFade(Image4.Fill, 20%)
+            Image: =
+            PressedBorderColor: =ColorFade(Image4.BorderColor, -20%)
+            PressedFill: =ColorFade(Image4.Fill, -20%)
+            Width: =1366
+      - Rectangle8:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DisabledFill: =Rectangle8.Fill
+            Fill: =RGBA(0,0,0,0.6)
+            FocusedBorderColor: =Rectangle8.BorderColor
+            Height: =768
+            HoverFill: =Rectangle8.Fill
+            PressedFill: =Rectangle8.Fill
+            Width: =1366
+      - Rectangle9:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DisabledFill: =Rectangle9.Fill
+            Fill: =Color.White
+            FocusedBorderColor: =Rectangle9.BorderColor
+            Height: =700
+            HoverFill: =Rectangle9.Fill
+            PressedFill: =Rectangle9.Fill
+            Width: =904
+            X: =Parent.Width / 2 - Rectangle9.Width / 2
+            Y: =Parent.Height / 2 - Rectangle9.Height / 2
+      - Label21:
+          Control: Label@2.5.1
+          Properties:
+            Align: =LayoutAlignItems.Center
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RGBA(47,41,43,1)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            Fill: =RGBA(236, 236, 236, 1)
+            FocusedBorderColor: =Label21.BorderColor
+            Font: =Font.Lato
+            FontWeight: =FontWeight.Bold
+            Height: =80
+            HoverBorderColor: =Label21.BorderColor
+            HoverColor: =Label21.Color
+            HoverFill: =Label21.Fill
+            PressedBorderColor: =Label21.BorderColor
+            PressedColor: =Label21.Color
+            PressedFill: =Label21.Fill
+            Size: =18
+            Text: =Upper("Submit to")
+            Width: =Rectangle9.Width
+            X: =231
+            Y: =34
+      - TextInputSearchUser:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Search user"
+            BorderColor: =RGBA(170, 170, 170, 1)
+            BorderThickness: =1
+            Color: =RGBA(74, 74, 74, 1)
+            Default: =""
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+            DisabledFill: =ColorFade(RGBA(159, 167, 165, 1), 50%)
+            FocusedBorderColor: =TextInputSearchUser.BorderColor
+            FocusedBorderThickness: =1
+            Font: =Font.Lato
+            Height: =88
+            HoverBorderColor: =TextInputSearchUser.BorderColor
+            HoverColor: =RGBA(47, 41, 43, 1)
+            HoverFill: =ColorFade(RGBA(190, 202, 226, 1), 30%)
+            PaddingBottom: =0
+            PaddingLeft: =90
+            PaddingRight: =25.00
+            PaddingTop: =0.00
+            PressedBorderColor: =TextInputSearchUser.HoverBorderColor
+            PressedColor: =TextInputSearchUser.Color
+            PressedFill: =TextInputSearchUser.Fill
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            Size: =18
+            Width: =850
+            X: =258
+            Y: =140
+      - icon8_1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RGBA(12,132,255,1)
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledColor: =RGBA(193, 193, 193, 0.95)
+            DisabledFill: =icon8_1.Fill
+            DisplayMode: =DisplayMode.View
+            FocusedBorderColor: =icon8_1.BorderColor
+            Height: =43
+            HoverBorderColor: =ColorFade(icon8_1.BorderColor, 20%)
+            HoverColor: =ColorFade(icon8_1.Color, 20%)
+            HoverFill: =icon8_1.Fill
+            Icon: =Icon.Search
+            PressedBorderColor: =ColorFade(icon8_1.BorderColor, -20%)
+            PressedColor: =ColorFade(icon8_1.Color, -20%)
+            PressedFill: =icon8_1.Fill
+            Width: =43
+            X: =277
+            Y: =162
+      - GalleryChangeApprover:
+          Control: Gallery@2.15.0
+          Variant: Vertical
+          Properties:
+            AccessibleLabel: ="Search result gallery"
+            BorderColor: =RGBA(101, 128, 187, 1)
+            DelayItemLoading: =false
+            Height: =490
+            Items: =If(!IsBlank(Trim(TextInputSearchUser.Text)),Office365Users.SearchUser({searchTerm:Trim(TextInputSearchUser.Text)}))
+            LoadingSpinner: =LoadingSpinner.None
+            LoadingSpinnerColor: =GalleryChangeApprover.BorderColor
+            OnSelect: |-
+              =Set(_selectedApprover, ThisItem);
+              Set(_selectedApproverPhoto, Office365Users.UserPhoto(ThisItem.Id));
+              Back();
+            ShowScrollbar: =false
+            TemplateSize: =88
+            Width: =850
+            X: =258
+            Y: =228
+          Children:
+            - LabelUserJobTitle:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(101, 128, 187, 1)
+                  Color: =RGBA(74, 74, 74, 1)
+                  DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+                  FocusedBorderColor: =LabelUserJobTitle.BorderColor
+                  FocusedBorderThickness: =2
+                  Font: =Font.Lato
+                  Height: =20
+                  HoverBorderColor: =LabelUserJobTitle.BorderColor
+                  HoverColor: =LabelUserJobTitle.Color
+                  HoverFill: =LabelUserJobTitle.Fill
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =30
+                  PaddingRight: =0.00
+                  PaddingTop: =0.00
+                  PressedBorderColor: =LabelUserJobTitle.BorderColor
+                  PressedColor: =LabelUserJobTitle.Color
+                  PressedFill: =LabelUserJobTitle.Fill
+                  Size: =12
+                  Text: =ThisItem.JobTitle
+                  Width: =440.00
+                  X: =40
+                  Y: =35
+            - LabelUserDisplayName:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(101, 128, 187, 1)
+                  Color: =RGBA(74, 74, 74, 1)
+                  DisabledColor: =ColorFade(RGBA(47, 41, 43, 1), 70%)
+                  FocusedBorderColor: =LabelUserDisplayName.BorderColor
+                  FocusedBorderThickness: =2
+                  Font: =Font.Lato
+                  FontWeight: =FontWeight.Bold
+                  HoverBorderColor: =LabelUserDisplayName.BorderColor
+                  HoverColor: =LabelUserDisplayName.Color
+                  HoverFill: =LabelUserDisplayName.Fill
+                  OnSelect: |+
+                    =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =30
+                  PaddingRight: =0.00
+                  PaddingTop: =0.00
+                  PressedBorderColor: =LabelUserDisplayName.BorderColor
+                  PressedColor: =LabelUserDisplayName.Color
+                  PressedFill: =LabelUserDisplayName.Fill
+                  Size: =14
+                  TabIndex: =0
+                  Text: =ThisItem.Mail
+                  Width: =500
+                  X: =40
+            - Rectangle10:
+                Control: Rectangle@2.3.0
+                Properties:
+                  AccessibleLabel: ="Separator"
+                  BorderColor: =RGBA(101, 128, 187, 1)
+                  DisabledFill: =Rectangle10.Fill
+                  Fill: =RGBA(236,236,236,1)
+                  FocusedBorderColor: =Rectangle10.BorderColor
+                  Height: =2
+                  HoverFill: =Rectangle10.Fill
+                  OnSelect: =Select(Parent)
+                  PressedFill: =Rectangle10.Fill
+                  Width: =Parent.TemplateWidth
+                  Y: =68
+      - iconClose_1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            AccessibleLabel: ="Cancel"
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =RGBA(101,128,187,1)
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledColor: =RGBA(193, 193, 193, 0.95)
+            DisabledFill: =iconClose_1.Fill
+            FocusedBorderColor: =iconClose_1.BorderColor
+            HoverBorderColor: =ColorFade(iconClose_1.BorderColor, 20%)
+            HoverColor: =ColorFade(iconClose_1.Color, 20%)
+            HoverFill: =iconClose_1.Fill
+            Icon: =Icon.Cancel
+            OnSelect: =Back()
+            PaddingBottom: =17
+            PaddingLeft: =17
+            PaddingRight: =17
+            PaddingTop: =17
+            PressedBorderColor: =ColorFade(iconClose_1.BorderColor, -20%)
+            PressedColor: =ColorFade(iconClose_1.Color, -20%)
+            PressedFill: =iconClose_1.Fill
+            X: =1044
+            Y: =42

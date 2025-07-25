@@ -1,0 +1,590 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  scrEmployeeDetails_off:
+    Properties:
+      Fill: =RGBA(255, 255, 255, 1)
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    Children:
+      - ScreenContainer1_1:
+          Control: GroupContainer@1.3.0
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(245, 245, 245, 1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Stretch
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =16
+            PaddingBottom: =16
+            PaddingLeft: =16
+            PaddingRight: =16
+            PaddingTop: =16
+            Width: =Parent.Width
+          Children:
+            - HeaderContainer1_1:
+                Control: GroupContainer@1.3.0
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.SetByContainer
+                  FillPortions: =0
+                  Height: =75
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  RadiusBottomLeft: =8
+                  RadiusBottomRight: =8
+                  RadiusTopLeft: =8
+                  RadiusTopRight: =8
+                Children:
+                  - Header1_1:
+                      Control: Header@0.0.44
+                      Properties:
+                        Title: ="Employee Info"
+            - MainContainer1_1:
+                Control: GroupContainer@1.3.0
+                Variant: AutoLayout
+                Properties:
+                  AlignInContainer: =AlignInContainer.SetByContainer
+                  DropShadow: =DropShadow.None
+                  LayoutAlignItems: =LayoutAlignItems.Stretch
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutGap: =16
+                  LayoutWrap: =true
+                  PaddingBottom: =2
+                  PaddingLeft: =2
+                  PaddingRight: =2
+                  PaddingTop: =2
+                  RadiusBottomLeft: =0
+                  RadiusBottomRight: =0
+                  RadiusTopLeft: =0
+                  RadiusTopRight: =0
+                Children:
+                  - FormContainer1_1:
+                      Control: GroupContainer@1.3.0
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.Semibold
+                        Fill: =RGBA(174, 208, 221, 1)
+                        FillPortions: =7
+                        LayoutDirection: =LayoutDirection.Vertical
+                        LayoutGap: =16
+                        LayoutOverflowY: =LayoutOverflow.Scroll
+                        PaddingBottom: =15
+                        PaddingLeft: =15
+                        PaddingRight: =15
+                        PaddingTop: =15
+                        RadiusBottomLeft: =8
+                        RadiusBottomRight: =8
+                        RadiusTopLeft: =8
+                        RadiusTopRight: =8
+                        Width: =
+                      Children:
+                        - Icon3_2:
+                            Control: Classic/Icon@2.5.0
+                            Properties:
+                              AlignInContainer: =AlignInContainer.End
+                              BorderColor: =RGBA(0, 0, 0, 0)
+                              Color: =RGBA(0, 120, 212, 1)
+                              DisabledBorderColor: =RGBA(245, 245, 245, 1)
+                              DisabledColor: =RGBA(225, 223, 221, 1)
+                              DisabledFill: =RGBA(0, 0, 0, 0)
+                              FocusedBorderThickness: =4
+                              HoverBorderColor: =RGBA(0, 0, 0, 0)
+                              HoverColor: =RGBA(16, 110, 190, 1)
+                              HoverFill: =RGBA(0, 0, 0, 0)
+                              Icon: =Icon.Home
+                              OnSelect: =Navigate('Home Screen')
+                              PressedBorderColor: =RGBA(0, 0, 0, 0)
+                              PressedColor: =RGBA(16, 110, 190, 1)
+                              PressedFill: =RGBA(0, 0, 0, 0)
+                        - Label1_1:
+                            Control: Label@2.5.1
+                            Properties:
+                              Align: =Align.Center
+                              AlignInContainer: =AlignInContainer.Center
+                              AutoHeight: =true
+                              BorderColor: =RGBA(0, 0, 0, 0)
+                              BorderStyle: =BorderStyle.None
+                              BorderThickness: =2
+                              Color: =
+                              DisabledBorderColor: =RGBA(0, 0, 0, 0)
+                              DisabledColor: =RGBA(161, 159, 157, 1)
+                              FocusedBorderThickness: =4
+                              Font: =Font.'Segoe UI'
+                              Height: =50
+                              Text: =
+                              VerticalAlign: =VerticalAlign.Bottom
+                              Width: =190
+                              Wrap: =false
+      - TextCanvas1:
+          Control: Text@0.0.51
+          Properties:
+            Align: ='TextCanvas.Align'.Center
+            Height: =63
+            Size: =40
+            Text: ="Offboarding Employee Details"
+            Width: =1194
+            X: =59
+            Y: =129
+      - Form1_1:
+          Control: Form@2.4.4
+          Layout: Vertical
+          Properties:
+            BorderColor: =RGBA(174, 208, 221, 1)
+            BorderThickness: =1.5
+            DataSource: ='Offboarding Employees'
+            DefaultMode: =FormMode.New
+            Height: =335
+            NumberOfColumns: =2
+            OnSuccess: |-
+              =Set(varMainRequestID, Form1_1.LastSubmit.ID);
+              ResetForm(Form1_1);
+              If(
+                  varSelectedCompany = "GMRL",
+                  Navigate(Screen_GMRL, ScreenTransition.Fade),
+                  varSelectedCompany = "NokNok",
+                  Navigate(Screen_Noknok, ScreenTransition.Fade)
+              );
+            Width: =1269
+            X: =40
+            Y: =272
+          Children:
+            - Name (Title)_DataCard1:
+                Control: TypedDataCard@1.0.7
+                Variant: TextualEdit
+                Properties:
+                  BorderColor: =RGBA(174, 208, 221, 1)
+                  BorderThickness: =0.5
+                  DataField: ="Title"
+                  Default: =ThisItem.'Name (Title)'
+                  DisplayName: =DataSourceInfo([@'Offboarding Employees'],DataSourceInfo.DisplayName,'Name (Title)')
+                  Height: =100
+                  MaxLength: =DataSourceInfo([@'Offboarding Employees'], DataSourceInfo.MaxLength, 'Name (Title)')
+                  Required: =true
+                  Update: =DataCardValue16.Value
+                  Width: =634
+                  X: =0
+                  Y: =0
+                Children:
+                  - DataCardKey16:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        Height: =40
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Bold
+                        Width: =479
+                        Wrap: =false
+                        X: =50
+                        Y: =10
+                  - DataCardValue16:
+                      Control: TextInput@0.0.54
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        BorderColor: =RGBA(174, 208, 221, 1)
+                        BorderRadius: =0
+                        BorderStyle: =BorderStyle.Solid
+                        DisplayMode: =Parent.DisplayMode
+                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =Parent.Default
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =50
+                  - ErrorMessage16:
+                      Control: Text@0.0.51
+                      MetadataKey: ErrorMessage
+                      Properties:
+                        Height: =30
+                        Text: =Parent.Error
+                        Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =DataCardValue16.Y + DataCardValue16.Height
+                  - StarVisible17_1:
+                      Control: Text@0.0.51
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        FontColor: =RGBA(189, 49, 51, 1)
+                        Height: =30
+                        Text: ="*"
+                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =30
+            - Department_DataCard2:
+                Control: TypedDataCard@1.0.7
+                Variant: ComboBoxEdit
+                Properties:
+                  BorderColor: =RGBA(174, 208, 221, 1)
+                  BorderThickness: =0.5
+                  DataField: ="Department"
+                  Default: =ThisItem.Department
+                  DisplayName: =DataSourceInfo([@'Offboarding Employees'],DataSourceInfo.DisplayName,Department)
+                  Height: =68
+                  Required: =true
+                  Update: =DataCardValue18.Selected
+                  Width: =632.5
+                  X: =1
+                  Y: =0
+                Children:
+                  - DataCardKey18:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        Height: =22
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Bold
+                        Width: =Parent.Width - 48
+                        Wrap: =false
+                        Y: =8
+                  - DataCardValue18:
+                      Control: ComboBox@0.0.51
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        BorderColor: =RGBA(174, 208, 221, 1)
+                        BorderRadius: =0
+                        BorderStyle: =BorderStyle.Solid
+                        BorderThickness: =0.5
+                        DefaultSelectedItems: =[Parent.Default]
+                        DisplayMode: =Parent.DisplayMode
+                        Items: =Choices([@'Offboarding Employees'].Department)
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =50
+                  - ErrorMessage18:
+                      Control: Text@0.0.51
+                      MetadataKey: ErrorMessage
+                      Properties:
+                        Height: =30
+                        Text: =Parent.Error
+                        Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =DataCardValue18.Y + DataCardValue18.Height
+                  - StarVisible18:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldRequired
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        FontColor: =RGBA(189, 49, 51, 1)
+                        Height: =20
+                        Text: ="*"
+                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =30
+                        Y: =DataCardKey18.Y
+            - Staff ID_DataCard1:
+                Control: TypedDataCard@1.0.7
+                Variant: NumberEdit
+                Properties:
+                  BorderColor: =RGBA(174, 208, 221, 1)
+                  BorderThickness: =0.5
+                  DataField: ="Staff_x0020_ID"
+                  Default: =ThisItem.'Staff ID'
+                  DisplayName: =DataSourceInfo([@'Offboarding Employees'],DataSourceInfo.DisplayName,'Staff ID')
+                  Required: =true
+                  Update: =Value(DataCardValue17.Value)
+                  Width: =632.5
+                  X: =0
+                  Y: =1
+                Children:
+                  - DataCardKey17:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        Height: =30
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Bold
+                        Width: =581
+                        Wrap: =false
+                  - DataCardValue17:
+                      Control: NumberInput@2.9.12
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        BorderColor: =RGBA(174, 208, 221, 1)
+                        BorderRadius: =0
+                        BorderStyle: =BorderStyle.Solid
+                        DisplayMode: =Parent.DisplayMode
+                        Max: =Blank()
+                        Min: =Blank()
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =Parent.Default
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =DataCardKey17.Y + DataCardKey17.Height + 4
+                  - ErrorMessage17:
+                      Control: Text@0.0.51
+                      MetadataKey: ErrorMessage
+                      Properties:
+                        Height: =30
+                        Text: =Parent.Error
+                        Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =DataCardValue17.Y + DataCardValue17.Height
+                  - StarVisible17:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldRequired
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        FontColor: =RGBA(189, 49, 51, 1)
+                        Height: =30
+                        Text: ="*"
+                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =30
+                        Y: =DataCardKey17.Y
+            - Line Manager_DataCard1:
+                Control: TypedDataCard@1.0.7
+                Variant: TextualEdit
+                Properties:
+                  BorderColor: =RGBA(174, 208, 221, 1)
+                  BorderThickness: =0.5
+                  DataField: ="Line_x0020_Manager"
+                  Default: =ThisItem.'Line Manager'
+                  DisplayName: =DataSourceInfo([@'Offboarding Employees'],DataSourceInfo.DisplayName,'Line Manager')
+                  Height: =122
+                  MaxLength: =DataSourceInfo([@'Offboarding Employees'], DataSourceInfo.MaxLength, 'Line Manager')
+                  Required: =true
+                  Update: =DataCardValue19.Value
+                  Width: =634
+                  X: =1
+                  Y: =1
+                Children:
+                  - DataCardKey19:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        Height: =26
+                        Text: =Parent.DisplayName
+                        VerticalAlign: =VerticalAlign.Middle
+                        Weight: ='TextCanvas.Weight'.Bold
+                        Width: =Parent.Width - 48
+                        Wrap: =false
+                        Y: =10
+                  - DataCardValue19:
+                      Control: TextInput@0.0.54
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        BorderColor: =RGBA(174, 208, 221, 1)
+                        BorderRadius: =0
+                        BorderStyle: =BorderStyle.Solid
+                        BorderThickness: =0.5
+                        DisplayMode: =Parent.DisplayMode
+                        Mode: ="'TextInputCanvas.Mode'.TextInputModeSingleLine"
+                        Required: =Parent.Required
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Value: =LabelUserDisplayName.Text
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =36
+                  - ErrorMessage19:
+                      Control: Text@0.0.51
+                      MetadataKey: ErrorMessage
+                      Properties:
+                        Height: =30
+                        Text: =Parent.Error
+                        Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =DataCardValue19.Y + DataCardValue19.Height
+                  - StarVisible19:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldRequired
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        FontColor: =RGBA(189, 49, 51, 1)
+                        Height: =30
+                        Text: ="*"
+                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =30
+                        Y: =DataCardKey19.Y
+                  - Button2_1:
+                      Control: Classic/Button@2.2.0
+                      Properties:
+                        BorderColor: =ColorFade(Self.Fill, -15%)
+                        Color: =RGBA(255, 255, 255, 1)
+                        DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                        Fill: =Color.Transparent
+                        Font: =Font.'Segoe UI'
+                        Height: =35
+                        HoverBorderColor: =RGBA(0, 0, 0, 0)
+                        HoverColor: |
+                          =RGBA(255, 255, 255, 1)
+                        HoverFill: =ColorFade(Self.Fill, -20%)
+                        OnSelect: =Navigate(ChangeApproverScreen)
+                        PressedBorderColor: =RGBA(0, 69, 120, 1)
+                        PressedColor: =RGBA(255, 255, 255, 1)
+                        PressedFill: =ColorFade(Self.Fill, 30%)
+                        RadiusBottomLeft: =0
+                        RadiusBottomRight: =0
+                        RadiusTopLeft: =0
+                        RadiusTopRight: =0
+                        Text: =""
+                        Width: =146
+                        X: =219
+                        Y: =5
+            - Resignation Date_DataCard1:
+                Control: TypedDataCard@1.0.7
+                Variant: DateEdit
+                Properties:
+                  BorderColor: =RGBA(174, 208, 221, 1)
+                  BorderThickness: =0.5
+                  DataField: ="Resignation_x0020_Date"
+                  Default: =ThisItem.'Resignation Date'
+                  DisplayName: =DataSourceInfo([@'Offboarding Employees'],DataSourceInfo.DisplayName,Resignation_x0020_Date)
+                  Height: =110
+                  Required: =true
+                  Update: =DataCardValue24.SelectedDate
+                  Width: =1268
+                  X: =0
+                  Y: =2
+                Children:
+                  - DataCardKey24:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldName
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        Height: =30
+                        Text: =Parent.DisplayName
+                        Weight: ='TextCanvas.Weight'.Bold
+                        Width: =Parent.Width - 48
+                        Wrap: =false
+                        X: =24
+                        Y: =10
+                  - DataCardValue24:
+                      Control: DatePicker@0.0.46
+                      MetadataKey: FieldValue
+                      Properties:
+                        AccessibleLabel: =Parent.DisplayName
+                        BorderColor: =RGBA(174, 208, 221, 1)
+                        BorderRadius: =0
+                        BorderStyle: =BorderStyle.Solid
+                        DisplayMode: =Parent.DisplayMode
+                        EndDate: =Date(Year(Today())+100, 12, 31)
+                        SelectedDate: =Parent.Default
+                        StartDate: =Date(1900, 1, 1)
+                        ValidationState: =If(IsBlank(Parent.Error), "None", "Error")
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =DataCardKey24.Y + DataCardKey24.Height + 4
+                  - ErrorMessage24:
+                      Control: Text@0.0.51
+                      MetadataKey: ErrorMessage
+                      Properties:
+                        Height: =30
+                        Text: =Parent.Error
+                        Visible: =And(!IsBlank(Parent.Error), Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =Parent.Width - 48
+                        X: =24
+                        Y: =DataCardValue24.Y + DataCardValue24.Height
+                  - StarVisible24:
+                      Control: Text@0.0.51
+                      MetadataKey: FieldRequired
+                      Properties:
+                        Align: ='TextCanvas.Align'.Center
+                        FontColor: =RGBA(189, 49, 51, 1)
+                        Height: =30
+                        Text: ="*"
+                        Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                        Width: =30
+                        Y: =DataCardKey24.Y
+      - CancelButton1_1:
+          Control: Button@0.0.45
+          Properties:
+            AccessibleLabel: ="Cancel form button"
+            Appearance: ='ButtonCanvas.Appearance'.Secondary
+            Height: =29
+            OnSelect: |+
+              =SubmitForm(Form1_1);
+              Set(varSelectedCompany, ComboboxCanvas2.Selected.Value);
+              Set(
+                  varDeepLink,
+                  "https://apps.powerapps.com/play/e/default-b99fc2f6-d65e-4b48-935b-118659097da7/a/8af96f61-d24f-49fd-88c8-29203a77b26a?" &
+                  "tenantId=b99fc2f6-d65e-4b48-935b-118659097da7&screenname=offLM&itemID=" & Form1_1.LastSubmit.ID
+              );
+
+              Office365Outlook.SendEmailV2(
+                  Form1_1.LastSubmit.'Line Manager', // DM's Email
+                  "📤 Employee Resignation Form",
+              "<html>" & 
+              "<body style='font-family:Segoe UI, sans-serif; color:#333; background-color:#f9f9f9; padding:20px;'>" &
+
+              "<p style='font-size:16px;'>👋 Dear LM Manager,</p>" &
+
+              "<p style='font-size:15px;'>📄 An offboarding request for a resigning employee has been submitted. Please find the details below:</p>" &
+
+              "<table cellspacing='0' cellpadding='6' style='border-collapse:collapse; width:auto; font-size:14px;'>" & 
+
+                  "<tr style='background-color:#003366; color:white;'>" &
+                      "<td style='border:1px solid #ccc; font-weight:bold;'>🧑 Employee Name:</td>" &
+                      "<td style='border:1px solid #ccc;'>" & Form1_1.LastSubmit.'Name (Title)' & "</td>" &
+                  "</tr>" &
+
+                  "<tr style='background-color:#f2f2f2;'>" &
+                      "<td style='border:1px solid #ccc; font-weight:bold;'>📅 Last Working Date:</td>" &
+                      "<td style='border:1px solid #ccc;'>" & Text(Form1_1.LastSubmit.'Resignation Date', "dd mmmm yyyy") & "</td>" &
+                  "</tr>" &
+
+                  "<tr style='background-color:#ffffff;'>" &
+                      "<td style='border:1px solid #ccc; font-weight:bold;'>🏢 Department:</td>" &
+                      "<td style='border:1px solid #ccc;'>" & Form1_1.LastSubmit.Department.Value & "</td>" &
+                  "</tr>" &
+
+                  "<tr style='background-color:#f2f2f2;'>" &
+                      "<td style='border:1px solid #ccc; font-weight:bold;'>🆔 Employee ID:</td>" &
+                      "<td style='border:1px solid #ccc;'>" & Form1_1.LastSubmit.'Staff ID' & "</td>" &
+                  "</tr>" &
+
+                  "<tr style='background-color:#ffffff;'>" &
+                      "<td style='border:1px solid #ccc; font-weight:bold;'>👨‍💼 Department Manager:</td>" &
+                      "<td style='border:1px solid #ccc;'>" & Form1_1.LastSubmit.'Line Manager' & "</td>" &
+                  "</tr>" &
+
+              "</table>" &
+
+              "<br/><p style='font-size:15px;'>🔗 Click the following link to access the offboarding request and take appropriate action:</p>" & 
+              "<p><a href='" & varDeepLink & "' style='display:inline-block; background-color:#007bff; color:#ffffff; padding:10px 15px; text-decoration:none; border-radius:5px;'>✅ Review Offboarding Request</a></p>" & 
+
+              "<br/><p style='font-size:14px;'>🤝 Best regards,<br/>" & User().FullName & "</p>" &
+
+              "</body></html>",
+
+                  {
+                      IsHtml: true
+                  }
+              );
+
+              Navigate(Success);
+            Text: ="Submit"
+            Width: =106
+            X: =1220
+            Y: =630
+      - Label1_4:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            BorderStyle: =BorderStyle.None
+            BorderThickness: =2
+            Color: =RGBA(50, 49, 48, 1)
+            DisabledBorderColor: =RGBA(0, 0, 0, 0)
+            DisabledColor: =RGBA(161, 159, 157, 1)
+            FocusedBorderThickness: =4
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Lighter
+            Text: ="Fill out the form below."
+            Width: =238
+            X: =537
+            Y: =212
