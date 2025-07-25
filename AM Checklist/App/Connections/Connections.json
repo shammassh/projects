@@ -1,0 +1,130 @@
+{
+  "516e3a46-c4fb-4fc8-9a45-b4cfec4f16fb": {
+    "appActions": [
+      "Run"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Logic flows",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1752/1.0.1752.4225/logicflows/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_logicflows",
+      "parameterHints": {
+        "9aa20aa8-d2fe-486b-99bc-2d61bda02ed9": {
+          "value": "shared_sharepointonline"
+        },
+        "workflowDisplayName": {
+          "value": "Upload Image to Sharepoint V2"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "6572ba1b-3d5e-4472-bcd7-cbc94b7ff41e"
+        }
+      },
+      "parameterHintsV2": {
+        "shared_sharepointonline": {
+          "value": "9aa20aa8-d2fe-486b-99bc-2d61bda02ed9"
+        },
+        "workflowDisplayName": {
+          "value": "Upload Image to Sharepoint V2"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "6572ba1b-3d5e-4472-bcd7-cbc94b7ff41e"
+        }
+      }
+    },
+    "datasets": {},
+    "dataSources": [
+      "UploadImagetoSharepointV2"
+    ],
+    "dependencies": {
+      "shared_sharepointonline": "9aa20aa8-d2fe-486b-99bc-2d61bda02ed9"
+    },
+    "dependents": [],
+    "id": "516e3a46-c4fb-4fc8-9a45-b4cfec4f16fb"
+  },
+  "94728771-064f-4434-8ba1-00e7384ce14c": {
+    "appActions": [
+      "SearchUser"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Users",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1751/1.0.1751.4213/office365users/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365users",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Users"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "94728771-064f-4434-8ba1-00e7384ce14c"
+  },
+  "9aa20aa8-d2fe-486b-99bc-2d61bda02ed9": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write",
+      "providers/PowerPlatform.Governance/Operations/Delete"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1754/1.0.1754.4231/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://spinneysleb.sharepoint.com/operations": {
+        "dataSources": {
+          "AMImages": {
+            "tableName": "f289354b-786d-4a9d-b123-a49da26a4b6c"
+          },
+          "Area Managers Checklist": {
+            "tableName": "b6dce21e-64b7-474a-bb1b-cbc30d549ac6"
+          },
+          "Area Managers Checklist Survey": {
+            "tableName": "00f9e52c-0c32-4bbc-bdc8-31ebbe3d8021"
+          },
+          "SRA Area": {
+            "tableName": "7fdf7bca-4b80-44c8-9f1c-cca74168a59d"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "SRA Area",
+      "Area Managers Checklist Survey",
+      "AMImages",
+      "Area Managers Checklist"
+    ],
+    "dependencies": {},
+    "dependents": [
+      "516e3a46-c4fb-4fc8-9a45-b4cfec4f16fb"
+    ],
+    "id": "9aa20aa8-d2fe-486b-99bc-2d61bda02ed9"
+  },
+  "afb6e328-0bc1-40ec-a33e-3107af9ac03a": {
+    "appActions": [
+      "SendEmailV2"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Office 365 Outlook",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/office365u_g_sqlPartialBuild/1.0.1759.4273/office365/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_office365",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {},
+    "dataSources": [
+      "Office365Outlook"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "afb6e328-0bc1-40ec-a33e-3107af9ac03a"
+  }
+}

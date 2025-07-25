@@ -1,0 +1,54 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+App:
+  Properties:
+    Formulas: |-
+      =//Set Theme Colors
+
+      CustomeTheme = {
+              PrimaryColor:RGBA(246,246,250,1),
+              PrimaryColor_Text:"RGBA(246,246,250,1)",
+
+              SecondaryColor:RGBA(0,142,210,1),
+              SecondaryColor_Text:"RGBA(0,142,210,1)",
+
+              TertiaryColor: RGBA(0,117,153,1),
+              TertiaryColor_Text: "RGBA(0,142,210,1)",
+
+              PrimaryTextColor :RGBA(35,36,47,1)
+
+
+
+
+      };
+    OnStart: |-
+      =Set(ScreenWidth, App.Width);
+      Set(ScreenHeight, App.Height);
+      If(
+          User().Email in [
+              "Muhammad.Shammas@gmrlgroup.com",
+              "abed.mkari@gmrlgroup.com", 
+              "wael.ghosson@gmrlgroup.com"
+          ],
+          Set(varUserRole, "Admin"),
+          Set(varUserRole, "User")
+      );
+
+      // Step 3: Filter out NA and Blank values into colBakeryFiltered Backry
+      ClearCollect(
+          colareaFiltered,
+          Filter(
+              colareaAnswers,
+              !IsBlank(Value) && SelectedChoice <> "NA" 
+          )
+      );
+    StartScreen: |+
+      =Dashboard
+
+    Theme: =SharePointTheme

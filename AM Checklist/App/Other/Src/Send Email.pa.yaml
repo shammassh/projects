@@ -1,0 +1,405 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Send Email:
+    Properties:
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |+
+        =ClearCollect(
+            colCombinedAnswers,
+            ShowColumns(Gallery1.AllItems,Title1),
+            colareaAnswers
+        );
+
+        ClearCollect(
+            colStoreChecklist,
+            [
+                {Title: "Store managers are following their checklist!"},
+                {Title: "All departments’ forms are well implemented as per procedures!"},
+                {Title: "All Departments Processes & Procedures are respectful"},
+                {Title: "Price change report checked and signed by Store MGT"},
+                {Title: "Spot checking prices, price tags should match items and tills as well"},
+                {Title: "Receiving Spot checking done by Store MGT"},
+                {Title: "Expiry cycle implemented as per schedule"},
+                {Title: "Store MGT aware about their store numbers"},
+                {Title: "Weekly department sales review, investigation where needed"},
+                {Title: "Excess & X-Promotions are reported"},
+                {Title: "Products availability in the store meets the sales expectation"},
+                {Title: "Promotional items are available & highlighted (except the reported ones)"},
+                {Title: "All Staff aware about Promotions (Cashiers Include)"},
+                {Title: "Security guards available and following their tasks"},
+                {Title: "Stores cleanliness"},
+                {Title: "All Departments are respect the Deep cleaning schedules"},
+                {Title: "Dress code respected (including third party)"},
+                {Title: "Merchandise Guidelines are respected"},
+                {Title: "Fresh food displays with impact"},
+                {Title: "Fresh food items, quality, and freshness"},
+                {Title: "All forms are unified across all stores"},
+                {Title: "Chill Chain process respected"},
+                {Title: "Store ambiance is comfortable"},
+                {Title: "Near expiry items are reported"},
+                {Title: "Gap Report communicated with HO"},
+                {Title: "Supplier merchandisers abide by GMRL rules"},
+                {Title: "Cashiers 6 steps are followed"},
+                {Title: "Vacancies/Overstaffed reported and followed"},
+                {Title: "PI processes are followed, discrepancies investigated!"},
+                {Title: "KVI List checked weekly"},
+                {Title: "Store Manager implementing preventive Maintenance plan"},
+                {Title: "SM Petite cash approved by AM"},
+                {Title: "Checking management schedule"},
+                {Title: "Checking Departments schedules"},
+                {Title: "Firefighting Evacuation Control Team Guidelines followed"},
+                {Title: "All transfers are posting on system"},
+                {Title: "promotions displays/stands are as per promotion map"},
+                {Title: "FMCG section supervisors performing well"},
+                {Title: "All MEMOs communicated are respected"},
+                {Title: "Fresh Food Variety: OOS items had reported"},
+                {Title: "Fresh Food GP checked and acting when needed"},
+                {Title: "Fresh Food indexing report checking and act accordingly"},
+                {Title: "food safety & quality control practices are implemented"},
+                {Title: "Cashiers Grooming, Appearance, smiling…"},
+                {Title: "Vacation plan set are well respected"},
+                {Title: "department over staff action"},
+                {Title: "are all maintenance issue in store reported"},
+                {Title: "LOTO Machine Reconcialtion"},
+                {Title: "Noticed any employee (staff & MGT) need development"}
+            ]
+        );
+    Children:
+      - RTEBody:
+          Control: RichTextEditor@2.7.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Default: |+
+              =$"
+              <div>
+                🏬 <b>Store Name:</b> {TemplateGalleryList1.Selected.'Store Name'}<br>--------------------------------------------------------------------------------------<br>
+                🧾 <b>Checklist ID:</b> {TemplateGalleryList1.Selected.'Document Number'}<br>--------------------------------------------------------------------------------------<br>
+                📅 <b>Issued Date:</b> {Text(TemplateGalleryList1.Selected.Date, "[$-en-US]yyyy-mm-dd")}<br>--------------------------------------------------------------------------------------<br>
+                👤 <b>Created By:</b> {TemplateGalleryList1.Selected.'Created By'.DisplayName}<br>--------------------------------------------------------------------------------------<br>
+                ✅ <b>Filled:</b> {TemplateGalleryList1.Selected.Filled}<br>--------------------------------------------------------------------------------------<br>
+                🔗 <b>Checklist Link:</b> 
+                <a href='https://apps.powerapps.com/play/e/default-b99fc2f6-d65e-4b48-935b-118659097da7/a/302bd67c-face-49a8-86c6-638984ac4ec9?tenantId=b99fc2f6-d65e-4b48-935b-118659097da7&hint=21eabc26-62f7-40be-b0de-253d38968ac6&sourcetime=1749799135465&&Source=ChecklistView&itemID={TemplateGalleryList1.Selected.ID}' target='_blank'>Open Checklist</a>
+
+                </a>
+              </div>"
+            Height: =249
+            Width: =1307
+            X: =37
+            Y: =419
+      - RectQuickActionBar1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Fill: =RGBA(56, 96, 178, 1)
+            Height: =64
+            Width: =1366
+      - LblAppName1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            Height: =64
+            PaddingLeft: =0
+            Size: =18
+            Text: ="Email"
+            Width: =564
+            Wrap: =false
+            X: =408
+      - iconMail1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledFill: =RGBA(240, 240, 240, 0.5)
+            DisplayMode: |-
+              =/*Email must have a subject and recipients to be sent*/
+              If(Len(Trim(TextEmailSubject1.Text)) > 0 && !IsEmpty(MyPeople), DisplayMode.Edit, DisplayMode.Disabled)
+            Icon: =Icon.Send
+            OnSelect: |-
+              =/*Create semicolon separated list of people to email, send the email, reset subject & message fields*/           
+              Set(_emailRecipientString, Concat(MyPeople, Mail & ";"));           
+              Office365Outlook.SendEmailV2(_emailRecipientString, TextEmailSubject1.Text, RTEBody.HtmlText & "<br><br>" & HtmlText1.HtmlText, {Importance:"Normal"});           
+              Reset(TextEmailSubject1);           
+              Reset(RTEBody);           
+              Clear(MyPeople)
+            PaddingBottom: =14
+            PaddingLeft: =14
+            PaddingRight: =14
+            PaddingTop: =14
+            PressedFill: =RGBA(255, 255, 255, 0.3)
+            Tooltip: ="Send message"
+            X: =Parent.Width - Self.Width
+      - LblRecipientCount1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            PaddingLeft: =0
+            Text: ="*To (" &CountRows(MyPeople) & ")"
+            Width: =EmailPeopleGallery1.Width
+            Wrap: =false
+            X: =32
+            Y: =73
+      - TextSearchBox1:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="Search people or add email address. At least one recipient is required for a successful submission."
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Default: =
+            Font: =Font.'Open Sans'
+            HintText: ="Search people or add email address"
+            HoverBorderColor: =RGBA(0, 18, 107, 1)
+            HoverFill: =RGBA(186, 202, 226, 1)
+            PaddingLeft: =50
+            Width: =Parent.Width - Self.X * 2
+            X: =32
+            Y: =LblRecipientCount1.Y + LblRecipientCount1.Height + 3
+      - SearchIcon1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =Self.Width
+            Icon: =Icon.Search
+            PaddingBottom: =8
+            PaddingLeft: =8
+            PaddingRight: =8
+            PaddingTop: =8
+            Tooltip: ="Search"
+            Width: =TextSearchBox1.Height
+            X: =TextSearchBox1.X + 5
+            Y: =TextSearchBox1.Y
+      - AddIcon1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(0, 18, 107, 1)
+            Height: =TextSearchBox1.Height
+            Icon: =Icon.Add
+            OnSelect: |-
+              =Collect(MyPeople,           
+              {DisplayName: TextSearchBox1.Text, UserPrincipalName: TextSearchBox1.Text, Mail: TextSearchBox1.Text});           
+              Reset(TextSearchBox1)
+            PaddingBottom: =5
+            PaddingLeft: =5
+            PaddingRight: =5
+            PaddingTop: =5
+            TabIndex: =0
+            Tooltip: ="Select to add user to collection"
+            Visible: |-
+              =!IsBlank(TextSearchBox1.Text) &&           
+
+              /*Is user entry a valid email address*/           
+              IsMatch(TextSearchBox1.Text, Match.Email)           &&
+
+              Not(Trim(TextSearchBox1.Text) in MyPeople.UserPrincipalName)
+            Width: =70
+            X: =TextSearchBox1.X + TextSearchBox1.Width - Self.Width - 10
+            Y: =TextSearchBox1.Y
+      - EmailPeopleGallery1:
+          Control: Gallery@2.15.0
+          Variant: SelectedUsersTabletGallery
+          Properties:
+            BorderColor: =TextSearchBox1.BorderColor
+            Height: |-
+              =/*Height adjusts to number of items in gallery*/
+              Min((Self.TemplateHeight + Self.TemplatePadding * 2) * RoundUp(CountRows(Self.AllItems) / 4, 0), 182)
+            Items: |-
+              =/*Collection of user selected people*/
+              MyPeople
+            ShowScrollbar: =Self.Height >= 182
+            TemplateSize: =42
+            Width: =Parent.Width - Self.X * 2
+            WrapCount: =4
+            X: =27
+            Y: =TextSearchBox1.Y + TextSearchBox1.Height
+          Children:
+            - Rectangle1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Fill: =RGBA(56, 96, 178, 1)
+                  Height: =Parent.TemplateHeight
+                  OnSelect: =Select(Parent)
+                  Width: =Parent.TemplateWidth
+            - Title2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Color: =RGBA(255, 255, 255, 1)
+                  FocusedBorderThickness: =2
+                  Font: =Font.'Open Sans'
+                  Height: =EmailPeopleGallery1.TemplateHeight
+                  OnSelect: =Set(_selectedUser, ThisItem)
+                  PaddingLeft: =10
+                  TabIndex: =If(PeopleBrowseGallery1.Visible, -1, 0)
+                  Text: =ThisItem.DisplayName
+                  Width: =EmailPeopleGallery1.TemplateWidth - iconRemove1.Width + 10
+                  Wrap: =false
+            - iconRemove1:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  AccessibleLabel: =iconRemove1.Tooltip
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =Title2.Color
+                  Height: =EmailPeopleGallery1.TemplateHeight
+                  Icon: =Icon.Cancel
+                  OnSelect: =Remove(MyPeople, LookUp(MyPeople, UserPrincipalName = ThisItem.UserPrincipalName))
+                  PaddingBottom: =9
+                  PaddingLeft: =9
+                  PaddingRight: =9
+                  PaddingTop: =9
+                  TabIndex: =If(PeopleBrowseGallery1.Visible, -1, 0)
+                  Tooltip: ="Select to remove user from collection"
+                  Width: =Self.Height
+                  X: =EmailPeopleGallery1.TemplateWidth - Self.Width
+      - LblEmailSubject1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            PaddingLeft: =0
+            Text: ="*Subject"
+            Width: =Parent.Width - Self.X * 2
+            Wrap: =false
+            X: =34
+            Y: =201
+      - TextEmailSubject1:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            AccessibleLabel: ="A subject is required to send an email."
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Default: |-
+              =$" Area Manager Checklist:  { TemplateGalleryList1.Selected.'Store Name'}  Store"
+            Font: =Font.'Open Sans'
+            HintText: ="Add a subject"
+            HoverBorderColor: =RGBA(0, 18, 107, 1)
+            HoverFill: =RGBA(186, 202, 226, 1)
+            TabIndex: =If(PeopleBrowseGallery1.Visible, -1, 0)
+            Width: =Parent.Width - Self.X * 2
+            X: =37
+            Y: =241
+      - LblEmailMessage1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Font: =Font.'Open Sans'
+            PaddingLeft: =0
+            Text: ="Message"
+            Width: =200
+            Wrap: =false
+            X: =32
+            Y: =373
+      - PeopleBrowseGallery1:
+          Control: Gallery@2.15.0
+          Variant: PeoplePickerGallerySmallTablet
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            BorderThickness: =2
+            Fill: =Parent.Fill
+            Height: =If(Self.Visible, Parent.Height / 2 + 200, 0)
+            Items: |-
+              =/*Only use Office 365 Users operation if user has started searching*/
+              If(!IsBlank(Trim(TextSearchBox1.Text)), Office365Users.SearchUser({searchTerm: Trim(TextSearchBox1.Text), top: 15}))
+            TemplatePadding: =0
+            Visible: =!IsBlank(Trim(TextSearchBox1.Text))
+            Width: =Parent.Width - Self.X * 2
+            X: =32
+            Y: =TextSearchBox1.Y + TextSearchBox1.Height
+          Children:
+            - Rectangle3:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =Title3.Color
+                  BorderThickness: =If(ThisItem.UserPrincipalName in MyPeople.UserPrincipalName, 4, 0)
+                  Fill: =RGBA(0,0,0,0)
+                  Height: =Parent.TemplateHeight
+                  HoverFill: =RGBA(0,0,0,0)
+                  OnSelect: =Select(Title3)
+                  Width: =Parent.TemplateWidth
+            - Title3:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =Self.Color
+                  FocusedBorderThickness: =2
+                  Font: =Font.'Open Sans'
+                  OnSelect: |-
+                    =/*Select user, clear search contents and if this user hasn't been added to MyPeople collection, add them*/
+                    Concurrent(
+                    Set(_selectedUser, ThisItem),
+                    Reset(TextSearchBox1),
+                    If(Not(ThisItem.UserPrincipalName in MyPeople.UserPrincipalName), Collect(MyPeople, ThisItem)))
+                  Size: =17
+                  TabIndex: =0
+                  Text: =ThisItem.DisplayName
+                  Width: =PeopleBrowseGallery1.TemplateWidth - 2 * Self.X
+                  Wrap: =false
+                  X: =16
+                  Y: =4
+            - Subtitle2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =ColorFade(Title3.Color, 0.20)
+                  FocusedBorderThickness: =2
+                  Font: =Font.'Open Sans'
+                  OnSelect: =Select(Title3)
+                  Size: =17
+                  Text: =ThisItem.UserPrincipalName
+                  Width: =PeopleBrowseGallery1.TemplateWidth - 2 * Self.X
+                  Wrap: =false
+                  X: =Title3.X
+                  Y: =Title3.Y + Title3.Height + 3
+            - Separator1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Fill: =RGBA(0, 18, 107, 1)
+                  Height: =1
+                  OnSelect: =Select(Parent)
+                  Width: =Parent.TemplateWidth
+                  Y: =Parent.TemplateHeight - 1
+      - Icon3:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Icon: =Icon.BackArrow
+            OnSelect: =Navigate(Dashboard)
+      - HtmlText1:
+          Control: HtmlViewer@2.1.0
+          Properties:
+            Font: =Font.'Open Sans'
+            Height: =78
+            HtmlText: |+
+              ="<u>Checklist ID:</u> " & Label1.Text & "<br>" &
+              "<u>Store Name:</u> " & Label2.Text & "<br><br>" &
+
+              "<table border='1' style='border-collapse:collapse; width:100%;'>" &
+                  "<tr><th>Title</th><th>Value</th><th>Comments</th></tr>" &
+
+                  Concat(
+                      colStoreChecklist,
+                      With(
+                          {currentTitle: Title},
+                          "<tr>" &
+                              "<td>" & currentTitle & "</td>" &
+                              "<td>" & LookUp(colareaAnswers, InspectionPoint = currentTitle, Priority) & "</td>" &
+                              "<td>" & LookUp(colareaAnswers, InspectionPoint = currentTitle, comment) & "</td>" &
+                          "</tr>"
+                      )
+                  ) &
+
+              "</table>"
+            Width: =1307
+            X: =27
+            Y: =674

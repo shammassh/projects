@@ -1,0 +1,521 @@
+"Dashboard As screen.'tabletLayout_HeaderAndGallery_ver3.0'":
+    BackgroundImage: =
+    Fill: =RGBA(255, 201, 14, 1)
+    ImagePosition: =ImagePosition.Center
+    OnVisible: |-
+        =NewDocumentNumber;
+        
+         ClearCollect(
+            
+            Pdfcolletion, 
+            colareaAnswers
+            
+        
+        );
+        //Set(PdfResult, PDF(Form2, {ExpandContainers: true}));
+        Refresh('Area Managers Checklist Survey')
+
+    IconHeaderRefresh As icon:
+        AccessibleLabel: ="Create new leave request"
+        BorderColor: =RGBA(101, 128, 187, 1)
+        Color: =
+        DisabledBorderColor: =RGBA(159, 167, 165, 1)
+        DisabledColor: =RGBA(193, 193, 193, 0.95)
+        DisabledFill: =IconHeaderRefresh.Fill
+        FocusedBorderColor: =IconHeaderRefresh.BorderColor
+        Height: =46
+        HoverBorderColor: =ColorFade(IconHeaderRefresh.BorderColor, 20%)
+        HoverColor: =ColorFade(IconHeaderRefresh.Color, 20%)
+        HoverFill: =IconHeaderRefresh.Fill
+        Icon: =Icon.Reload
+        OnSelect: =Refresh('Area Managers Checklist Survey')
+        PaddingBottom: =7
+        PaddingLeft: =7
+        PaddingRight: =7
+        PaddingTop: =7
+        PressedBorderColor: =ColorFade(IconHeaderRefresh.BorderColor, -20%)
+        PressedColor: =ColorFade(IconHeaderRefresh.Color, -20%)
+        PressedFill: =IconHeaderRefresh.Fill
+        TabIndex: =
+        Width: =46
+        X: =38
+        Y: =94
+        ZIndex: =1
+
+    Label4_1 As label:
+        Text: =
+        X: =20
+        Y: =20
+        ZIndex: =2
+
+    Header1_3 As Header:
+        Align: =Align.Center
+        BasePaletteColor: =RGBA(5, 102, 178, 1)
+        BorderColor: |
+            =RGBA(101, 128, 187, 1)
+        BorderRadiusTopLeft: =5
+        BorderRadiusTopRight: =5
+        BorderStyle: =BorderStyle.Solid
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =59
+        IsLogoVisible: =false
+        Logo: =
+        LogoTooltip: =
+        OnSelectLogo: =false
+        Style: ='Header.Style'.Light
+        Title: =App.ActiveScreen.Name
+        TitleRole: =""
+        UserEmail: =User().Email
+        UserImage: =User().Image
+        UserImageAltText: =User().FullName &" profile picture"
+        UserName: |
+            =User().FullName
+        Visible: =true
+        Width: =1366
+        X: =1
+        Y: =1
+        ZIndex: =3
+
+    ButtonCanvas5 As Button:
+        BasePaletteColor: =RGBA(5, 1, 0, 1)
+        BorderColor: =RGBA(214, 221, 224, 1)
+        DisplayMode: =DisplayMode.Edit
+        FontColor: =
+        Height: =36
+        Icon: ="Add"
+        Layout: ='ButtonCanvas.Layout'.IconOnly
+        OnSelect: |-
+            =// Check if SequenceNumber exists in the data source (e.g., stored in a table/variable) 
+            // Get the last document number from your data source
+            Set(
+                LastDocumentRecord,
+                First(
+                    Sort(
+                        'Area Managers Checklist Survey', // Replace with your data source name
+                        'Document Number', // Replace with the field that contains the sequence number
+                        SortOrder.Descending
+                    )
+                )
+            );
+            
+            // Extract the last sequence number and add 1
+            Set(
+                SequenceNumber,
+                Value(Mid(LastDocumentRecord.'Document Number', 12, 5)) + 1  // Adjust 12 if needed to match the position of the sequence
+            );
+            
+            // Create or use the new sequence number for your document or ID generation
+            Set(
+                NewDocumentNumber, 
+                "GMRL-AMC-" & Text(SequenceNumber, "0000")  // Format the document number with the sequence
+            );
+            
+            // Proceed with your action (e.g., saving data, navigating)
+            Navigate(Checklist);
+        Text: ="Add  New"
+        Width: =89
+        X: =1277
+        Y: =60
+        ZIndex: =4
+
+    "TemplateGalleryList1 As gallery.'BrowseLayout_Vertical_ThreeTextOneImageVariant_ver5.0'":
+        BorderColor: =RGBA(152, 208, 70, 1)
+        BorderThickness: =1
+        DelayItemLoading: =true
+        Fill: =RGBA(255, 201, 14, 1)
+        FocusedBorderColor: =Self.Fill
+        Height: =560
+        Items: |
+            =Filter(
+                'Area Managers Checklist Survey',
+                
+                // Filter by date range
+                (
+                    IsBlank(DatePickerstart.SelectedDate) || 
+                    Created >= DatePickerstart.SelectedDate
+                ) &&
+                (
+                    IsBlank(dbdend.SelectedDate) || 
+                    Created <= dbdend.SelectedDate
+                ) &&
+                
+                // Filter by Store Name
+                (
+                    IsBlank(Dropdown2.Selected.'Store Name') || 
+                    'Store Name' = Dropdown2.Selected.'Store Name'
+                ) &&
+                
+                // Filter by Area Manager search
+                (
+                    IsBlank(TextInputCanvas2.Value) || 
+                    StartsWith('Created By'.DisplayName, TextInputCanvas2.Value)
+                )
+            )
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        NavigationStep: =10
+        OnSelect: |+
+            =Set(NewDocumentNumber, ThisItem.'Document Number');
+            Navigate(Checklist, ScreenTransition.Fade)
+            
+            
+            
+        ShowNavigation: =true
+        ShowScrollbar: =false
+        TabIndex: =-23
+        TemplateFill: |-
+            =If(
+                ThisItem.IsSelected, 
+                ColorFade(RGBA(211, 211, 211, 0.9)
+            , -10%), 
+                RGBA(0, 0, 0, 0)
+            )
+        TemplatePadding: =20
+        TemplateSize: =254
+        Transition: =Transition.Pop
+        Width: =1352
+        WrapCount: =2
+        X: =14
+        Y: =203
+        ZIndex: =5
+
+        Rectangle2 As rectangle:
+            BorderThickness: =If(ThisItem.IsSelected,3,1)
+            Fill: =RGBA(247, 250, 252, 1)
+            Height: =253
+            Width: =639
+            ZIndex: =2
+
+        Label1 As label:
+            Height: =49
+            OnSelect: =Select(Parent)
+            Text: ="📄 "& ThisItem.'Document Number'
+            Width: =181
+            X: =28
+            Y: =66
+            ZIndex: =3
+
+        Label2 As label:
+            Height: =49
+            Text: ="🏪"&ThisItem.'Store Name'
+            Width: =136
+            X: =286
+            Y: =66
+            ZIndex: =4
+
+        "'Store Name' As Text":
+            Align: ="Start"
+            AutoHeight: =false
+            BorderStyle: =""
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =32
+            Size: =14
+            TabIndex: =0
+            Text: ="Store Name"
+            Tooltip: =""
+            VerticalAlign: =""
+            Visible: =true
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =96
+            Wrap: =true
+            X: =306
+            Y: =26
+            ZIndex: =5
+
+        "'Checklist IT' As Text":
+            Align: ='TextCanvas.Align'.Center
+            AutoHeight: =false
+            BorderStyle: =""
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =26
+            Size: =14
+            TabIndex: =0
+            Text: ="Checklist ID"
+            Tooltip: =""
+            VerticalAlign: =""
+            Visible: =true
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =145
+            Wrap: =true
+            X: =11
+            Y: =26
+            ZIndex: =6
+
+        Label3 As label:
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.Date
+            Width: =163
+            X: =37
+            Y: =169
+            ZIndex: =7
+
+        Label3_1 As label:
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.'Created By'.DisplayName
+            Width: =201
+            X: =437
+            Y: =58
+            ZIndex: =8
+
+        TextCanvas1_2 As Text:
+            Align: ="Start"
+            AutoHeight: =false
+            BorderStyle: =""
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =32
+            Size: =14
+            TabIndex: =0
+            Text: ="Date Created"
+            Tooltip: =""
+            VerticalAlign: =""
+            Visible: =true
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =96
+            Wrap: =true
+            X: =35
+            Y: =137
+            ZIndex: =9
+
+        CreatedBy As Text:
+            Align: ="Start"
+            AutoHeight: =false
+            BorderStyle: =""
+            ContentLanguage: =""
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontStrikethrough: =false
+            FontUnderline: =false
+            Height: =32
+            Size: =14
+            TabIndex: =0
+            Text: ="Created By"
+            Tooltip: =""
+            VerticalAlign: =""
+            Visible: =true
+            Weight: ='TextCanvas.Weight'.Bold
+            Width: =96
+            Wrap: =true
+            X: =490
+            Y: =26
+            ZIndex: =10
+
+        Button2 As button:
+            BorderColor: =
+            Fill: |
+                =RGBA(255, 255, 255, 0.5)
+            FontWeight: =FontWeight.Bold
+            Height: =253
+            HoverFill: =ColorFade(Self.Fill, -20%)
+            OnSelect: =Select(Parent)
+            PressedFill: =ColorFade(Self.Fill, 30%)
+            Text: =""
+            Width: =639.5
+            ZIndex: =11
+
+        Image2 As image:
+            Height: =89
+            Image: |
+                =User().Image
+            OnSelect: =Select(Parent)
+            RadiusBottomLeft: =75
+            RadiusBottomRight: =75
+            RadiusTopLeft: =75
+            RadiusTopRight: =75
+            Width: =105
+            X: =481
+            Y: =120
+            ZIndex: =12
+
+        Completion As label:
+            OnSelect: =Select(Parent)
+            Text: =ThisItem.Filled
+            Width: =174
+            X: =232
+            Y: =144
+            ZIndex: =13
+
+        Icon1 As icon.Mail:
+            Color: =RGBA(17, 61, 15, 1)
+            Height: =52
+            Icon: =Icon.Mail
+            OnSelect: =Navigate('Send Email')
+            Width: =37
+            X: =11
+            Y: =201
+            ZIndex: =14
+
+        delete As icon:
+            Height: =34
+            Icon: =Icon.Trash
+            OnSelect: |-
+                =Remove(
+                    'Area Managers Checklist Survey',
+                    ThisItem
+                )
+            Visible: |
+                =varUserRole = "Admin"
+            Width: =49
+            X: =586
+            Y: =210
+            ZIndex: =15
+
+        "'Timespent label' As label":
+            Color: =RGBA(224, 86, 6, 1)
+            Text: |
+                ="⏱ This item took " & ThisItem.TimeSpentMinutes & " minutes to finish"
+            Width: =221
+            X: =85
+            Y: =209
+            ZIndex: =16
+
+        Score_1 As label:
+            FontWeight: =FontWeight.Bold
+            PaddingRight: =4.50
+            PaddingTop: =4.50
+            Size: =11.70
+            Text: |-
+                ="👌Score " & Text(
+                    If(
+                        IsBlank(AMCscore), 
+                        0,  // Set to zero if blank
+                        AMCscore
+                    ), 
+                    "[$-en-US]0.00"
+                )
+            Width: =134.96
+            X: =346
+            Y: =169
+            ZIndex: =17
+
+    Container2 As groupContainer.manualLayoutContainer:
+        BorderStyle: =BorderStyle.Dotted
+        Fill: =RGBA(255, 201, 14, 1)
+        Height: =143
+        Width: =1193
+        X: =84
+        Y: =60
+        ZIndex: =6
+
+        Label4 As label:
+            Text: ="Start"
+            X: =674
+            Y: =40
+            ZIndex: =1
+
+        Label4_3 As label:
+            Text: ="End"
+            X: =824
+            Y: =41
+            ZIndex: =2
+
+        "DatePickerstart As 'Date picker'":
+            DisplayMode: =DisplayMode.Edit
+            Height: =39
+            Width: =130
+            X: =652
+            Y: =70
+            ZIndex: =3
+
+        "dbdend As 'Date picker'":
+            AccessibleLabel: =""
+            Appearance: ="FilledDarker"
+            BasePaletteColor: =
+            BorderStyle: =""
+            ContentLanguage: =""
+            DateTimeZone: ="Local"
+            DisplayMode: =DisplayMode.Edit
+            Font: =""
+            FontItalic: =false
+            FontSize: =0
+            FontStrikethrough: =false
+            FontUnderline: =false
+            FontWeight: =""
+            Format: ="Long Abbreviated"
+            Height: =36
+            IsEditable: =false
+            OnChange: =false
+            Placeholder: ="Select a date..."
+            Required: =false
+            StartOfWeek: ="Sunday"
+            TabIndex: =0
+            Tooltip: =""
+            ValidationState: ="None"
+            Visible: =true
+            Width: =133
+            X: =787
+            Y: =73
+            ZIndex: =4
+
+        Dropdown2 As dropdown:
+            BorderStyle: =BorderStyle.None
+            ChevronBackground: =RGBA(0, 0, 0, 1)
+            Height: =35
+            Items: =('Area Managers Checklist Survey'.'Store Name')
+            Tooltip: ="Store Name"
+            Width: =251
+            X: =381
+            Y: =71
+            ZIndex: =5
+
+        Label4_4 As label:
+            Text: ="Store Name"
+            X: =421
+            Y: =40
+            ZIndex: =6
+
+        "'Error Label' As label":
+            Color: =RGBA(224, 86, 6, 1)
+            Height: =353
+            Text: ="Start Date connot be greater than End Date!"
+            Visible: |-
+                =And(
+                    Not(
+                        Or(
+                            IsBlank(DatePickerstart.SelectedDate),
+                            IsBlank(dbdend.SelectedDate)
+                        )
+                    ),
+                    DatePickerstart.SelectedDate > dbdend.SelectedDate
+                )
+            Width: =633
+            X: =221
+            Y: =257
+            ZIndex: =7
+
+        "TextInputCanvas2 As 'Text input'":
+            DisplayMode: =DisplayMode.Edit
+            Height: =32
+            OnChange: =false
+            Placeholder: ="🔍Search Area Manager"
+            Value: =
+            Width: =320
+            X: =42
+            Y: =73
+            ZIndex: =8
+
+        Button1 As button:
+            Fill: =RGBA(0, 0, 0, 1)
+            OnSelect: =Reset(dbdend);Reset(DatePickerstart);Reset(Dropdown2);Reset(TextInputCanvas2)
+            Text: ="Reset"
+            X: =1010
+            Y: =66
+            ZIndex: =9
+

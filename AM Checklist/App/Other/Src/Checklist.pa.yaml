@@ -1,0 +1,719 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Checklist:
+    Properties:
+      Fill: =RGBA(0, 0, 0, 0)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: |
+        =// Step 1: Set Start Time
+        Set(
+            varStartTime,
+            Now()
+        );
+
+        // Step 2: Filter out NA and Blank values into colareaFiltered
+        ClearCollect(
+            colareaFiltered,
+            Filter(
+                colareaAnswers,
+                SelectedChoice <> "NA" && !IsBlank(SelectedChoice)
+            )
+        );
+
+        // Step 3: Retrieve the JSON response from your data source
+        Set(
+            varResponseJSON,
+            LookUp(
+                'SRA Area',
+                'Document Number' = NewDocumentNumber,
+                ResponseJSON
+            )
+        );
+
+        // Step 4: Process the JSON or initialize colareaAnswers
+        If(
+            Or(
+                varResponseJSON = "[]",
+                IsBlank(varResponseJSON)
+            ),
+            // Case 1: Initialize new collection
+            ClearCollect(
+                colareaAnswers,
+                AddColumns(
+                    'Area Managers Checklist',
+                    SelectedChoice,
+                    "",
+                    comment,
+                    "",
+                    Picture,
+                    "",
+                    Value,
+                    0
+                )
+            ),
+            // Case 2: Parse JSON into colareaAnswers
+            If(
+                !IsBlank(varResponseJSON) && !StartsWith(Trim(varResponseJSON), "<"),
+                ClearCollect(
+                    colareaAnswers,
+                    ForAll(
+                        ParseJSON(varResponseJSON),
+                        {
+                            Answer: Text(ThisRecord!Answer),
+                            InspectionPoint: Text(ThisRecord!Title),
+                            Coeff: Value(ThisRecord!Coeff),
+                            SelectedChoice: Text(ThisRecord!SelectedChoice),
+                            comment: Text(ThisRecord!comment),
+                            correctedaction: Text(ThisRecord!correctedaction),
+                            Priority: Text(ThisRecord!Priority),
+                            Picture: Text(ThisRecord!Picture),
+                            Value: Switch(
+                                Text(ThisRecord!SelectedChoice),
+                                "Yes", Value(ThisRecord!Coeff),
+                                "No", 0,
+                                "NA", Blank()
+                            )
+                        }
+                    )
+                )
+            )
+        );
+
+        // Step 5: Calculate AMC Score
+        Set(
+            AMCscore,
+            If(
+                CountRows(
+                    Filter(colareaAnswers, !IsBlank(Value))
+                ) = 0,
+                0,
+                Sum(
+                    Filter(colareaAnswers, !IsBlank(Value)),
+                    Value
+                )
+            )
+        );
+
+        // Step 6: Set Page Index
+        Set(
+            currentPageIndex,
+            1
+        );
+
+        // Step 7: Set User Role
+        If(
+            User().Email = "Muhammad.Shammas@gmrlgroup.com",
+            Set(varUserRole, "Admin"),
+            Set(varUserRole, "User")
+        );
+
+        // Step 8: Set Areas by Role or User Email
+        Set(
+            colAccessibleAreas,
+            If(
+                varUserRole = "Admin",
+                [
+                    "Happy Dekwaneh",
+                    "Centro Mall Jnah",
+                    "Happy Zouk",
+                    "Happy Hazmieh",
+                    "Happy Hadath",
+                    "Happy Khayat",
+                    "Choueifat Store",
+                    "Happy Choueifat",
+                    "Happy Ardeh",
+                    "Happy Halba",
+                    "Happy Hsakhr",
+                    "Happy Kahale",
+                    "Happy Tripoli Boulevard Bahsas",
+                    "Jnah",
+                    "Achrafieh Tilal Beirut",
+                    "Achrafieh Sassine",
+                    "Saida",
+                    "Beirut Souks Mall",
+                    "Tyre",
+                    "Ain el Tineh",
+                    "Hamra",
+                    "Spinneys Ras Beirut-Hamra 2",
+                    "Achrafieh Alexandra",
+                    "Hazmieh",
+                    "Bhamch",
+                    "Spinneys Sahel Alma",
+                    "Jbeil",
+                    "Jdeideh",
+                    "Tripoli",
+                    "Hsayen COS Sanns",
+                    "Spinneys Zouk Mosbeh",
+                    "G&G Badaro",
+                    "G&G Hazmieh Mar Takla",
+                    "G&G Kaslik",
+                    "G&G Horch Tabet",
+                    "Naccache G&G Sanns",
+                    "G&G Mar Mkhayel",
+                    "G&G Kiruri",
+                    "G&G Nzaar",
+                    "G&G Elite",
+                    "G&G Fleca",
+                    "G&G IPT Dekwene",
+                    "G&G IPT Badaro",
+                    "G&G IPT Achrafieh",
+                    "G&G IPT Ballouneh",
+                    "G&G IPT Amchit77",
+                    "G&G IPT Halat",
+                    "G&G Barroun",
+                    "G&G Lasalinas 1",
+                    "G&G Lasalinas 2",
+                    "G&G Korhbab Gana Plaza",
+                    "G&G IPT Batbara",
+                    "G&G IPT Kaslik",
+                    "G&G Lasalinas 5",
+                    "G&G IPT Amchit889",
+                    "G&G IPT HAI AT 1801"
+                ],
+                If(
+                    User().Email = "ali.mekkawi@gmrlgroup.com",
+                    [
+                        "Jnah",
+                        "Achrafieh Tilal Beirut",
+                        "Achrafieh Sassine",
+                        "Saida",
+                        "Beirut Souks Mall",
+                        "Tyre",
+                        "Ain el Tineh",
+                        "Hamra",
+                        "Spinneys Ras Beirut-Hamra 2",
+                        "Achrafieh Alexandra"
+                    ],
+                    If(
+                        User().Email = "cesar.beaino@gmrlgroup.com",
+                        [
+                            "Hazmieh",
+                            "Bhamch",
+                            "Spinneys Sahel Alma",
+                            "Jbeil",
+                            "Jdeideh",
+                            "Tripoli",
+                            "Hsayen COS Sanns",
+                            "Spinneys Zouk Mosbeh"
+                        ],
+                        If(
+                            User().Email = "dory.chami@gmrlgroup.com",
+                            [
+                                "G&G Badaro",
+                                "G&G Hazmieh Mar Takla",
+                                "G&G Kaslik",
+                                "G&G Horch Tabet",
+                                "Naccache G&G Sanns",
+                                "G&G Mar Mkhayel",
+                                "G&G Kiruri",
+                                "G&G Nzaar",
+                                "G&G Elite",
+                                "G&G Fleca",
+                                "G&G IPT Dekwene",
+                                "G&G IPT Badaro",
+                                "G&G IPT Achrafieh",
+                                "G&G IPT Ballouneh"
+                            ],
+                            If(
+                                User().Email = "mohammad.jazzar@gmrlgroup.com",
+                                [
+                                    "G&G IPT Amchit77",
+                                    "G&G IPT Halat",
+                                    "G&G Barroun",
+                                    "G&G Lasalinas 1",
+                                    "G&G Lasalinas 2",
+                                    "G&G Korhbab Gana Plaza",
+                                    "G&G IPT Batbara",
+                                    "G&G IPT Kaslik",
+                                    "G&G Lasalinas 5",
+                                    "G&G IPT Amchit889",
+                                    "G&G IPT HAI AT 1801"
+                                ],
+                                If(
+                                    User().Email = "anthony.ziade@gmrlgroup.com",
+                                    [
+                                        "Happy Dekwaneh",
+                                        "Centro Mall Jnah",
+                                        "Happy Zouk",
+                                        "Happy Hazmieh",
+                                        "Happy Hadath",
+                                        "Happy Khayat",
+                                        "Choueifat Store",
+                                        "Happy Choueifat",
+                                        "Happy Ardeh",
+                                        "Happy Halba",
+                                        "Happy Hsakhr",
+                                        "Happy Kahale",
+                                        "Happy Tripoli Boulevard Bahsas"
+                                    ],
+                                    []
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    Children:
+      - Gallery1:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0
+          Properties:
+            BorderColor: =RGBA(214, 221, 224, 1)
+            BorderStyle: =BorderStyle.Dotted
+            Height: =636
+            Items: =colareaAnswers
+            ShowNavigation: =true
+            TemplateFill: =
+            TemplatePadding: =5
+            TemplateSize: =100
+            Transition: =Transition.Pop
+            Width: =1199
+            X: =1
+            Y: =48
+          Children:
+            - Rectangle6:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(190, 232, 228, 0.13)
+                  BorderThickness: =20
+                  Fill: =Color.Transparent
+                  OnSelect: =Select(Parent)
+                  Width: =1184
+            - Radio3:
+                Control: Classic/Radio@2.3.0
+                Properties:
+                  BorderColor: =RGBA(214, 221, 224, 1)
+                  BorderThickness: =1
+                  Color: =RGBA(40, 134, 222, 1)
+                  Default: |-
+                    =LookUp(
+                      colareaAnswers, 
+                       InspectionPoint = ThisItem.InspectionPoint,  // Match the current question
+                      SelectedChoice           // Show the saved answer
+                    )
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =68
+                  HoverColor: =RGBA(0, 18, 107, 1)
+                  Items: |-
+                    =Split(
+                        If(
+                            !IsBlank(ThisItem.Answer),
+                            ThisItem.Answer,
+                            "Yes,No,NA"
+                        ),
+                        ","
+                    )
+                  Items.Value: =Value
+                  Layout: =Layout.Horizontal
+                  LineHeight: =0.9
+                  OnSelect: |-
+                    =// OnSelect property of Radio3
+                    Patch(
+                        colareaAnswers,
+                        LookUp(
+                            colareaAnswers,
+                             InspectionPoint = ThisItem.InspectionPoint
+                        ),
+                        {
+                            SelectedChoice: Radio3.Selected.Value,
+                            Value: Switch(
+                                Radio3.Selected.Value,  // Now it can reference the existing SelectedChoice
+                                "Yes", ThisItem.Coeff,
+                                "No", 0,
+                                "NA", Blank()
+                            )
+                        }
+                    );
+                    // OnVisible of the screen
+                    Set(
+                        AMCscore,
+                        Sum(
+                            Filter(colareaAnswers, !IsBlank(Value)),
+                            Value
+                        )
+
+                    );
+                  PaddingRight: =0.00
+                  PaddingTop: =9.00
+                  RadioBorderColor: =RGBA(0, 18, 107, 1)
+                  RadioSelectionFill: =RGBA(166, 215, 153, 1)
+                  Size: =9.00
+                  TabIndex: =1
+                  Width: =283
+                  X: =311
+                  Y: =14
+            - Title1:
+                Control: Label@2.5.1
+                Properties:
+                  AutoHeight: =true
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Font: =Font.Arial
+                  FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                  Height: =64
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =10
+                  Text: =ThisItem.InspectionPoint
+                  VerticalAlign: =VerticalAlign.Top
+                  Width: =268
+                  X: =18
+                  Y: =41
+            - Subtitle1:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 0, 0, 1)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                  Height: =Self.Size * 1.8
+                  OnSelect: =Select(Parent)
+                  PaddingBottom: =0
+                  PaddingLeft: =0
+                  PaddingRight: =0
+                  PaddingTop: =0
+                  Size: =12
+                  Text: =ThisItem.Coeff
+                  VerticalAlign: =VerticalAlign.Top
+                  Visible: =false
+                  Width: =Title1.Width
+                  X: =Title1.X
+                  Y: =Title1.Y + Title1.Height
+            - TextInput1:
+                Control: Classic/TextInput@2.3.2
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Default: |-
+                    =LookUp(
+                      colareaAnswers, 
+                      InspectionPoint = ThisItem.InspectionPoint,  // Match the current question
+                      comment           // Show the saved answer
+                    )
+                  Font: =Font.'Open Sans'
+                  Height: =64
+                  HintText: ="Action Description"
+                  HoverBorderColor: =RGBA(0, 18, 107, 1)
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  OnChange: "=// OnSelect property of Textinput2\r\nPatch(\r\n  colareaAnswers,\r\n  LookUp(colareaAnswers, InspectionPoint = ThisItem.InspectionPoint),\r\n  {\r\n     comment: TextInput1.Text }\r\n \r\n)\r\n "
+                  OnSelect: "=// OnSelect property of Textinput1\r\nPatch(\r\n  colareaAnswers,\r\n  LookUp(colareaAnswers, InspectionPoint = ThisItem.InspectionPoint),\r\n  {\r\n     comment: TextInput1.Text }\r\n \r\n)\r\n"
+                  RadiusBottomLeft: =75
+                  RadiusBottomRight: =75
+                  RadiusTopLeft: =75
+                  RadiusTopRight: =75
+                  Width: =315
+                  X: =647
+                  Y: =18
+            - Dropdown1:
+                Control: Classic/DropDown@2.3.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  BorderThickness: =5
+                  ChevronBackground: =RGBA(214, 221, 224, 1)
+                  ChevronFill: =RGBA(255, 255, 255, 1)
+                  ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+                  ChevronHoverFill: =RGBA(255, 255, 255, 1)
+                  Default: |-
+                    =LookUp(
+                      colareaAnswers, 
+                      InspectionPoint = ThisItem.InspectionPoint,  // Match the current question
+                      Priority           // Show the saved answer
+                    )
+                  Font: =Font.'Open Sans'
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  Items: |+
+                    =Table(
+                        {Value: "Check"},
+                        { Value: "0" },
+                        { Value: "25" },
+                        { Value: "50" },
+                        { Value: "75" },
+                        { Value: "100" },
+                        { Value: "NA" }
+                    )
+                  Items.Value: =Value
+                  OnChange: |-
+                    =// OnSelect property of Dropdown1
+                    Patch(
+                        colareaAnswers,
+                        LookUp(
+                            colareaAnswers,
+                            InspectionPoint = ThisItem.InspectionPoint
+                        ),
+                        {Priority: Dropdown1.Selected.Value}
+                    )
+                  OnSelect: =
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(0, 18, 107, 1)
+                  SelectionColor: =RGBA(255, 255, 255, 1)
+                  SelectionFill: =RGBA(214, 221, 224, 1)
+                  Visible: =false
+                  Width: =72
+                  X: =607
+                  Y: =28
+            - AttachControl_1:
+                Control: Attachments@2.3.0
+                Properties:
+                  AddAttachmentText: =
+                  BorderColor: =Color.Black
+                  BorderThickness: =3
+                  Font: =Font.'Open Sans'
+                  Height: =82
+                  HoverFill: =RGBA(186, 202, 226, 1)
+                  ItemColor: =RGBA(255, 255, 255, 1)
+                  ItemFill: =RGBA(56, 96, 178, 1)
+                  ItemHoverFill: =RGBA(186, 202, 226, 1)
+                  NoAttachmentsText: =
+                  OnAddFile: |+
+                    =Set(MyLink,
+                        UploadImagetoSharepointV2.Run({file:{contentBytes:Last(Self.Attachments).Value, name:Last(Self.Attachments).Name}})
+                    );
+                    // OnSelect property of Radio3
+                    Patch(
+                        colareaAnswers,
+                        LookUp(
+                            colareaAnswers,
+                            InspectionPoint = ThisItem.InspectionPoint
+                        ),
+                        {
+                            Picture: MyLink.mylink
+                        }
+                    );
+                  PaddingBottom: =5
+                  PaddingLeft: =If(Self.DisplayMode = DisplayMode.Edit, 5, 0)
+                  PaddingRight: =5
+                  PaddingTop: =5
+                  PressedColor: =RGBA(255, 255, 255, 1)
+                  PressedFill: =RGBA(0, 18, 107, 1)
+                  Size: =11
+                  Tooltip: =
+                  Width: =114
+                  X: =1070
+                  Y: =10
+            - Image1:
+                Control: Image@2.2.3
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Height: =82
+                  Image: =ThisItem.Picture
+                  Width: =108
+                  X: =962
+                  Y: =9
+            - Rectangle5:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(255, 255, 255, 1)
+                  BorderThickness: =20
+                  Fill: =Color.Transparent
+                  Height: =66
+                  OnSelect: =Select(Parent)
+                  Width: =311
+                  Y: =18
+            - Coeff:
+                Control: Text@0.0.51
+                Properties:
+                  Height: =33
+                  Size: =12.60
+                  Text: |+
+                    = "Coefficient: " & ThisItem.Value
+                  Visible: =false
+                  Width: =109
+                  X: =973
+                  Y: =35
+            - Label5:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Text: =ThisItem.Answer
+                  Visible: =false
+                  X: =161
+                  Y: =52
+            - Label6:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Text: =ThisItem.Coeff
+                  Width: =46
+                  X: =615
+                  Y: =28
+      - Header1:
+          Control: Header@0.0.44
+          Properties:
+            Align: =Align.Center
+            Fill: =RGBA(255, 201, 14, 1)
+            Height: =48
+            IsLogoVisible: =false
+            Style: ='Header.Style'.Light
+            Title: ="Area Managers Checklist"
+      - Icon4:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(106, 122, 127, 1)
+            Height: =41
+            Icon: =Icon.Home
+            OnSelect: =Navigate(Dashboard)
+            Width: =42
+            X: =12
+      - Icon7:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(106, 122, 127, 1)
+            Icon: =Icon.NextArrow
+            OnSelect: =
+            X: =1302
+            Y: =701
+      - TextCanvas4:
+          Control: Text@0.0.51
+          Properties:
+            Text: ="Page " & currentPageIndex
+            X: =602
+            Y: =733
+      - DatePickerCanvas1:
+          Control: DatePicker@0.0.46
+          Properties:
+            Appearance: ='DatePickerCanvas.Appearance'.Outline
+            Height: =56
+            Placeholder: ="Checklist Date"
+            Width: =160
+            X: =1200
+            Y: =62
+      - Button1_11:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =ColorFade(Self.Fill, -15%)
+            BorderThickness: =3
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            Fill: =RGBA(166, 215, 153, 1)
+            Font: =Font.'Open Sans'
+            Height: =36
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            OnSelect: "=Set(varEndTime, Now());\n\n// Calculate time difference in minutes (or seconds)\nSet(varTimeSpentMinutes, DateDiff(varStartTime, varEndTime, \"Minutes\"));\n\n// Optional: Show the time spent in a label or notification\nNotify(\"You spent \" & varTimeSpentMinutes & \" minutes on this checklist.\", NotificationType.Information);\n\n// Then your existing Patch/Submit logic here...\nPatch(\n    'Area Managers Checklist Survey',\n    Defaults('Area Managers Checklist Survey'),\n    {\n        // your fields,\n        TimeSpentMinutes: varTimeSpentMinutes\n    }\n);\n\n\n\n\nPatch(\n    'Area Managers Checklist Survey',\n    Coalesce(\n        LookUp('Area Managers Checklist Survey', 'Document Number' = NewDocumentNumber),\n        Defaults('Area Managers Checklist Survey')\n    ),\n    {\n        'Document Number': NewDocumentNumber,\n        'Store Name': storename.Selected.Value,\n        Date:DatePickerCanvas1.SelectedDate,\n        Filled:Filled.Text,\n        Score:AMCscore\n       \n        // Add other fields you want to patch here\n    }\n);\n\nPatch(\n    'SRA Area',\n    Coalesce(\n        LookUp('SRA Area', 'Document Number' = NewDocumentNumber),\n        Defaults('SRA Area')\n    ),\n    {\n        ResponseJSON: JSON(\n            colareaAnswers,\n            JSONFormat.IgnoreBinaryData & JSONFormat.IgnoreUnsupportedTypes\n        ),\n        'Document Number': NewDocumentNumber\n    }\n);\n\nRefresh('Area Managers Checklist Survey');\nUpdateContext({forceRefresh: !forceRefresh});\nNotify(\"Survey submitted!\");\n"
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
+            Text: ="Submit"
+            Width: =114
+            X: =1217
+            Y: =264
+      - storename:
+          Control: ComboBox@0.0.51
+          Properties:
+            Appearance: ='ComboboxCanvas.Appearance'.Outline
+            Height: =39
+            InputTextPlaceholder: ="Find store"
+            Items: |+
+              =[
+                  "Happy Dekwaneh",
+                  "Centro Mall Jnah",
+                  "Happy Zouk",
+                  "Happy Hazmieh",
+                  "Happy Hadath",
+                  "Happy Khayat",
+                  "Choueifat Store",
+                  "Happy Choueifat",
+                  "Happy Ardeh",
+                  "Happy Halba",
+                  "Happy Hsakhr",
+                  "Happy Kahale",
+                  "Happy Tripoli Boulevard Bahsas",
+                  "Jnah",
+                  "Achrafieh Tilal Beirut",
+                  "Achrafieh Sassine",
+                  "Saida",
+                  "Beirut Souks Mall",
+                  "Tyre",
+                  "Ain el Tineh",
+                  "Hamra",
+                  "Spinneys Ras Beirut-Hamra 2",
+                  "Achrafieh Alexandra",
+                  "Hazmieh",
+                  "Bhamch",
+                  "Spinneys Sahel Alma",
+                  "Jbeil",
+                  "Jdeideh",
+                  "Tripoli",
+                  "Hsayen COS Sanns",
+                  "Spinneys Zouk Mosbeh",
+                  "G&G Badaro",
+                  "G&G Hazmieh Mar Takla",
+                  "G&G Kaslik",
+                  "G&G Horch Tabet",
+                  "Naccache G&G Sanns",
+                  "G&G Mar Mkhayel",
+                  "G&G Kiruri",
+                  "G&G Nzaar",
+                  "G&G Elite",
+                  "G&G Fleca",
+                  "G&G IPT Dekwene",
+                  "G&G IPT Badaro",
+                  "G&G IPT Achrafieh",
+                  "G&G IPT Ballouneh",
+                  "G&G IPT Amchit77",
+                  "G&G IPT Halat",
+                  "G&G Barroun",
+                  "G&G Lasalinas 1",
+                  "G&G Lasalinas 2",
+                  "G&G Korhbab Gana Plaza",
+                  "G&G IPT Batbara",
+                  "G&G IPT Kaslik",
+                  "G&G Lasalinas 5",
+                  "G&G IPT Amchit889",
+                  "G&G IPT HAI AT 1801"
+              ]
+            Width: =166
+            X: =1200
+            Y: =118
+      - Filled:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            Height: =92
+            Text: |-
+              ="Total Items: " & CountRows(Gallery1.AllItems)  & 
+              " | Filled: " & CountIf(
+                  Gallery1.AllItems,
+                  ThisRecord.Dropdown1.SelectedText.Value <> "Check" // Checks if value is not zero
+              )
+            Visible: =false
+            Width: =160
+            X: =1200
+            Y: =157
+      - Score:
+          Control: Text@0.0.51
+          Properties:
+            Fill: =RGBA(255, 255, 255, 1)
+            FontColor: =RGBA(106, 122, 127, 1)
+            Height: =33
+            Size: =12.60
+            Text: |
+              =$"Score " & Text(AMCscore, "[$-en-US]0.00")
+            Width: =92.67
+            X: =988
+            Y: =15
+      - Legder:
+          Control: Text@0.0.51
+          Properties:
+            Height: =37
+            Text: |+
+              =$"New Legder "& Sum(colareaFiltered, Coeff)
+
+            Width: =183
+            X: =113
+            Y: =17

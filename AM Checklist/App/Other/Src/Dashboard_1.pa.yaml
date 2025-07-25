@@ -1,0 +1,385 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Dashboard_1:
+    Properties:
+      Fill: =RGBA(237, 237, 237, 1)
+      ImagePosition: =ImagePosition.Center
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: "=NewDocumentNumber;\r\n\r\n ClearCollect(\r\n    \r\n    Pdfcolletion, \r\n    colareaAnswers\r\n    \r\n\r\n);\r\n//Set(PdfResult, PDF(Form2, {ExpandContainers: true}));\r\nRefresh('Area Managers Checklist Survey')"
+    Children:
+      - Header1_4:
+          Control: Header@0.0.44
+          Properties:
+            Align: =Align.Center
+            BasePaletteColor: =RGBA(5, 102, 178, 1)
+            BorderColor: |+
+              =RGBA(101, 128, 187, 1)
+            BorderRadiusTopLeft: =5
+            BorderRadiusTopRight: =5
+            BorderStyle: =BorderStyle.Solid
+            Fill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =77
+            IsLogoVisible: =false
+            LogoTooltip: =
+            Style: ='Header.Style'.Light
+            UserName: |+
+              =User().FullName
+            Width: =1366
+            X: =1
+            Y: =1
+      - Label4_2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            Text: =
+            X: =20
+            Y: =20
+      - Label4_7:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            Text: ="Store Name"
+            X: =571
+            Y: =78
+      - Label4_5:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            Text: ="start"
+            X: =824
+            Y: =78
+      - Label4_6:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Font: =Font.'Open Sans'
+            Text: ="End"
+            X: =974
+            Y: =79
+      - IconHeaderRefresh_1:
+          Control: Classic/Icon@2.5.0
+          Properties:
+            AccessibleLabel: ="Create new leave request"
+            BorderColor: =RGBA(101, 128, 187, 1)
+            Color: =
+            DisabledBorderColor: =RGBA(159, 167, 165, 1)
+            DisabledColor: =RGBA(193, 193, 193, 0.95)
+            DisabledFill: =IconHeaderRefresh_1.Fill
+            FocusedBorderColor: =IconHeaderRefresh_1.BorderColor
+            Height: =46
+            HoverBorderColor: =ColorFade(IconHeaderRefresh_1.BorderColor, 20%)
+            HoverColor: =ColorFade(IconHeaderRefresh_1.Color, 20%)
+            HoverFill: =IconHeaderRefresh_1.Fill
+            Icon: =Icon.Reload
+            OnSelect: =Refresh('Area Managers Checklist Survey')
+            PaddingBottom: =7
+            PaddingLeft: =7
+            PaddingRight: =7
+            PaddingTop: =7
+            PressedBorderColor: =ColorFade(IconHeaderRefresh_1.BorderColor, -20%)
+            PressedColor: =ColorFade(IconHeaderRefresh_1.Color, -20%)
+            PressedFill: =IconHeaderRefresh_1.Fill
+            TabIndex: =
+            Width: =46
+            X: =38
+            Y: =94
+      - ButtonCanvas5_1:
+          Control: Button@0.0.45
+          Properties:
+            BasePaletteColor: =RGBA(5, 102, 178, 1)
+            BorderColor: =RGBA(214, 221, 224, 1)
+            Height: =36
+            Icon: ="Add"
+            Layout: ='ButtonCanvas.Layout'.IconOnly
+            OnSelect: |-
+              =// Check if SequenceNumber exists in the data source (e.g., stored in a table/variable) 
+              // Get the last document number from your data source
+              Set(
+                  LastDocumentRecord,
+                  First(
+                      Sort(
+                          'Area Managers Checklist Survey', // Replace with your data source name
+                          'Document Number', // Replace with the field that contains the sequence number
+                          SortOrder.Descending
+                      )
+                  )
+              );
+
+              // Extract the last sequence number and add 1
+              Set(
+                  SequenceNumber,
+                  Value(Mid(LastDocumentRecord.'Document Number', 12, 5)) + 1  // Adjust 12 if needed to match the position of the sequence
+              );
+
+              // Create or use the new sequence number for your document or ID generation
+              Set(
+                  NewDocumentNumber, 
+                  "GMRL-AMC-" & Text(SequenceNumber, "0000")  // Format the document number with the sequence
+              );
+
+              // Proceed with your action (e.g., saving data, navigating)
+              Navigate(Checklist);
+            Text: ="Add  New"
+            Width: =89
+            X: =1277
+            Y: =99
+      - DatePickerstart_1:
+          Control: DatePicker@0.0.46
+          Properties:
+            Height: =39
+            Width: =124
+            X: =802
+            Y: =108
+      - Dropdown2_1:
+          Control: Classic/DropDown@2.3.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            BorderStyle: =BorderStyle.None
+            ChevronBackground: =RGBA(56, 96, 178, 1)
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Open Sans'
+            Height: =35
+            HoverFill: =RGBA(186, 202, 226, 1)
+            Items: =('Area Managers Checklist Survey'.'Store Name')
+            Items.Value: =Store_x0020_Name
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 18, 107, 1)
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =RGBA(56, 96, 178, 1)
+            Tooltip: ="Store Name"
+            Width: =251
+            X: =531
+            Y: =109
+      - TextInputCanvas2_1:
+          Control: TextInput@0.0.54
+          Properties:
+            Placeholder: "=\"\U0001F50DSearch Area Manager\""
+            Value: =
+            X: =190
+            Y: =112
+      - dbdend_1:
+          Control: DatePicker@0.0.46
+          Properties:
+            Width: =123
+            X: =951
+            Y: =112
+      - TemplateGalleryList1_1:
+          Control: Gallery@2.15.0
+          Variant: BrowseLayout_Vertical_ThreeTextOneImageVariant_ver5.0
+          Properties:
+            BorderColor: =RGBA(152, 208, 70, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            FocusedBorderColor: =Self.Fill
+            Height: =607
+            Items: "=Filter(\n    'Area Managers Checklist Survey',\n    \n    // Filter by date range\n    (\n        IsBlank(DatePickerstart_1.SelectedDate) || \n        Created >= DatePickerstart_1.SelectedDate\n    ) &&\n    (\n        IsBlank(dbdend_1.SelectedDate) || \n        Created <= dbdend_1.SelectedDate\n    ) &&\n    \n    // Filter by Store Name\n    (\n        IsBlank(Dropdown2_1.Selected.'Store Name') || \n        'Store Name' = Dropdown2_1.Selected.'Store Name'\n    ) &&\n    \n    // Filter by title search\n    (\n        IsBlank(TextInputCanvas2_1.Value) || \n        StartsWith('Created By'.DisplayName, TextInputCanvas2_1.Value)\n    )\n)\n"
+            NavigationStep: =10
+            OnSelect: |+
+              =Set(NewDocumentNumber, ThisItem.'Document Number');
+              Navigate(Checklist, ScreenTransition.Fade)
+
+
+
+            ShowNavigation: =true
+            ShowScrollbar: =false
+            TabIndex: =-23
+            TemplateFill: |-
+              =If(
+                  ThisItem.IsSelected, 
+                  ColorFade(RGBA(211, 211, 211, 0.9)
+              , -10%), 
+                  RGBA(0, 0, 0, 0)
+              )
+            TemplatePadding: =20
+            TemplateSize: =254
+            Transition: =Transition.Pop
+            Width: =1352
+            WrapCount: =2
+            X: =14
+            Y: =156
+          Children:
+            - Rectangle2_1:
+                Control: Rectangle@2.3.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  BorderThickness: =If(ThisItem.IsSelected,3,1)
+                  Fill: =RGBA(247, 250, 252, 1)
+                  Height: =253
+                  Width: =639
+            - Button2_1:
+                Control: Classic/Button@2.2.0
+                Properties:
+                  BorderColor: =
+                  Color: =RGBA(255, 255, 255, 1)
+                  DisabledBorderColor: =RGBA(166, 166, 166, 1)
+                  Fill: |+
+                    =RGBA(255, 255, 255, 0.5)
+                  Font: =Font.'Open Sans'
+                  FontWeight: =FontWeight.Bold
+                  Height: =253
+                  HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+                  HoverColor: =RGBA(255, 255, 255, 1)
+                  HoverFill: =ColorFade(Self.Fill, -20%)
+                  OnSelect: =Select(Parent)
+                  PressedBorderColor: =Self.Fill
+                  PressedColor: =Self.Fill
+                  PressedFill: =ColorFade(Self.Fill, 30%)
+                  Text: =""
+                  Width: =639.5
+                  X: =7
+                  Y: =1
+            - Checklist IT_1:
+                Control: Text@0.0.51
+                Properties:
+                  Align: ='TextCanvas.Align'.Center
+                  Height: =26
+                  Text: ="Checklist ID"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  Width: =145
+                  X: =11
+                  Y: =26
+            - Store Name_1:
+                Control: Text@0.0.51
+                Properties:
+                  Text: ="Store Name"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  X: =306
+                  Y: =26
+            - CreatedBy_1:
+                Control: Text@0.0.51
+                Properties:
+                  Text: ="Created By"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  X: =490
+                  Y: =26
+            - Label3_2:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  OnSelect: =Select(Parent)
+                  Text: =ThisItem.'Created By'.DisplayName
+                  Width: =201
+                  X: =437
+                  Y: =58
+            - Label1_1:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =49
+                  OnSelect: =Select(Parent)
+                  Text: "=\"\U0001F4C4 \"& ThisItem.'Document Number'"
+                  Width: =181
+                  X: =28
+                  Y: =66
+            - Label2_1:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  Height: =49
+                  Text: "=\"\U0001F3EA\"&ThisItem.'Store Name'"
+                  Width: =136
+                  X: =286
+                  Y: =66
+            - Image2_1:
+                Control: Image@2.2.3
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Height: =89
+                  Image: |+
+                    =User().Image
+                  OnSelect: =Select(Parent)
+                  RadiusBottomLeft: =75
+                  RadiusBottomRight: =75
+                  RadiusTopLeft: =75
+                  RadiusTopRight: =75
+                  Width: =105
+                  X: =481
+                  Y: =120
+            - TextCanvas1_3:
+                Control: Text@0.0.51
+                Properties:
+                  Text: ="Date Created"
+                  Weight: ='TextCanvas.Weight'.Bold
+                  X: =35
+                  Y: =137
+            - Label3_3:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  OnSelect: =Select(Parent)
+                  Text: =ThisItem.Date
+                  Width: =163
+                  X: =37
+                  Y: =169
+            - Completion_1:
+                Control: Label@2.5.1
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Font: =Font.'Open Sans'
+                  OnSelect: =Select(Parent)
+                  Text: =ThisItem.Filled
+                  Width: =174
+                  X: =236
+                  Y: =169
+            - Icon1_1:
+                Control: Classic/Icon@2.5.0
+                Properties:
+                  BorderColor: =RGBA(0, 18, 107, 1)
+                  Color: =RGBA(15, 108, 189, 1)
+                  Height: =52
+                  Icon: =Icon.Mail
+                  OnSelect: =Navigate('Send Email')
+                  Width: =37
+                  X: =11
+                  Y: =201
+      - Error Label_1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(224, 86, 6, 1)
+            Font: =Font.'Open Sans'
+            Height: =353
+            Text: ="Start Date connot be greater than End Date!"
+            Visible: |-
+              =And(
+                  Not(
+                      Or(
+                          IsBlank(DatePickerstart_1.SelectedDate),
+                          IsBlank(dbdend_1.SelectedDate)
+                      )
+                  ),
+                  DatePickerstart_1.SelectedDate > dbdend_1.SelectedDate
+              )
+            Width: =633
+            X: =371
+            Y: =295
+      - ButtonCanvas5_2:
+          Control: Button@0.0.45
+          Properties:
+            BasePaletteColor: =RGBA(5, 102, 178, 1)
+            BorderColor: =RGBA(214, 221, 224, 1)
+            Height: =36
+            Icon: ="Add"
+            Layout: ='ButtonCanvas.Layout'.IconOnly
+            OnSelect: =Reset(dbdend_1);Reset(DatePickerstart_1);Reset(Dropdown2_1);Reset(TextInputCanvas2_1)
+            Text: ="Add  New"
+            Width: =89
+            X: =1188
+            Y: =104
