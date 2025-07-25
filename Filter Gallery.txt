@@ -22,3 +22,19 @@ Set(
 );
 Set(userManager, Office365Users.ManagerV2(userEmail));
 Set(HRManagerEmail, "joelle.sadaka@gmrlgroup.com")
+
+
+pac auth create --url https://orgfa5ea914.crm4.dynamics.com
+pac auth list
+pac canvas unpack --msapp "C:\Users\muhammad.shammas\Downloads\Leave Request App.msapp" --sources "C:\Users\muhammad.shammas\Desktop\exports"
+cd "C:\Users\muhammad.shammas\Desktop\exports" && git init && git remote add origin https://github.com/shammassh/projects.git && git add . && git commit -m "Unpacked latest Power App" && git branch -M Leave-Request && git push -u origin main
+
+git remote remove origin
+git add .
+git commit -m "Added Issue Log Folder"
+git commit -m "Added leave request"  
+
+pac canvas unpack --msapp "C:\Users\muhammad.shammas\Desktop\AM\AM Checklist.msapp" --sources "C:\Users\muhammad.shammas\Desktop\AM"
+
+
+pac canvas unpack --msapp "C:\Users\muhammad.shammas\Desktop\AM\Food Safety Survey.msapp" --sources "C:\Users\muhammad.shammas\Desktop\AM_Unpacked"
