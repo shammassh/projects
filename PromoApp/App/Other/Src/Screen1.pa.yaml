@@ -1,0 +1,256 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Screen1:
+    Properties:
+      Fill: =RGBA(255, 201, 14, 1)
+      LoadingSpinnerColor: =RGBA(56, 96, 178, 1)
+      OnVisible: =UpdateContext({Cam:0})
+    Children:
+      - Rectangle1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Fill: =Afill.Color
+            Height: =180
+            Width: =640
+      - Label2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =LayoutAlignItems.Center
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(255, 201, 14, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =180
+            Size: =32
+            Text: ="Upload a Pic to Sharepoint"
+            Width: =640
+      - Button_Upload:
+          Control: Classic/Button@2.2.0
+          Properties:
+            BorderColor: =ColorFade(Self.Fill, -15%)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledBorderColor: =RGBA(166, 166, 166, 1)
+            Fill: =Color.Black
+            Font: =Font.'Open Sans'
+            Height: =83
+            HoverBorderColor: =ColorFade(Self.BorderColor, 20%)
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =ColorFade(Afill.Color, -20%)
+            OnSelect: |-
+              =Set(TakenPicDemo, JSON(UploadedImage.Image, JSONFormat.IncludeBinaryData));
+              Set(TakenPic, Mid(TakenPicDemo,2,Len(TakenPicDemo)-2));
+              UploadImagetoSharepoint.Run(
+                  TakenPic,
+                  ComboBox_Division.Selected.Result,
+                  ComboBox_Category.Selected.Result,
+                  ComboBox_Group.Selected.Result,
+                  ComboBox_SubGroup.Selected.Result,
+                  ComboBox_Store.Selected.Result,
+                  ComboBox_msgcode.Selected.Result,
+                  ComboBox1.Selected.Value
+              );
+              Reset(ComboBox_Store);
+              Reset(ComboBox_Division);
+              Reset(ComboBox_Category);
+              Reset(ComboBox_SubGroup);
+              Reset(ComboBox_Group);
+              Reset(ComboBox_msgcode);
+              Reset(ComboBox1);
+            PressedBorderColor: =Self.Fill
+            PressedColor: =Self.Fill
+            PressedFill: =Self.Color
+            Text: ="Upload"
+            Width: =575
+            X: =32
+            Y: =1044
+      - ComboBox_msgcode:
+          Control: Classic/ComboBox@2.4.0
+          Group: Group1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            ChevronBackground: =Color.Black
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            DisplayFields: =["Result"]
+            Font: =Font.'Open Sans'
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="MSG Code"
+            Items: |-
+              =Sort(ForAll(Distinct(Filter('Item Hierarchy','Product Sub Group' = ComboBox_SubGroup.Selected.Result),'MSG Code'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 18, 107, 1)
+            SearchFields: =["Result"]
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =RGBA(56, 96, 178, 1)
+            X: =32
+            Y: =957
+      - ComboBox_Store:
+          Control: Classic/ComboBox@2.4.0
+          Group: Group1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            ChevronBackground: =Color.Black
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            DisplayFields: =["Result"]
+            Font: =Font.'Open Sans'
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Store"
+            Items: |-
+              =Sort(ForAll(Distinct('Store List','Store Name'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 18, 107, 1)
+            SearchFields: =["Result"]
+            SelectMultiple: =false
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =Afill.Color
+            X: =32
+            Y: =501
+      - ComboBox_Division:
+          Control: Classic/ComboBox@2.4.0
+          Group: Group1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            ChevronBackground: =Color.Black
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            DisplayFields: =["Result"]
+            Font: =Font.'Open Sans'
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Division"
+            Items: |-
+              =Sort(ForAll(Distinct('Item Hierarchy',Division), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 18, 107, 1)
+            SearchFields: =["Result"]
+            SelectMultiple: |+
+              =false
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =Afill.Color
+            X: =32
+            Y: =591
+      - ComboBox_Category:
+          Control: Classic/ComboBox@2.4.0
+          Group: Group1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            ChevronBackground: =Color.Black
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            DisplayFields: =["Result"]
+            Font: =Font.'Open Sans'
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Category"
+            Items: |-
+              =Sort(ForAll(Distinct(Filter('Item Hierarchy',Division = ComboBox_Division.Selected.Result),'Item Category'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 18, 107, 1)
+            SearchFields: =["Result"]
+            SelectMultiple: |+
+              =false
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =Afill.Color
+            X: =32
+            Y: =681
+      - ComboBox_Group:
+          Control: Classic/ComboBox@2.4.0
+          Group: Group1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            ChevronBackground: =Color.Black
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            DisplayFields: =["Result"]
+            Font: =Font.'Open Sans'
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Group"
+            Items: |-
+              =Sort(ForAll(Distinct(Filter('Item Hierarchy','Item Category' = ComboBox_Category.Selected.Result),'Product Group'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 18, 107, 1)
+            SearchFields: =["Result"]
+            SelectMultiple: |+
+              =false
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =Afill.Color
+            X: =32
+            Y: =780
+      - ComboBox_SubGroup:
+          Control: Classic/ComboBox@2.4.0
+          Group: Group1
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            ChevronBackground: =Color.Black
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            DisplayFields: =["Result"]
+            Font: =Font.'Open Sans'
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Sub Group"
+            Items: |-
+              =Sort(ForAll(Distinct(Filter('Item Hierarchy','Product Group' = ComboBox_Group.Selected.Result),'Product Sub Group'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 18, 107, 1)
+            SearchFields: =["Result"]
+            SelectMultiple: |+
+              =false
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =Afill.Color
+            X: =32
+            Y: =875
+      - UploadedImage:
+          Control: Image@2.2.3
+          Group: AddMediaWithImage
+          Properties:
+            ApplyEXIFOrientation: =false
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Height: =230
+            Image: =If(IsBlank(AddMediaButton.Media), SampleImage, AddMediaButton.Media)
+            ImagePosition: =ImagePosition.Fill
+            Width: =575
+            X: =32
+            Y: =AddMediaButton.Y
+      - AddMediaButton:
+          Control: AddMedia@2.2.1
+          Group: AddMediaWithImage
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            Height: =230
+            Size: =25
+            X: =32
+            Y: =190
+      - ComboBox1:
+          Control: Classic/ComboBox@2.4.0
+          Properties:
+            BorderColor: =RGBA(0, 18, 107, 1)
+            ChevronBackground: =Color.Black
+            ChevronFill: =RGBA(255, 255, 255, 1)
+            ChevronHoverBackground: =ColorFade(RGBA(56, 96, 178, 1), -20%)
+            ChevronHoverFill: =RGBA(255, 255, 255, 1)
+            DisplayFields: =["Value"]
+            Font: =Font.'Open Sans'
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Primary or Secondary"
+            Items: =["Primary","Secondary"]
+            PressedColor: =RGBA(255, 255, 255, 1)
+            PressedFill: =RGBA(0, 18, 107, 1)
+            SearchFields: =["Value"]
+            SelectionColor: =RGBA(255, 255, 255, 1)
+            SelectionFill: =RGBA(56, 96, 178, 1)
+            X: =32
+            Y: =425

@@ -1,0 +1,80 @@
+{
+  "741ffc7e-6467-42c5-9f97-66cf42e10d30": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "SharePoint",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1754/1.0.1754.4231/sharepointonline/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_sharepointonline",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "https://spinneysleb.sharepoint.com/gmrlconfig": {
+        "dataSources": {
+          "Item Hierarchy": {
+            "tableName": "7b86d9a4-a03b-4345-a210-abd2f1707da1"
+          },
+          "Store List": {
+            "tableName": "16857d1f-2417-40c0-9be5-e8f63c2d73b1"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Store List",
+      "Item Hierarchy"
+    ],
+    "dependencies": {},
+    "dependents": [
+      "795a16fe-5eae-4cde-8c79-60229245351b"
+    ],
+    "id": "741ffc7e-6467-42c5-9f97-66cf42e10d30"
+  },
+  "795a16fe-5eae-4cde-8c79-60229245351b": {
+    "appActions": [
+      "Run"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Logic flows",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/v1.0.1752/1.0.1752.4216/logicflows/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_logicflows",
+      "parameterHints": {
+        "741ffc7e-6467-42c5-9f97-66cf42e10d30": {
+          "value": "shared_sharepointonline_1"
+        },
+        "workflowDisplayName": {
+          "value": "Upload Image to Sharepoint"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "27265098-0779-4fdc-9c2d-abb7748313a3"
+        }
+      },
+      "parameterHintsV2": {
+        "shared_sharepointonline_1": {
+          "value": "741ffc7e-6467-42c5-9f97-66cf42e10d30"
+        },
+        "workflowDisplayName": {
+          "value": "Upload Image to Sharepoint"
+        },
+        "workflowEntityId": {},
+        "workflowName": {
+          "value": "27265098-0779-4fdc-9c2d-abb7748313a3"
+        }
+      }
+    },
+    "datasets": {},
+    "dataSources": [
+      "UploadImagetoSharepoint"
+    ],
+    "dependencies": {
+      "shared_sharepointonline_1": "741ffc7e-6467-42c5-9f97-66cf42e10d30"
+    },
+    "dependents": [],
+    "id": "795a16fe-5eae-4cde-8c79-60229245351b"
+  }
+}

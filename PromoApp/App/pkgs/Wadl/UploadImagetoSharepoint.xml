@@ -1,0 +1,56 @@
+<application xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:service="https://europe-001.azure-apim.net/apim/logicflows" xmlns:siena="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11" siena:serviceId="UploadImagetoSharepoint" xmlns="http://wadl.dev.java.net/2009/02">
+  <doc title="Upload Image to Sharepoint" />
+  <grammars>
+    <jsonTypes targetNamespace="https://europe-001.azure-apim.net/apim/logicflows" xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+      <string name="ManualTriggerInput_Createfile_FileContent_def" />
+      <string name="ManualTriggerInput_Updatefileproperties_Division_def" />
+      <string name="ManualTriggerInput_Updatefileproperties_ItemCategory_def" />
+      <string name="ManualTriggerInput_Updatefileproperties_ProductGroup_def" />
+      <string name="ManualTriggerInput_Updatefileproperties_ProductSubGroup_def" />
+      <string name="ManualTriggerInput_Updatefileproperties_Store_def" />
+      <string name="ManualTriggerInput_Updatefileproperties_MsgCode_def" />
+      <string name="ManualTriggerInput_Updatefileproperties_Prim-Sec_def" />
+      <object name="ManualTriggerInput">
+        <property name="Createfile_FileContent" type="string" />
+        <property name="Updatefileproperties_Division" type="string" />
+        <property name="Updatefileproperties_ItemCategory" type="string" />
+        <property name="Updatefileproperties_ProductGroup" type="string" />
+        <property name="Updatefileproperties_ProductSubGroup" type="string" />
+        <property name="Updatefileproperties_Store" type="string" />
+        <property name="Updatefileproperties_MsgCode" type="string" />
+        <property name="Updatefileproperties_Prim-Sec" type="string" />
+      </object>
+    </jsonTypes>
+  </grammars>
+  <resources siena:authenticationProviderHref="#PowerAppAuth" base="https://europe-001.azure-apim.net/apim/logicflows">
+    <resource path="/{connectionId}/triggers/manual/run">
+      <param style="template" name="connectionId" type="xs:string" required="true" />
+      <method siena:requiresAuthentication="true" name="POST" id="Run">
+        <doc title="Runs a logic flow trigger." />
+        <request>
+          <param style="query" name="api-version" type="xs:string" required="true" fixed="2015-02-01-preview">
+            <doc title="The api version" />
+          </param>
+          <representation mediaType="application/json">
+            <param style="plain" name="Createfile_FileContent" path="/Createfile_FileContent" type="xs:string" required="true" />
+            <param style="plain" name="Updatefileproperties_Division" path="/Updatefileproperties_Division" type="xs:string" required="true" />
+            <param style="plain" name="Updatefileproperties_ItemCategory" path="/Updatefileproperties_ItemCategory" type="xs:string" required="true" />
+            <param style="plain" name="Updatefileproperties_ProductGroup" path="/Updatefileproperties_ProductGroup" type="xs:string" required="true" />
+            <param style="plain" name="Updatefileproperties_ProductSubGroup" path="/Updatefileproperties_ProductSubGroup" type="xs:string" required="true" />
+            <param style="plain" name="Updatefileproperties_Store" path="/Updatefileproperties_Store" type="xs:string" required="true" />
+            <param style="plain" name="Updatefileproperties_MsgCode" path="/Updatefileproperties_MsgCode" type="xs:string" required="true" />
+            <param style="plain" name="Updatefileproperties_Prim-Sec" path="/Updatefileproperties_Prim-Sec" type="xs:string" required="true" />
+          </representation>
+        </request>
+      </method>
+    </resource>
+  </resources>
+  <authenticationProviders xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <connectionProvider id="PowerAppAuth" siena:connectionProviderId="logicflows" />
+  </authenticationProviders>
+  <template xmlns="http://schemas.microsoft.com/MicrosoftProjectSiena/WADL/2014/11">
+    <variable name="connectionId">
+      <modifyParams style="template" name="connectionId" attribute="fixed" />
+    </variable>
+  </template>
+</application>

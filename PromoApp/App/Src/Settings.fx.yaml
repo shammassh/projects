@@ -1,0 +1,23 @@
+Settings As screen:
+
+    Afill As label:
+        Color: |-
+            =ColorValue("#742873")
+        Height: =70
+        Size: =21
+        Text: ="Powerapps Purple"
+        Width: =560
+        X: =40
+        Y: =40
+        ZIndex: =1
+
+    Cfill As label:
+        Color: =RGBA(109, 49, 162, 0.16)
+        Height: =70
+        Size: =21
+        Text: ="Powerapps ComboBoxColor"
+        Width: =560
+        X: =40
+        Y: =110
+        ZIndex: =2
+

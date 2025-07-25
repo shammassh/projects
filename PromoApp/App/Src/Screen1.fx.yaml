@@ -1,0 +1,216 @@
+Screen1 As screen:
+    Fill: =RGBA(255, 201, 14, 1)
+    OnVisible: |-
+        =UpdateContext({Cam:0})
+
+    Rectangle1 As rectangle:
+        Fill: =Afill.Color
+        Height: =180
+        Width: =640
+        ZIndex: =1
+
+    Label2 As label:
+        Align: =LayoutAlignItems.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(255, 201, 14, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =180
+        Size: =32
+        Text: ="Upload a Pic to Sharepoint"
+        Width: =640
+        ZIndex: =2
+
+    Button_Upload As button:
+        Fill: =Color.Black
+        Height: =83
+        HoverFill: =ColorFade(Afill.Color, -20%)
+        OnSelect: |-
+            =Set(TakenPicDemo, JSON(UploadedImage.Image, JSONFormat.IncludeBinaryData));
+            Set(TakenPic, Mid(TakenPicDemo,2,Len(TakenPicDemo)-2));
+            UploadImagetoSharepoint.Run(
+                TakenPic,
+                ComboBox_Division.Selected.Result,
+                ComboBox_Category.Selected.Result,
+                ComboBox_Group.Selected.Result,
+                ComboBox_SubGroup.Selected.Result,
+                ComboBox_Store.Selected.Result,
+                ComboBox_msgcode.Selected.Result,
+                ComboBox1.Selected.Value
+            );
+            Reset(ComboBox_Store);
+            Reset(ComboBox_Division);
+            Reset(ComboBox_Category);
+            Reset(ComboBox_SubGroup);
+            Reset(ComboBox_Group);
+            Reset(ComboBox_msgcode);
+            Reset(ComboBox1);
+        Size: =24
+        Text: ="Upload"
+        Width: =575
+        X: =32
+        Y: =1044
+        ZIndex: =3
+
+    AddMediaWithImage As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =10
+
+        UploadedImage As image:
+            ApplyEXIFOrientation: =false
+            Height: =230
+            Image: =If(IsBlank(AddMediaButton.Media), SampleImage, AddMediaButton.Media)
+            ImagePosition: =ImagePosition.Fill
+            Width: =575
+            X: =32
+            Y: =AddMediaButton.Y
+            ZIndex: =11
+
+        AddMediaButton As addMedia:
+            Height: =230
+            Size: =25
+            Width: =575
+            X: =32
+            Y: =190
+            ZIndex: =12
+
+    ComboBox1 As combobox:
+        ChevronBackground: =Color.Black
+        DisplayFields: =["Value"]
+        Height: =70
+        HoverFill: =Cfill.Color
+        InputTextPlaceholder: ="Primary or Secondary"
+        Items: =["Primary","Secondary"]
+        SearchFields: =["Value"]
+        SearchItems: =Search(["Primary","Secondary"],ComboBox1.SearchText,Value)
+        Size: =21
+        Width: =575
+        X: =32
+        Y: =425
+        ZIndex: =13
+
+    Group1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =13
+
+        ComboBox_msgcode As combobox:
+            ChevronBackground: =Color.Black
+            DisplayFields: =["Result"]
+            Height: =70
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="MSG Code"
+            Items: |-
+                =Sort(ForAll(Distinct(Filter('Item Hierarchy','Product Sub Group' = ComboBox_SubGroup.Selected.Result),'MSG Code'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            SearchFields: =["Result"]
+            SearchItems: |-
+                =Search(Sort(ForAll(Distinct(Filter('Item Hierarchy','Product Sub Group'=ComboBox_SubGroup.Selected.Result),'MSG Code'),{Result:ThisRecord.Value}),Result,SortOrder.Ascending),ComboBox_msgcode.SearchText,Result)
+            Size: =21
+            Width: =575
+            X: =32
+            Y: =957
+            ZIndex: =4
+
+        ComboBox_Store As combobox:
+            ChevronBackground: =Color.Black
+            DisplayFields: =["Result"]
+            Height: =70
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Store"
+            Items: |-
+                =Sort(ForAll(Distinct('Store List','Store Name'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            SearchFields: =["Result"]
+            SearchItems: |-
+                =Search(Sort(ForAll(Distinct('Store List','Store Name'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending),ComboBox_Store.SearchText,Result)
+            SelectionFill: =Afill.Color
+            SelectMultiple: =false
+            Size: =21
+            Width: =575
+            X: =32
+            Y: =501
+            ZIndex: =5
+
+        ComboBox_Division As combobox:
+            ChevronBackground: =Color.Black
+            DisplayFields: =["Result"]
+            Height: =70
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Division"
+            Items: |-
+                =Sort(ForAll(Distinct('Item Hierarchy',Division), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            SearchFields: =["Result"]
+            SearchItems: |-
+                =Search(Sort(ForAll(Distinct('Item Hierarchy',Division), {Result: ThisRecord.Value}),Result,SortOrder.Ascending),ComboBox_Division.SearchText,Result)
+            SelectionFill: =Afill.Color
+            SelectMultiple: |
+                =false
+            Size: =21
+            Width: =575
+            X: =32
+            Y: =591
+            ZIndex: =6
+
+        ComboBox_Category As combobox:
+            ChevronBackground: =Color.Black
+            DisplayFields: =["Result"]
+            Height: =70
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Category"
+            Items: |-
+                =Sort(ForAll(Distinct(Filter('Item Hierarchy',Division = ComboBox_Division.Selected.Result),'Item Category'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            SearchFields: =["Result"]
+            SearchItems: |-
+                =Search(Sort(ForAll(Distinct(Filter('Item Hierarchy',Division = ComboBox_Division.Selected.Result),'Item Category'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending),ComboBox_Category.SearchText,Result)
+            SelectionFill: =Afill.Color
+            SelectMultiple: |
+                =false
+            Size: =21
+            Width: =575
+            X: =32
+            Y: =681
+            ZIndex: =7
+
+        ComboBox_Group As combobox:
+            ChevronBackground: =Color.Black
+            DisplayFields: =["Result"]
+            Height: =70
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Group"
+            Items: |-
+                =Sort(ForAll(Distinct(Filter('Item Hierarchy','Item Category' = ComboBox_Category.Selected.Result),'Product Group'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            SearchFields: =["Result"]
+            SearchItems: |-
+                =Search(Sort(ForAll(Distinct(Filter('Item Hierarchy','Item Category' = ComboBox_Category.Selected.Result),'Product Group'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending),ComboBox_Group.SearchText,Result)
+            SelectionFill: =Afill.Color
+            SelectMultiple: |
+                =false
+            Size: =21
+            Width: =575
+            X: =32
+            Y: =780
+            ZIndex: =8
+
+        ComboBox_SubGroup As combobox:
+            ChevronBackground: =Color.Black
+            DisplayFields: =["Result"]
+            Height: =70
+            HoverFill: =Cfill.Color
+            InputTextPlaceholder: ="Sub Group"
+            Items: |-
+                =Sort(ForAll(Distinct(Filter('Item Hierarchy','Product Group' = ComboBox_Group.Selected.Result),'Product Sub Group'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending)
+            SearchFields: =["Result"]
+            SearchItems: |-
+                =Search(Sort(ForAll(Distinct(Filter('Item Hierarchy','Product Group' = ComboBox_Group.Selected.Result),'Product Sub Group'), {Result: ThisRecord.Value}),Result,SortOrder.Ascending),ComboBox_SubGroup.SearchText,Result)
+            SelectionFill: =Afill.Color
+            SelectMultiple: |
+                =false
+            Size: =21
+            Width: =575
+            X: =32
+            Y: =875
+            ZIndex: =9
+
